@@ -97,5 +97,39 @@ public class ClienteDAO {
 		 return null;
 		 
 	 }
+	 public int modificarUsuario(Cliente cliente) throws SQLException {
+		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ? WHERE DNI = ?;";
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setString(1, cliente.get_Usuario());
+	            preparedStatement.setString(2, cliente.get_Contrasena());
+	            preparedStatement.setString(3, cliente.get_Nombre());
+	            preparedStatement.setString(4, cliente.get_Apellido());
+	            preparedStatement.setLong(5, cliente.get_DNI());
+	            preparedStatement.setLong(6, cliente.get_CUIL());
+	            preparedStatement.setInt(7, cliente.is_Sexo() ? 1 : 0);
+	            preparedStatement.setString(8, cliente.get_Nacionalidad());
+
+	            java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(cliente.get_FechaNacimiento());
+	            preparedStatement.setDate(9, sqlFechaNacimiento);
+	            
+	            preparedStatement.setString(10, cliente.get_Direccion().toString());
+	            preparedStatement.setString(11, cliente.get_Localidad());
+	            preparedStatement.setString(12, cliente.get_Provincia());
+	            preparedStatement.setString(13, cliente.get_Email());
+	            preparedStatement.setLong(14, cliente.get_Telefono());
+	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
+	            preparedStatement.setLong(16, cliente.get_DNI());
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
+	 
+	 }
 	 
 }

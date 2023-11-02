@@ -77,20 +77,24 @@ public class ServletRegistro extends HttpServlet {
 	    	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, Direccion, Localidad, Provincia, email, Telefono);	    	
 	      
 	    	//ACA HAY QUE HACER EL CHECK DE SI LAS CONTRAS SON IGUALES
-	    	
+	    	boolean cargo = false;
 		    ClienteDAO agregadorClientes = new ClienteDAO();
 		    try {
 		    	
 				int filas = agregadorClientes.agregarUsuario(cliente);			
 				if(filas > 0) {
-					response.sendRedirect("PerfilUsuario.jsp");
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
+					cargo=true;
 				}
 		            
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		    response.sendRedirect("Inicio.jsp");
+		    if(cargo) {
+		    	response.sendRedirect("PerfilUsuario.jsp");
+		    }else {
+		    	response.sendRedirect("Inicio.jsp");		    	
+		    }
 	    
 		
 	}

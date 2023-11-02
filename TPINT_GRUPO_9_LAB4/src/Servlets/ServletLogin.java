@@ -51,7 +51,7 @@ public class ServletLogin extends HttpServlet {
 	        if (cl.BuscarUsuario(usuarioActivo) == null) {
 	        	
 	        	request.getSession().setAttribute("error", "No se pudo conectar. Verifica tus credenciales.");
-	        	response.sendRedirect("Login.jsp");
+	        	response.sendRedirect("PerfilUsuario.jsp");
 	            
 	        } else {   	
 	            usuarioActivo = cl.BuscarUsuario(usuarioActivo);
@@ -61,7 +61,7 @@ public class ServletLogin extends HttpServlet {
 	                request.getSession().removeAttribute("error");
 	            }
 	            
-	            response.sendRedirect("Inicio.jsp");
+	            response.sendRedirect("PerfilUsuario.jsp");
 	        }
 
 	    } catch (SQLException e) {
