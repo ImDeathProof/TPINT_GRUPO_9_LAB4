@@ -45,18 +45,10 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      
-		<% if (session.getAttribute("usuarioAutenticado") != null) { %>
-		    <div>
-		        <a class="btn" type="submit" href="ServletCerrarSesion">Cerrar sesión</a>
-		    </div>
-		<% } else { %>
 		    <div>
 		        <a class="btn" type="submit" href="Login.jsp">Iniciar sesión</a>
 		        <a class="btn" type="submit" href="Registro.jsp">Registrarse</a>
-		    </div>
-		<% } %>
-		
+		    </div>		
     </div>
   </div>
 </nav>

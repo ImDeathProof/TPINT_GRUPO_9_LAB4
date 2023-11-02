@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Cliente extends Usuario {
 
+	private int _IDCliente;
     private String _Usuario;
     private String _Contrasena;
     private String _Nombre;
@@ -56,9 +57,14 @@ public class Cliente extends Usuario {
 		this._Admin = false;
 	}
     
-    
 
-    
+	public void set_IDCliente(int _IDCliente) {
+		this._IDCliente = _IDCliente;
+	}
+
+	public int get_IDCliente() {
+		return _IDCliente;
+	}
 
 	public String get_Usuario() {
 		return _Usuario;

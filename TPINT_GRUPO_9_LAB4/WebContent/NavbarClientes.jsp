@@ -42,6 +42,9 @@
         </li>
       </ul>
     </div>
+     		<div>
+		        <a class="btn" type="submit" href="ServletCerrarSesion">Cerrar sesión</a>
+		    </div>
   </div>
 </nav>
 </body>

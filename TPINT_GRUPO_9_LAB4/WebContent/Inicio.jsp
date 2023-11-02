@@ -22,7 +22,11 @@
     </style>
 </head>
 <body>
+<% if (session.getAttribute("usuarioAutenticado") == null) { %>
 	<jsp:include page="Navbar.jsp" />
+	<% } else { %>
+	<jsp:include page="NavbarClientes.jsp" />
+	<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
 	<div class="row mt-2">
 		<div class="col-1">

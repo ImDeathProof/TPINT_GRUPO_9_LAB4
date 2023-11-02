@@ -19,19 +19,19 @@
 	        <div class="col-5">
 	            <div class="form-group">
 	                <label for="nombre">Nombre:</label>
-	                <input type="text" id="nombre" name="nombre" class="form-control" required>
+	                <input type="text" id="nombre" name="nombre" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 	            </div>
 	             <div class="form-group">
 	                <label for="Apellido">Apellido:</label>
-	                <input type="text" id="Apellido" name="apellido" class="form-control" required>
+	                 <input type="text" id="Apellido" name="apellido" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 	            </div>
 	             <div class="form-group">
 	                <label for="DNI">DNI:</label>
-	                <input type="number" id="DNI" name="DNI" class="form-control" required>
+	               <input type="text" id="DNI" name="DNI" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 	            </div>
 	             <div class="form-group">
 	                <label for="CUIL">CUIL:</label>
-	                <input type="number" id="CUIL" name="CUIL" class="form-control" required>
+	                <input type="text" id="CUIL" name="CUIL" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 	            </div>
 	            <div class="form-group">
 				    <label>Sexo:</label>
@@ -46,7 +46,7 @@
 				</div>
 	            <div class="form-group">
 	                <label for="Nacionalidad">Nacionalidad:</label>
-	                <input type="text" id="Nacionalidad" name="Nacionalidad" class="form-control" required>
+	                <input type="text" id="Nacionalidad" name="Nacionalidad" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">            
 	            </div>
 	            <div class="form-group">
 	                <label for="Direccion">Direccion:</label>
@@ -72,7 +72,7 @@
 	            </div>
 	            <div class="form-group">
 	                <label for="Telefono1">Teléfono:</label>
-	                <input type="text" id="Telefono1" name="Telefono" class="form-control" required>
+	                <input type="text" id="Telefono1" name="Telefono" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 	            </div>
 	            <div class="form-group">
 	                <label for="Username">Usuario:</label>

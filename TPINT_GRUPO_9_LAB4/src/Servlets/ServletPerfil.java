@@ -46,8 +46,14 @@ public class ServletPerfil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if(request.getParameter("btnModificar")!=null) {
-			Cliente cliente = new Cliente();
+			
+					Cliente cliente = new Cliente();
+					HttpSession session = request.getSession();
+					Cliente clienteviejo = (Cliente)session.getAttribute("usuarioAutenticado");
+					
+					cliente.set_IDCliente(clienteviejo.get_IDCliente());
 					cliente.set_Usuario(request.getParameter("txtUsuario"));
 					cliente.set_Contrasena(request.getParameter("txtContaseña"));
 					cliente.set_Nombre(request.getParameter("txtNombre"));
@@ -60,17 +66,15 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_Provincia(request.getParameter("txtProvincia"));
 					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
 					cliente.set_Email(request.getParameter("txtEmail"));
+					cliente.set_FechaNacimiento(LocalDate.parse(request.getParameter("txtFNacimiento")));
 					
-					if(request.getParameter("txtSexo") == "Masculino") {
-						cliente.set_Sexo(false);
-					}else {
-						cliente.set_Sexo(true);
+					String selectedSex = request.getParameter("sexo");
+					if ("Masculino".equals(selectedSex)) {
+					    cliente.set_Sexo(true);  
+					} else if ("Femenino".equals(selectedSex)) {
+					    cliente.set_Sexo(false);  
 					}
-					HttpSession session = request.getSession();
-					Cliente clienteviejo = (Cliente) session.getAttribute("usuarioAutenticado");
-					cliente.set_FechaNacimiento(clienteviejo.get_FechaNacimiento());
-					//LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));
-					
+			
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
 					ClienteDAO clientedao = new ClienteDAO();
 				    try {

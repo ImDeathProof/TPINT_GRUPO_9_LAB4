@@ -10,7 +10,7 @@ public class ClienteDAO {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public ClienteDAO() {
@@ -72,6 +72,7 @@ public class ClienteDAO {
 
 		     if (resultSet.next()) {
 		         Cliente usuarioEncontrado = new Cliente();
+		         usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
 		         usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
 		         usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
 		         usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
@@ -97,8 +98,9 @@ public class ClienteDAO {
 		 return null;
 		 
 	 }
+	 
 	 public int modificarUsuario(Cliente cliente) throws SQLException {
-		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ? WHERE DNI = ?;";
+		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ? WHERE IDUsuario = ?;";
 		 int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -121,7 +123,7 @@ public class ClienteDAO {
 	            preparedStatement.setString(13, cliente.get_Email());
 	            preparedStatement.setLong(14, cliente.get_Telefono());
 	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
-	            preparedStatement.setLong(16, cliente.get_DNI());
+	            preparedStatement.setInt(16, cliente.get_IDCliente());
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
