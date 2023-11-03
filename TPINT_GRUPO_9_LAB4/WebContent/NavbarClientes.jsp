@@ -1,5 +1,7 @@
+<%@page import="Dominio.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <jsp:include page="Header.jsp" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -38,8 +40,15 @@
           <a class="nav-link active" aria-current="page" href="PagoDePrestamos.jsp">Pago de préstamos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="MisDatos.jsp">Mis datos</a>
+          <a class="nav-link active" aria-current="page" href="PerfilUsuario.jsp">Mi perfil</a>
         </li>
+        <%if(request.getSession().getAttribute("usuarioAutenticado")!=null){
+			Cliente usuario = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+			if(usuario.is_Admin()==true){%>
+		        <li class="nav-item">
+		          <a class="nav-link active" aria-current="page" href="PanelDeControl.jsp">Panel de control</a>
+		        </li>
+		<%}}%>
       </ul>
     </div>
      		<div>

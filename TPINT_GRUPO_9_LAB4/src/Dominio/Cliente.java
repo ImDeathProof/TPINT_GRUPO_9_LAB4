@@ -23,8 +23,8 @@ public class Cliente extends Usuario {
     private long _Telefono;
     private boolean _Admin; //0=cliente, 1=admin
     
-    public void set_Admin(boolean _Admin) {
-		this._Admin = _Admin;
+    public void set_Admin(boolean i) {
+		this._Admin = i;
 	}
 
 	public Cliente() {
@@ -167,7 +167,6 @@ public class Cliente extends Usuario {
 	public boolean is_Admin() {
 		return _Admin;
 	}
-
 
 	@Override
 	public String toString() {

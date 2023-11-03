@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ClienteDAO {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 
 	 public ClienteDAO() {
@@ -87,7 +89,7 @@ public class ClienteDAO {
 		         usuarioEncontrado.set_Provincia(resultSet.getString("Provincia"));
 		         usuarioEncontrado.set_Email(resultSet.getString("Mail"));
 		         usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
-		         usuarioEncontrado.set_Admin(resultSet.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+		         usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
 
 		         return usuarioEncontrado;
 		     }
@@ -132,6 +134,47 @@ public class ClienteDAO {
 
 	        return filas;
 	 
+	 }
+	 public ArrayList<Cliente> obtenerUsuarios(){
+		 try {
+			 Class.forName("com.mysql.cj.jdbc.Driver");
+		 }catch(ClassNotFoundException e) {
+			 e.printStackTrace();
+		 }
+		 
+		 ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		 Connection cn = null;
+		 try {
+			 cn = DriverManager.getConnection(host + dbName, user, pass);
+			 Statement st = cn.createStatement();
+			 
+			 ResultSet rs = st.executeQuery("Select IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin from Usuario");
+			 while(rs.next()) {
+				 Cliente clienteRs = new Cliente();
+				 clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
+				 clienteRs.set_Usuario(rs.getString("Username"));
+				 clienteRs.set_Contrasena(rs.getString("Pass"));
+				 clienteRs.set_Nombre(rs.getString("Nombre"));
+				 clienteRs.set_Apellido(rs.getString("Apellido"));
+				 clienteRs.set_DNI(rs.getLong("DNI"));
+				 clienteRs.set_CUIL(rs.getLong("CUIL"));
+				 clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+				 clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
+				 clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
+				 clienteRs.set_Direccion(rs.getString("Direccion"));
+				 clienteRs.set_Localidad(rs.getString("Localidad"));
+				 clienteRs.set_Provincia(rs.getString("Provincia"));
+				 clienteRs.set_Email(rs.getString("Mail"));
+				 clienteRs.set_Telefono(rs.getLong("Telefono"));
+				 clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+				 
+				 lista.add(clienteRs);
+			 }
+			 cn.close();
+		 } catch (SQLException e) {
+		     e.printStackTrace();
+		 }
+		 return lista;
 	 }
 	 
 }
