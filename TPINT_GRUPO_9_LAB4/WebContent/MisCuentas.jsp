@@ -1,15 +1,53 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <jsp:include page="Header.jsp" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="java.util.ArrayList, Dominio.Cuenta" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Mis Cuentas</title>
 </head>
 <body>
-	<jsp:include page="NavbarClientes.jsp" />
-	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<h1>Ver historial de movimientos</h1>
+    <jsp:include page="NavbarClientes.jsp" />
+    <!-- DEMÁS CONTENIDO DE LA PÁGINA -->
+
+    <h2>Mis Cuentas</h2>
+
+    <!-- Formulario para el filtro -->
+	<form action="ServletCuenta" method="get">
+	    <label for="filtroCuentas">Seleccione el tipo de cuenta:</label>
+	    <select name="filtroCuentas" id="filtroCuentas">
+	        <option value="todos">Todos los tipos</option>
+	        <option value="ahorros">Caja de ahorro</option>
+	        <option value="corrientes">Cuentas corriente</option>
+	    </select>
+	    <button type="submit" class="btn btn-primary" name="btnFiltrar">Ver cuentas</button>
+	</form>
+
+    <%
+    // Obtiene la lista de cuentas de los atributos de solicitud
+    ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) request.getAttribute("cuentas");
+    String filtroCuentas = request.getParameter("filtroCuentas");
+	
+    
+    if (cuentas != null) {
+        for (Cuenta cuenta : cuentas) {
+            // Verifica si se aplica un filtro
+            if (filtroCuentas == null || filtroCuentas.equals("todos") || (filtroCuentas.equals("ahorros") && cuenta.getTipoCuenta().equals("Ahorros")) || (filtroCuentas.equals("corrientes") && cuenta.getTipoCuenta().equals("Corriente"))) {
+%>
+                <!-- Código para mostrar información de la cuenta -->
+                <div>
+                    <p>ID Cuenta: <%= cuenta.getIdCuenta() %></p>
+                    <p>Tipo de cuenta: <%= cuenta.getTipoCuenta() %></p>
+                    <p>Número de Cuenta: <%= cuenta.getNumeroCuenta() %></p>
+                    <p>CBU: <%= cuenta.getCBU() %></p>
+                    <p>Saldo: <%= cuenta.getSaldo() %></p>
+                    <p>Fecha de creación: <%= cuenta.getFechaCreacion() %></p>
+                </div>
+<%
+            }
+        } 
+    }
+%>
+
 </body>
 </html>
