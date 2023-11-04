@@ -10,6 +10,7 @@ public class Cuenta {
     private String CBU;
     private BigDecimal Saldo;
     private LocalDate FechaCreacion;
+    private boolean Estado;
 
     public int getIdCuenta() {
         return IdCuenta;
@@ -67,7 +68,15 @@ public class Cuenta {
         this.FechaCreacion = fechaCreacion;
     }
 
-    @Override
+    public boolean isEstado() {
+		return Estado;
+	}
+
+	public void setEstado(boolean estado) {
+		Estado = estado;
+	}
+
+	@Override
     public String toString() {
         return "Cuenta [IdCuenta=" + IdCuenta + ", IdUsuario=" + IdUsuario + ", TipoCuenta=" + TipoCuenta
                 + ", NumeroCuenta=" + NumeroCuenta + ", CBU=" + CBU + ", Saldo=" + Saldo + ", FechaCreacion="

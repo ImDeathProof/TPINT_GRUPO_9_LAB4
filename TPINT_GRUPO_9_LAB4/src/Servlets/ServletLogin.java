@@ -48,24 +48,27 @@ public class ServletLogin extends HttpServlet {
 		    ClienteDAO cl = new ClienteDAO();
 	
 		    try {
-		        if (cl.BuscarUsuario(usuarioActivo) == null) {
-		        	
-		        	request.getSession().setAttribute("error", "No se pudo conectar. Verifica tus credenciales.");
-		        	response.sendRedirect("Login.jsp");
-		            
-		        } else {   	
-		            usuarioActivo = cl.BuscarUsuario(usuarioActivo);
+		        usuarioActivo = cl.BuscarUsuario(usuarioActivo);
+
+		        if (usuarioActivo == null) {
+		            request.getSession().setAttribute("error", "No se pudo conectar. Verifica tus credenciales.");
+		            response.sendRedirect("Login.jsp");
+		        } else if (usuarioActivo.isBloqueado()) {
+		            request.getSession().setAttribute("error", "Tu cuenta está bloqueada.");
+		            response.sendRedirect("Login.jsp");
+		        } else {
 		            request.getSession().setAttribute("usuarioAutenticado", usuarioActivo);
-		            
+
 		            if (request.getSession().getAttribute("error") != null) {
 		                request.getSession().removeAttribute("error");
 		            }
-		            
+
 		            response.sendRedirect("PerfilUsuario.jsp");
 		        }
-	
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		        response.sendRedirect("Login.jsp");
 		    }
 		
 		

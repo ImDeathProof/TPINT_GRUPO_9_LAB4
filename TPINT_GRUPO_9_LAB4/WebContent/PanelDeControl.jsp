@@ -32,39 +32,52 @@
 				      		if(request.getAttribute("listaUsuarios")!=null){
 				      			listaUsuarios = (ArrayList<Cliente>) request.getAttribute("listaUsuarios");
 						      		}%>
-						    <table class="table">
-						        <thead>
-						        	<tr>
+						   <table class="table">
+							    <thead>
+							        <tr>
 							            <th scope="col">ID</th>
 							            <th scope="col">Usuario</th>
-									    <th scope="col">Contraseña</th>
-									    <th scope="col">DNI</th>
-									    <th scope="col">Bloquear</th>
-								    </tr>
-								 </thead>    
-								 <tbody>
-								    <%if(listaUsuarios != null){
-								    	for(Cliente user : listaUsuarios){
-								     %>
-								     <tr>
-									 	<td><%=user.get_IDCliente() %></td>
-									    <td><%=user.get_Usuario() %></td>
-									    <td><%=user.get_Contrasena() %></td>
-									    <td><%=user.get_DNI() %></td>
-									    <td>
-								           <form action="ServletBloquearUser" method="post">
-								               <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
-								               <% if (user.isBloqueado()) { %>
-								                  <input type="submit" name="submitValue" value="Desbloquear" class="btn btn-success">
-								               <% } else { %>
-								                   <input type="submit" name="submitValue" value="Bloquear" class="btn btn-success">
-								               <% } %>
-								           </form>
-								        </td>
-									     
-								     </tr>
-								     <%}}%>
-								</tbody>
+							            <th scope="col">Contraseña</th>
+							            <th scope="col">DNI</th>
+							            <th scope="col">Bloquear</th>
+							            <th scope="col">Modificar</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <% if (listaUsuarios != null) {
+							            for (Cliente user : listaUsuarios) { %>
+							            <tr>
+							                <td><%= user.get_IDCliente() %></td>
+							                <td><%= user.get_Usuario() %></td>
+							                <td>
+							                    <form action="ServletCambiarPass" method="post">
+							                        <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+							                        <table>
+							                            <tr>
+							                                <td>
+							                                    <input type="text" name="txtContaseña" class="form-control" value="<%= user.get_Contrasena() %>" required>
+							                                </td>
+							                                <td>
+							                                    <input type="submit" name="submitValue" value="Setear Cambios" class="btn btn-success">
+							                                </td>
+							                            </tr>
+							                        </table>
+							                    </form>
+							                </td>
+							                <td><%= user.get_DNI() %></td>
+							                <td>
+							                    <form action="ServletBloquearUser" method="post">
+							                        <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+							                        <% if (user.isBloqueado()) { %>
+							                            <input type="submit" name="submitValue" value="Desbloquear" class="btn btn-success">
+							                        <% } else { %>
+							                            <input type="submit" name="submitValue" value="Bloquear" class="btn btn-success">
+							                        <% } %>
+							                    </form>
+							                </td>
+							            </tr>
+							            <% } } %>
+							    </tbody>
 							</table>
 					</div>
 					<div class="border-top p-2">
@@ -73,32 +86,45 @@
 					 	</form>
 				     		<%
 				     		ArrayList<Cuenta> listaCuentas = null;
-				      		if(request.getAttribute("listaCuentas")!=null){
-				      			listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
+				      		if(request.getAttribute("listaTodasCuentas")!=null){
+				      			listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaTodasCuentas");
 						      		}%>
 						    <table class="table">
-						        <thead>
-						        	<tr>
-							            <th scope="col">1</th>
-							            <th scope="col">2</th>
-									    <th scope="col">3</th>
-									    <th scope="col">4</th>
-									    <th scope="col">5</th>
-								    </tr>
-								 </thead>    
-								 <tbody>
-							    <%if(listaCuentas != null){
-							    	for(Cuenta cuenta : listaCuentas){
-							     %>
-							     <tr>
-									 	<td>1</td>
-									    <td>2</td>
-									    <td>3</td>
-									    <td>4</td>
-									    <td><input type="submit" value="Bloquear" class="btn btn-success"></td><!-- HAY QUE AGREGAR LA FUNCIONALIDAD -->
-								     </tr>
-								     <%}}%>
-								</tbody>
+							    <thead>
+							        <tr>
+							            <th scope="col">ID de Cuenta</th>
+							            <th scope="col">Tipo de Cuenta</th>
+							            <th scope="col">Número de Cuenta</th>
+							            <th scope="col">CBU</th>
+							            <th scope="col">Saldo</th>
+							            <th scope="col">Fecha de Creación</th>
+							            <th scope="col">Estado</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <% if (listaCuentas != null) {
+							            for (Cuenta cuenta : listaCuentas) { %>
+							            <tr>
+							                <td><%= cuenta.getIdCuenta() %></td>
+							                <td><%= cuenta.getTipoCuenta() %></td>
+							                <td><%= cuenta.getNumeroCuenta() %></td>
+							                <td><%= cuenta.getCBU() %></td>
+							                <td><%= cuenta.getSaldo() %></td>
+							                <td><%= cuenta.getFechaCreacion() %></td>
+							               <td>
+								                <form action="ServletAprovarCuenta" method="post">
+								                <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
+			 				                        <% if (cuenta.isEstado()) { %>
+			 				                        	<input type="submit" name="submitValueEstado" value="Bloquear" class="btn btn-success">
+							                        <% } else { %>
+							                           <input type="submit" name="submitValueEstado" value="Validar" class="btn btn-success">
+							                        <% } %>
+								                </form>
+										  </td>	
+										  				               
+							            </tr>
+							            <% } } %>
+							    </tbody>
 							</table>
 					</div>
 				</div>

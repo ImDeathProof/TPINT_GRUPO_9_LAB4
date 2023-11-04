@@ -23,11 +23,9 @@ public class ClienteDAO {
 	      }
  }
 	
-	 public int agregarUsuario(Cliente cliente) throws SQLException {
+	 public Cliente agregarUsuario(Cliente cliente) throws SQLException {
 	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin,Bloqueado) " +
 	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
-
-	        int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
@@ -50,12 +48,12 @@ public class ClienteDAO {
 	            preparedStatement.setLong(14, cliente.get_Telefono());
 	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
 
-	            filas = preparedStatement.executeUpdate();
+	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-
-	        return filas;
+	        
+	        return BuscarUsuario(cliente);
 	    }
 	 
 	 public Cliente BuscarUsuario(Cliente cliente) throws SQLException {
@@ -205,6 +203,24 @@ public class ClienteDAO {
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	            preparedStatement.setInt(1, id);
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
+	 }
+	 
+	 public int CambiarPass(String password, int id )
+	 {
+		 String query = "UPDATE Usuario SET Pass = ? WHERE IDUsuario = ? AND ADMIN = 0;";
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	        	 preparedStatement.setString(1, password);
+	             preparedStatement.setInt(2, id);
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {

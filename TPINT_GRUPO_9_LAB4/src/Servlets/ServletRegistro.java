@@ -50,8 +50,8 @@ public class ServletRegistro extends HttpServlet {
 	    
 	    if(contrasena.equals(contra2))
 	    {    
-	    	 if (request.getSession().getAttribute("error") != null) {
-	                request.getSession().removeAttribute("error");
+	    	 if (request.getSession().getAttribute("errorRegistro") != null) {
+	                request.getSession().removeAttribute("errorRegistro");
 	            }
 
 	    	 String nombre = request.getParameter("nombre");
@@ -87,8 +87,8 @@ public class ServletRegistro extends HttpServlet {
 		    ClienteDAO agregadorClientes = new ClienteDAO();
 		    try {
 				    	
-		       int filas = agregadorClientes.agregarUsuario(cliente);			
-			   if(filas > 0) {
+		       cliente = agregadorClientes.agregarUsuario(cliente);			
+			   if(cliente != null) {
 		     		request.getSession().setAttribute("usuarioAutenticado", cliente);
 					cargo=true;
 			   }

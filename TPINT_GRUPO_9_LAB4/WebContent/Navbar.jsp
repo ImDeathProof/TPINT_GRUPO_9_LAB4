@@ -27,13 +27,10 @@
             <li><a class="dropdown-item" href="#">Préstamos aprobados</a></li>
             <li><a class="dropdown-item" href="#">Préstamos solicitados</a></li>
           </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="Clientes.jsp">Clientes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="Cuentas.jsp">Cuentas</a>
-        </li>
+        </li>     
+	   <li class="nav-item">
+	      <a class="nav-link active" aria-current="page" href="Login.jsp">Mis Cuentas</a>
+	    </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="Informes.jsp">Informes</a>
         </li>

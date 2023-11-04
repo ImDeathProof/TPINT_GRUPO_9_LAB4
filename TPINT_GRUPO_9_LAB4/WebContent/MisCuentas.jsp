@@ -7,11 +7,12 @@
     <title>Mis Cuentas</title>
 </head>
 <body>
-    <jsp:include page="NavbarClientes.jsp" />
-  
+
+	<jsp:include page="NavbarClientes.jsp" />
 
     <h2>Mis Cuentas</h2>
-
+    
+    <a class="btn" type="submit" href="RegistroCuenta.jsp">Crear Cuenta</a>
    
 	<form action="ServletCuenta" method="get">
 	    <label for="filtroCuentas">Seleccione el tipo de cuenta:</label>
@@ -27,7 +28,6 @@
    
     ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) request.getAttribute("cuentas");
     String filtroCuentas = request.getParameter("filtroCuentas");
-	
     
     if (cuentas != null) {
         for (Cuenta cuenta : cuentas) {
@@ -42,6 +42,9 @@
                     <p>CBU: <%= cuenta.getCBU() %></p>
                     <p>Saldo: <%= cuenta.getSaldo() %></p>
                     <p>Fecha de creación: <%= cuenta.getFechaCreacion() %></p>
+                    <% if (!cuenta.isEstado()) { %>
+					    <p>Estado: En proceso</p>
+					<% } %>
                 </div>
 <%
             }
