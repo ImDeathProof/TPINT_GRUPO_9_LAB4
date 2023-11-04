@@ -93,6 +93,11 @@
             <br>
             <button type="submit" class="btn btn-success">Registrarse</button>
             <button type="button" class="btn btn-danger">Cancelar</button>
+             <% if (session.getAttribute("errorRegistro") != null) { %>
+	         <div class="alert alert-danger">
+	              <%= (String)session.getAttribute("errorRegistro")%> 
+	         </div>
+	     	<% } %>	
         </form>
     </div>
 </body>

@@ -47,56 +47,66 @@ public class ServletRegistro extends HttpServlet {
 	    
 	    String contrasena = request.getParameter("password");
 	    String contra2 = request.getParameter("pass2");
+	    
+	    if(contrasena.equals(contra2))
+	    {    
+	    	 if (request.getSession().getAttribute("error") != null) {
+	                request.getSession().removeAttribute("error");
+	            }
 
-	    String nombre = request.getParameter("nombre");
-	    String apellido = request.getParameter("apellido");
-	    long dni = Long.parseLong(request.getParameter("DNI"));
-	    long cuil = Long.parseLong(request.getParameter("CUIL"));
-	    
-	    String sexoValue = request.getParameter("sexo");
-
-	    boolean sexo = true; // Variable para almacenar el valor de sexo
-
-	    if (sexoValue.equals("Masculino")) {
-	        sexo = true; // Si se selecciona "Masculino", establece sexo en true
-	    } else if (sexoValue.equals("Femenino")) {
-	        sexo = false; // Si se selecciona "Femenino", establece sexo en false
-	    } 
-	    
-	    
-	    String nacionalidad = request.getParameter("Nacionalidad");
-	    String email = request.getParameter("email");
-	    long Telefono = Long.parseLong(request.getParameter("Telefono"));
-	    String Direccion = request.getParameter("Direccion");
-	    String Localidad = request.getParameter("Localidad");
-	    String Provincia = request.getParameter("Provincia");
-	    
-	    LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));
-	    
-	  
-	    	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, Direccion, Localidad, Provincia, email, Telefono);	    	
-	      
-	    	//ACA HAY QUE HACER EL CHECK DE SI LAS CONTRAS SON IGUALES
-	    	boolean cargo = false;
+	    	 String nombre = request.getParameter("nombre");
+		     String apellido = request.getParameter("apellido");
+		     long dni = Long.parseLong(request.getParameter("DNI"));
+	    	 long cuil = Long.parseLong(request.getParameter("CUIL"));
+			    
+			 String sexoValue = request.getParameter("sexo");
+		
+			 boolean sexo = true; // Variable para almacenar el valor de sexo
+		
+			 if (sexoValue.equals("Masculino")) {
+			     sexo = true; // Si se selecciona "Masculino", establece sexo en true
+		     } else if (sexoValue.equals("Femenino")) {
+		         sexo = false; // Si se selecciona "Femenino", establece sexo en false
+	         } 
+			    
+			    
+		    String nacionalidad = request.getParameter("Nacionalidad");
+		    String email = request.getParameter("email");
+		    long Telefono = Long.parseLong(request.getParameter("Telefono"));
+		    String Direccion = request.getParameter("Direccion");
+		    String Localidad = request.getParameter("Localidad");
+		    String Provincia = request.getParameter("Provincia");
+			    
+		    LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));
+			    
+			  
+		  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, Direccion, Localidad, Provincia, email, Telefono);	    	
+			      
+			    	
+			boolean cargo = false;
 		    ClienteDAO agregadorClientes = new ClienteDAO();
 		    try {
-		    	
-				int filas = agregadorClientes.agregarUsuario(cliente);			
-				if(filas > 0) {
-					request.getSession().setAttribute("usuarioAutenticado", cliente);
+				    	
+		       int filas = agregadorClientes.agregarUsuario(cliente);			
+			   if(filas > 0) {
+		     		request.getSession().setAttribute("usuarioAutenticado", cliente);
 					cargo=true;
-				}
-		            
-			} catch (SQLException e) {
+			   }
+				            
+		    } catch (SQLException e) {
 				e.printStackTrace();
-			}
+		    }
 		    if(cargo) {
 		    	response.sendRedirect("PerfilUsuario.jsp");
 		    }else {
 		    	response.sendRedirect("Inicio.jsp");		    	
 		    }
-	    
-		
+			    
+	    }
+	    else {      
+	        request.getSession().setAttribute("errorRegistro", "Las contraseñas no coinciden. Vuelve a ingresar los datos.");
+	        response.sendRedirect("Registro.jsp");
+	    }
 	}
 
 }

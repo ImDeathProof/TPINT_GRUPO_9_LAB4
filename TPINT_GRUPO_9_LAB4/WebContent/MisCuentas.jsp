@@ -8,11 +8,11 @@
 </head>
 <body>
     <jsp:include page="NavbarClientes.jsp" />
-    <!-- DEMÁS CONTENIDO DE LA PÁGINA -->
+  
 
     <h2>Mis Cuentas</h2>
 
-    <!-- Formulario para el filtro -->
+   
 	<form action="ServletCuenta" method="get">
 	    <label for="filtroCuentas">Seleccione el tipo de cuenta:</label>
 	    <select name="filtroCuentas" id="filtroCuentas">
@@ -24,7 +24,7 @@
 	</form>
 
     <%
-    // Obtiene la lista de cuentas de los atributos de solicitud
+   
     ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) request.getAttribute("cuentas");
     String filtroCuentas = request.getParameter("filtroCuentas");
 	
@@ -34,7 +34,7 @@
             // Verifica si se aplica un filtro
             if (filtroCuentas == null || filtroCuentas.equals("todos") || (filtroCuentas.equals("ahorros") && cuenta.getTipoCuenta().equals("Ahorros")) || (filtroCuentas.equals("corrientes") && cuenta.getTipoCuenta().equals("Corriente"))) {
 %>
-                <!-- Código para mostrar información de la cuenta -->
+              
                 <div>
                     <p>ID Cuenta: <%= cuenta.getIdCuenta() %></p>
                     <p>Tipo de cuenta: <%= cuenta.getTipoCuenta() %></p>

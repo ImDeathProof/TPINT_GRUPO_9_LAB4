@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class ClienteDAO {
 	
-	 private String host = "jdbc:mysql://127.0.0.1:3306/";
+	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public ClienteDAO() {
@@ -21,11 +21,11 @@ public class ClienteDAO {
 	     } catch (ClassNotFoundException e) {
 	         e.printStackTrace();
 	      }
-  }
+ }
 	
 	 public int agregarUsuario(Cliente cliente) throws SQLException {
-	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin) " +
-	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin,Bloqueado) " +
+	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
 
 	        int filas = 0;
 
@@ -90,7 +90,8 @@ public class ClienteDAO {
 		         usuarioEncontrado.set_Email(resultSet.getString("Mail"));
 		         usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
 		         usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
-
+		         usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
+		         
 		         return usuarioEncontrado;
 		     }
 		 } catch (SQLException e) {
@@ -102,7 +103,7 @@ public class ClienteDAO {
 	 }
 	 
 	 public int modificarUsuario(Cliente cliente) throws SQLException {
-		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ? WHERE IDUsuario = ?;";
+		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?;";
 		 int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -126,6 +127,7 @@ public class ClienteDAO {
 	            preparedStatement.setLong(14, cliente.get_Telefono());
 	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
 	            preparedStatement.setInt(16, cliente.get_IDCliente());
+	            preparedStatement.setInt(17, cliente.isBloqueado() ? 1 : 0);
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
@@ -148,7 +150,7 @@ public class ClienteDAO {
 			 cn = DriverManager.getConnection(host + dbName, user, pass);
 			 Statement st = cn.createStatement();
 			 
-			 ResultSet rs = st.executeQuery("Select IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin from Usuario");
+			 ResultSet rs = st.executeQuery("Select IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin, Bloqueado from Usuario");
 			 while(rs.next()) {
 				 Cliente clienteRs = new Cliente();
 				 clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
@@ -167,6 +169,7 @@ public class ClienteDAO {
 				 clienteRs.set_Email(rs.getString("Mail"));
 				 clienteRs.set_Telefono(rs.getLong("Telefono"));
 				 clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+				 clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
 				 
 				 lista.add(clienteRs);
 			 }
@@ -175,6 +178,40 @@ public class ClienteDAO {
 		     e.printStackTrace();
 		 }
 		 return lista;
+	 }
+	 
+	 public int BloquearCliente(int id)
+	 {
+		 String query = "UPDATE Usuario SET Bloqueado = 1 WHERE IDUsuario = ? AND ADMIN = 0;";
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setInt(1, id);
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
+	 }
+	 
+	 public int DesbloquearCliente(int id)
+	 {
+		 String query = "UPDATE Usuario SET Bloqueado = 0 WHERE IDUsuario = ? AND ADMIN = 0;";
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setInt(1, id);
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
 	 }
 	 
 }

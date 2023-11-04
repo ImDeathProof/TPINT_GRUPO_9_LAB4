@@ -51,7 +51,16 @@
 									    <td><%=user.get_Usuario() %></td>
 									    <td><%=user.get_Contrasena() %></td>
 									    <td><%=user.get_DNI() %></td>
-									    <td><input type="submit" value="Bloquear" class="btn btn-success"></td><!-- HAY QUE AGREGAR LA FUNCIONALIDAD -->
+									    <td>
+								           <form action="ServletBloquearUser" method="post">
+								               <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+								               <% if (user.isBloqueado()) { %>
+								                  <input type="submit" name="submitValue" value="Desbloquear" class="btn btn-success">
+								               <% } else { %>
+								                   <input type="submit" name="submitValue" value="Bloquear" class="btn btn-success">
+								               <% } %>
+								           </form>
+								        </td>
 									     
 								     </tr>
 								     <%}}%>

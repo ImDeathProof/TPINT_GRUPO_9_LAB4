@@ -22,6 +22,7 @@ public class Cliente extends Usuario {
     private String _Email;
     private long _Telefono;
     private boolean _Admin; //0=cliente, 1=admin
+    private boolean bloqueado; //0=no bloqueado, 1=bloqueado
     
     public void set_Admin(boolean i) {
 		this._Admin = i;
@@ -166,6 +167,14 @@ public class Cliente extends Usuario {
 
 	public boolean is_Admin() {
 		return _Admin;
+	}
+
+	public boolean isBloqueado() {
+		return bloqueado;
+	}
+
+	public void setBloqueado(boolean bloqueado) {
+		this.bloqueado = bloqueado;
 	}
 
 	@Override
