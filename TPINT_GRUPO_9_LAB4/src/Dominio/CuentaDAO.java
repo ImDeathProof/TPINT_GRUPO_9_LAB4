@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CuentaDAO {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
 
     public CuentaDAO() {
@@ -219,7 +219,7 @@ public class CuentaDAO {
     
      public int ValidarCuenta(int id)
 	 {
-		 String query = "UPDATE Cuenta SET Estado = 1 WHERE IDCuenta = ?;";
+    	 String query = "UPDATE Cuenta SET Estado = 1, saldo = CASE WHEN saldo = 0 THEN (saldo + 10000) ELSE saldo END WHERE IDCuenta = ?;";
 		 int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -250,6 +250,26 @@ public class CuentaDAO {
 
 	        return filas;
 	 }
+     
+     public String GetNombreCliente(int idUsuario) {
+    	    String query = "SELECT Username FROM Usuario WHERE IDUsuario = ?;";
+    	    String nombre = null;
+
+    	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+    	         PreparedStatement preparedStatement = cn.prepareStatement(query)) {    	       
+    	    	 preparedStatement.setInt(1, idUsuario);
+    	        
+    	        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    	            if (resultSet.next()) {
+    	                nombre = resultSet.getString("Username");
+    	            }
+    	        }
+    	    } catch (SQLException e) {
+    	        e.printStackTrace();
+    	    }
+
+    	    return nombre;
+    	}
 
     
 }

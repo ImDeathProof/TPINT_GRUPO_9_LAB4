@@ -75,6 +75,16 @@ public class Cuenta {
 	public void setEstado(boolean estado) {
 		Estado = estado;
 	}
+	
+	public String getNombre()
+	{
+		CuentaDAO cu = new CuentaDAO();
+		
+		String nombre = cu.GetNombreCliente(this.IdUsuario);
+		
+		return nombre;
+		
+	}
 
 	@Override
     public String toString() {

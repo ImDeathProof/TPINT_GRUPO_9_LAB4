@@ -40,7 +40,6 @@
 							            <th scope="col">Contraseña</th>
 							            <th scope="col">DNI</th>
 							            <th scope="col">Bloquear</th>
-							            <th scope="col">Modificar</th>
 							        </tr>
 							    </thead>
 							    <tbody>
@@ -98,6 +97,7 @@
 							            <th scope="col">CBU</th>
 							            <th scope="col">Saldo</th>
 							            <th scope="col">Fecha de Creación</th>
+							            <th scope="col">Cliente</th>
 							            <th scope="col">Estado</th>
 							        </tr>
 							    </thead>
@@ -111,6 +111,7 @@
 							                <td><%= cuenta.getCBU() %></td>
 							                <td><%= cuenta.getSaldo() %></td>
 							                <td><%= cuenta.getFechaCreacion() %></td>
+							                <td><%= cuenta.getNombre() %></td>
 							               <td>
 								                <form action="ServletAprovarCuenta" method="post">
 								                <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
