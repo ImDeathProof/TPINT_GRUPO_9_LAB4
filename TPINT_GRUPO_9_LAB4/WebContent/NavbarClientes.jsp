@@ -11,50 +11,30 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="Inicio.jsp">FRGP BANK</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="MisCuentas.jsp">Mis cuentas</a>
-        </li>
-<!--         <li class="nav-item dropdown"> -->
-<!--           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
-<!--             Prestamos -->
-<!--           </a> -->
-<!--           <ul class="dropdown-menu"> -->
-<!--             <li><a class="dropdown-item" href="#">Prestamos aprobados</a></li> -->
-<!--             <li><a class="dropdown-item" href="#">Prestamos solicitados</a></li> -->
-<!--           </ul> -->
-<!--         </li> -->
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="Transferencias.jsp">Transferencias</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="SolicitarPrestamo.jsp">Solicitar préstamo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="PagoDePrestamos.jsp">Pago de préstamos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="PerfilUsuario.jsp">Mi perfil</a>
-        </li>
-        <%if(request.getSession().getAttribute("usuarioAutenticado")!=null){
-			Cliente usuario = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-			if(usuario.is_Admin()==true){%>
+		  <div class="container-fluid">
+		    <a class="navbar-brand" href="Inicio.jsp">FRGP BANK</a>
+		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="navbar-toggler-icon"></span>
+		    </button>
+		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		        <li class="nav-item">
-		          <a class="nav-link active" aria-current="page" href="PanelDeControl.jsp">Panel de control</a>
+		          <a class="nav-link active" aria-current="page" href="MisCuentas.jsp">Cuentas</a>
+		         </li>
+		        <li class="nav-item">
+		          	<a class="nav-link active" aria-current="page" href="Transferencias.jsp">Transferencias</a>
 		        </li>
-		<%}}%>
-      </ul>
-    </div>
-     		<div>
-		        <a class="btn" type="submit" href="ServletCerrarSesion">Cerrar sesión</a>
+		        <li class="nav-item">
+		          <a class="nav-link active" aria-current="page" href="SolicitarPrestamo.jsp">Prestamos</a>
+		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link active" aria-current="page" href="PagoDePrestamos.jsp">Ayuda</a>
+		        </li>
+		      </ul>
+		      	<a class="nav-link active" aria-current="page" href="PerfilUsuario.jsp">Mi Perfil</a>
+				<a class="btn" type="submit" href="ServletCerrarSesion">Cerrar sesión</a>
 		    </div>
-  </div>
-</nav>
+		  </div>
+	</nav>
 </body>
 </html>

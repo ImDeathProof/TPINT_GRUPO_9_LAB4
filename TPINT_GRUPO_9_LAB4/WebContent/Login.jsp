@@ -8,9 +8,15 @@
 <title>FRGP BANK | Log-In</title>
 </head>
 <body>
+	<% if (session.getAttribute("usuarioAutenticado") != null) { 
+	response.sendRedirect("Inicio.jsp");
+	} else { %>
 	<jsp:include page="Navbar.jsp" />
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<div class="container">
+	<div class="row mt-3">
+		<div class="col-1"></div>
+		<div class="col-10">
+		<div class="col-1"></div>
         <h2>Iniciar Sesión</h2>
          <% if (session.getAttribute("error") != null) { %>
         <div class="alert alert-danger">
@@ -29,6 +35,8 @@
             <br>
             <button type="submit" class="btn btn-success" name="btnAceptar">Iniciar Sesión</button>
         </form>
+		</div>
     </div>
+    <% } %>	
 </body>
 </html>

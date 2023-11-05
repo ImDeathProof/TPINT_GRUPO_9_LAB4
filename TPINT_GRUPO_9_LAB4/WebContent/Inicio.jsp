@@ -1,3 +1,4 @@
+<%@page import="Dominio.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <jsp:include page="Header.jsp" />
@@ -24,9 +25,14 @@
 <body>
 <% if (session.getAttribute("usuarioAutenticado") == null) { %>
 	<jsp:include page="Navbar.jsp" />
-	<% } else { %>
-	<jsp:include page="NavbarClientes.jsp" />
-	<% } %>
+	<% } else { 
+		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		if(cliente.is_Admin()){%>
+			<jsp:include page="NavbarAdmin.jsp"/>
+		<% }else{ %>
+			<jsp:include page="NavbarClientes.jsp" />
+		<% }
+		} %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
 	<div class="row mt-2">
 		<div class="col-1">

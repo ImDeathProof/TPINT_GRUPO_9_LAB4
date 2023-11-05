@@ -1,3 +1,4 @@
+<%@page import="Dominio.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,9 +9,17 @@
 </head>
 <body>
 
-<jsp:include page="NavbarClientes.jsp" />
+<% if (session.getAttribute("usuarioAutenticado") == null) { 
+		response.sendRedirect("Inicio.jsp");
+	} else { 
+		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		if(cliente.is_Admin()){%>
+			<jsp:include page="NavbarAdmin.jsp"/>
+		<% }else{ %>
+			<jsp:include page="NavbarClientes.jsp" />
+		<% } %>
 
-<div class="container">
+	<div class="container">
         <h2>Registro de Usuario</h2>
         <form action="ServletRegistroCuenta" method="post">
             <div class="row align-items-start">
@@ -47,6 +56,6 @@
 			<% } %>
         </form>
     </div>
-
+<% } %>
 </body>
 </html>

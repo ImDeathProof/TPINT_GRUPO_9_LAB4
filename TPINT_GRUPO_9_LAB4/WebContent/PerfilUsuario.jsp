@@ -9,21 +9,24 @@
 <title>BFRGP | Mi perfil</title>
 </head>
 <body>
-	<% if (session.getAttribute("usuarioAutenticado") == null) { %>
-	<jsp:include page="Navbar.jsp" />
-	<% } else { %>
-	<jsp:include page="NavbarClientes.jsp" />
-	<% } %>
+	<% if (session.getAttribute("usuarioAutenticado") == null) { 
+		response.sendRedirect("Inicio.jsp");
+	} else { 
+		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		if(cliente.is_Admin()){%>
+			<jsp:include page="NavbarAdmin.jsp"/>
+		<% }else{ %>
+			<jsp:include page="NavbarClientes.jsp" />
+		<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<h1>Perfil del usuario</h1>
 	<form action="ServletPerfil" method="post">
 	<div class="row">
 		<div class="col-1">
 		</div>
 			<div class="col-10">
+			<h1>Perfil del usuario</h1>
 				<div class="row">
-					<div class="col-6 border p-2">
-						<%	Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); %>						
+					<div class="col-6 border p-2">				
 						<label for="nombre" id="lbl_nombre">Nombre:</label>
 						<input type="text" id="nombre" name="txtNombre" class="form-control" value="<%=cliente.get_Nombre()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 						<label for="apellido" id="lbl_apellido">Apellido:</label>
@@ -73,7 +76,7 @@
 			</div>
 	</div>
 	</form>
-	
+	<% } %>
 	
 	
 </body>

@@ -1,3 +1,4 @@
+<%@page import="Dominio.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <jsp:include page="Header.jsp" />
@@ -8,8 +9,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="NavbarClientes.jsp" />
-	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<h1>Cuotas a pagar, selecciona a qué cuenta se está realizando</h1>
+	<% if (session.getAttribute("usuarioAutenticado") == null) { 
+		response.sendRedirect("Inicio.jsp");
+	} else { 
+		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		if(cliente.is_Admin()){%>
+			<jsp:include page="NavbarAdmin.jsp"/>
+		<% }else{ %>
+			<jsp:include page="NavbarClientes.jsp" />
+		<% } %>
+	<!-- DEMAS CONTENIDO DE LA PAGINA-->
+		<h1>Cuotas a pagar, selecciona a qué cuenta se está realizando</h1>
+	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<% } %>
+
 </body>
 </html>

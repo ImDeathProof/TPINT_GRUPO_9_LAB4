@@ -11,7 +11,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="NavbarClientes.jsp" />
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
 	<!-- NOTA: AGREGAR BUSQUEDA PARA LOS LISTADOS - AGREGAR FUNCIONALIDADES A LOS BOTONES -->
 	<!-- SI EL USUARIO ESTA LOGUEADO Y ES ADMIN: ENTRA AL PANEL, SINO: REDIRIGE AL INICIO -->
@@ -19,6 +18,7 @@
 		Cliente usuario = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 		if(usuario.is_Admin()==true){
 		%>
+			<jsp:include page="NavbarAdmin.jsp"/>
 			<div class="row">
 				<div class="col-1"></div>
 				<div class="col-10">
@@ -30,8 +30,8 @@
 						 <%
 				     		ArrayList<Cliente> listaUsuarios = null;
 				      		if(request.getAttribute("listaUsuarios")!=null){
-				      			listaUsuarios = (ArrayList<Cliente>) request.getAttribute("listaUsuarios");
-						      		}%>
+				      			listaUsuarios = (ArrayList<Cliente>) request.getAttribute("listaUsuarios");%>
+				      			
 						   <table class="table">
 							    <thead>
 							        <tr>
@@ -79,6 +79,7 @@
 							            <% } } %>
 							    </tbody>
 							</table>
+							<%}%>
 					</div>
 					<div class="border-top p-2">
 						<form method="post" action="ServletGestionCuentas">
@@ -87,8 +88,7 @@
 				     		<%
 				     		ArrayList<Cuenta> listaCuentas = null;
 				      		if(request.getAttribute("listaTodasCuentas")!=null){
-				      			listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaTodasCuentas");
-						      		}%>
+				      			listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaTodasCuentas");%>
 						    <table class="table">
 							    <thead>
 							        <tr>
@@ -126,6 +126,7 @@
 							            <% } } %>
 							    </tbody>
 							</table>
+							<%}%>
 					</div>
 				</div>
 				<div class="col-1"></div>

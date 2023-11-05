@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<% if (session.getAttribute("usuarioAutenticado") != null) { 
+	response.sendRedirect("Inicio.jsp");
+	} else { %>
 	<jsp:include page="Navbar.jsp" />
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
 	<div class="container">
@@ -100,5 +103,6 @@
 	     	<% } %>	
         </form>
     </div>
+    <% } %>	
 </body>
 </html>
