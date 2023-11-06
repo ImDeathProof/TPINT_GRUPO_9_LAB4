@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CuentaDAO {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "tobias01032004";
+    private String pass = "root";
     private String dbName = "bancodb";
 
     public CuentaDAO() {
@@ -271,5 +271,25 @@ public class CuentaDAO {
     	    return nombre;
     	}
 
+     
+	 public int CambiarSaldo(String saldo, int id, String TipoCuenta )
+	 {
+		 String query = "UPDATE Cuenta SET Saldo = ? WHERE IDUsuario = ? AND TipoCuenta = ?";
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	        	 preparedStatement.setString(1, saldo);
+	             preparedStatement.setInt(2, id);
+	             preparedStatement.setString(3, TipoCuenta);
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
+	 }
+     
     
 }

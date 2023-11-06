@@ -109,7 +109,30 @@
 							                <td><%= cuenta.getTipoCuenta() %></td>
 							                <td><%= cuenta.getNumeroCuenta() %></td>
 							                <td><%= cuenta.getCBU() %></td>
-							                <td><%= cuenta.getSaldo() %></td>
+							                <td>
+										<form action="ServletCambiarSaldo" method="post">
+										    <input type="hidden" name="userID" value="<%= cuenta.getIdUsuario() %>">
+										    <table>
+										        <tr>
+										            <td>
+<%-- 										                <input type="text" name="txtSaldo" class="form-control" value="<%= cuenta.getSaldo() %>" required> --%>
+														<input type="text" name="txtSaldo" class="form-control" value="10000" required>
+
+										            </td>
+										            <td>
+										                <select name="ddlTipoCuenta" class="form-control" style="margin-right: 6rem;">
+										                    <option value="Ahorros" <%= cuenta.getTipoCuenta().equals("Ahorros") ? "selected" : "" %>>Ahorros</option>
+										                    <option value="Corriente" <%= cuenta.getTipoCuenta().equals("Corriente") ? "selected" : "" %>>Corriente</option>
+										                </select>
+										            </td>
+										            <td>
+										                <input type="submit" name="submitValue" value="Setear Cambios" class="btn btn-success mx-1">
+										            </td>
+										        </tr>
+										    </table>
+										</form>
+
+							                </td>
 							                <td><%= cuenta.getFechaCreacion() %></td>
 							                <td><%= cuenta.getNombre() %></td>
 							               <td>
