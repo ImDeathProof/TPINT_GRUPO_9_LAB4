@@ -34,8 +34,25 @@ public class ServletGestionCuentas extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String paginaElegida = request.getParameter("paginaCuenta");
+	      int numeroPagina = 1;
+
+	        if (paginaElegida != null && !paginaElegida.isEmpty()) {
+	            try {
+	                numeroPagina = Integer.parseInt(paginaElegida);
+	            } catch (NumberFormatException e) {
+	            	  throw e;
+	            }
+	        }
+
+	        CuentaDAO cu = new CuentaDAO();
+	        ArrayList<Cuenta> listaCu = cu.obtenerCuentasPaginadas(numeroPagina, 5);
+	        request.setAttribute("listaTodasCuentas", listaCu);
+	        
+	        request.setAttribute("cantPagsCuentas", cu.getCantPaginas());
+
+	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
+	        rd.forward(request, response);
 	}
 
 	/**
@@ -45,7 +62,11 @@ public class ServletGestionCuentas extends HttpServlet {
 		
 		if(request.getParameter("btnCuentas")!=null) {
 			CuentaDAO cu = new CuentaDAO();
-			ArrayList<Cuenta> listaCu = cu.obtenerTodasLasCuentas();
+			
+			request.setAttribute("cantPagsCuentas", cu.getCantPaginas());
+			
+			
+			ArrayList<Cuenta> listaCu = cu.obtenerCuentasPaginadas(1, 5);
 			
 			request.setAttribute("listaTodasCuentas", listaCu);
 			
@@ -53,5 +74,6 @@ public class ServletGestionCuentas extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
+
 
 }

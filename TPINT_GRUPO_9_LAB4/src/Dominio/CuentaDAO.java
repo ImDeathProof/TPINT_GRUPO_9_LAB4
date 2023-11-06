@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -290,6 +291,67 @@ public class CuentaDAO {
 
 	        return filas;
 	 }
+	 
+
+	 public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) {
+	 	    try {
+	 	        Class.forName("com.mysql.cj.jdbc.Driver");
+	 	    } catch (ClassNotFoundException e) {
+	 	        e.printStackTrace();
+	 	    }
+
+	 	    ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
+	 	    Connection cn = null;
+	 	    try {
+	 	        cn = DriverManager.getConnection(host + dbName, user, pass);
+	 	        Statement st = cn.createStatement();
+	 	        int offset = (pageNumber - 1) * pageSize; 
+
+	 	        String query = "SELECT * FROM Cuenta" +
+	 	                       " ORDER BY IDCuenta" +
+	 	                       " LIMIT " + pageSize +
+	 	                       " OFFSET " + offset;
+	 	        ResultSet rs = st.executeQuery(query);
+
+	 	        while (rs.next()) {
+	 	        	Cuenta cuenta = new Cuenta();
+	                 cuenta.setIdCuenta(rs.getInt("IDCuenta"));
+	                 cuenta.setIdUsuario(rs.getInt("IDUsuario"));
+	                 cuenta.setTipoCuenta(rs.getString("TipoCuenta"));
+	                 cuenta.setNumeroCuenta(rs.getString("NumeroCuenta"));
+	                 cuenta.setCBU(rs.getString("CBU"));
+	                 cuenta.setSaldo(rs.getBigDecimal("Saldo"));
+	                 cuenta.setFechaCreacion(rs.getTimestamp("Fecha_Creacion").toLocalDateTime().toLocalDate());
+	                 cuenta.setEstado(rs.getBoolean("Estado"));
+	 				 
+	 				 lista.add(cuenta);
+	 	        }
+
+	 	        cn.close();
+	 	    } catch (SQLException e) {
+	 	        e.printStackTrace();
+	 	    }
+	 	    return lista;
+	 	}
+	  
+	 	 public int getCantPaginas() {
+	 		 
+	 		    int cant = 0;
+
+	 		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Cuenta;";
+
+	 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	 		         Statement st = cn.createStatement();
+	 		         ResultSet rs = st.executeQuery(query)) {
+	 		        if (rs.next()) {
+	 		            cant = rs.getInt("paginas");
+	 		        }
+	 		    } catch (SQLException e) {
+	 		        e.printStackTrace();
+	 		    }
+
+	 		    return cant;
+	 		}
      
     
 }

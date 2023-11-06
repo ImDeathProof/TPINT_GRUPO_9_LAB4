@@ -230,4 +230,73 @@ public class ClienteDAO {
 	        return filas;
 	 }
 	 
+	 public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) {
+		    try {
+		        Class.forName("com.mysql.cj.jdbc.Driver");
+		    } catch (ClassNotFoundException e) {
+		        e.printStackTrace();
+		    }
+
+		    ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		    Connection cn = null;
+		    try {
+		        cn = DriverManager.getConnection(host + dbName, user, pass);
+		        Statement st = cn.createStatement();
+		        int offset = (pageNumber - 1) * pageSize; 
+
+		        String query = "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin, Bloqueado FROM Usuario" +
+		                       " ORDER BY IDUsuario" +
+		                       " LIMIT " + pageSize +
+		                       " OFFSET " + offset;
+		        ResultSet rs = st.executeQuery(query);
+
+		        while (rs.next()) {
+		            Cliente clienteRs = new Cliente();
+					 clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
+					 clienteRs.set_Usuario(rs.getString("Username"));
+					 clienteRs.set_Contrasena(rs.getString("Pass"));
+					 clienteRs.set_Nombre(rs.getString("Nombre"));
+					 clienteRs.set_Apellido(rs.getString("Apellido"));
+					 clienteRs.set_DNI(rs.getLong("DNI"));
+					 clienteRs.set_CUIL(rs.getLong("CUIL"));
+					 clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+					 clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
+					 clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
+					 clienteRs.set_Direccion(rs.getString("Direccion"));
+					 clienteRs.set_Localidad(rs.getString("Localidad"));
+					 clienteRs.set_Provincia(rs.getString("Provincia"));
+					 clienteRs.set_Email(rs.getString("Mail"));
+					 clienteRs.set_Telefono(rs.getLong("Telefono"));
+					 clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+					 clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
+					 
+					 lista.add(clienteRs);
+		        }
+
+		        cn.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return lista;
+		}
+
+	 	public int getCantPaginas() {
+		 
+		    int cant = 0;
+
+		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Usuario;";
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         Statement st = cn.createStatement();
+		         ResultSet rs = st.executeQuery(query)) {
+		        if (rs.next()) {
+		            cant = rs.getInt("paginas");
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return cant;
+		}
+	 
 }

@@ -78,6 +78,20 @@
 							            <% } } %>
 							    </tbody>
 							</table>
+							<form method="get" action="ServletGestionUsuarios">
+						    <%
+						    int cantPags = (int)request.getAttribute("cantPags");
+						    if (cantPags != 0) {
+						        for (int i = 1; i <= cantPags; i++) {
+						    %>
+						        <button class="btn btn-primary" type="submit" name="pagina" value="<%= i %>">
+						            Página <%= i %>
+						        </button>
+						    <%
+						        } 
+						    }
+						    %>
+						</form>
 							<%}%>
 					</div>
 					<div class="border-top p-2">
@@ -150,6 +164,20 @@
 							            <% } } %>
 							    </tbody>
 							</table>
+							 <form method="get" action="ServletGestionCuentas">
+						    <%
+						    int cantPags = (int)request.getAttribute("cantPagsCuentas");
+						    if (cantPags != 0) {
+						        for (int i = 1; i <= cantPags; i++) {
+						    %>
+						        <button class="btn btn-primary" type="submit" name="paginaCuenta" value="<%= i %>">
+						            Página <%= i %>
+						        </button>
+						    <%
+						        } 
+						    }
+						    %>
+						</form>
 							<%}%>
 					</div>
 				</div>

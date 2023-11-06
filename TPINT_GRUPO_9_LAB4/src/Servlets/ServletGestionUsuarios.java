@@ -32,8 +32,25 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		 String paginaElegida = request.getParameter("pagina");
+	        int numeroPagina = 1;
+
+	        if (paginaElegida != null && !paginaElegida.isEmpty()) {
+	            try {
+	                numeroPagina = Integer.parseInt(paginaElegida);
+	            } catch (NumberFormatException e) {
+	            	  throw e;
+	            }
+	        }
+
+	        ClienteDAO clienteDao = new ClienteDAO();
+	        ArrayList<Cliente> listaUsuarios = clienteDao.obtenerUsuariosPaginados(numeroPagina, 5);
+	        request.setAttribute("listaUsuarios", listaUsuarios);
+	        
+	        request.setAttribute("cantPags", clienteDao.getCantPaginas());
+
+	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
+	        rd.forward(request, response);
 	}
 
 	/**
@@ -41,8 +58,12 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnUsuarios")!=null) {
-			ClienteDAO clienteDao = new ClienteDAO();
-			ArrayList<Cliente> lista = clienteDao.obtenerUsuarios();
+			
+			ClienteDAO clienteDao = new ClienteDAO();	
+			
+			request.setAttribute("cantPags", clienteDao.getCantPaginas());
+			
+			ArrayList<Cliente> lista = (ArrayList<Cliente>)clienteDao.obtenerUsuariosPaginados(1, 5);
 			
 			request.setAttribute("listaUsuarios", lista);
 			
