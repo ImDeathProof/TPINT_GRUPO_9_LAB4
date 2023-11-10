@@ -8,19 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import Dominio.CuentaDAO;
 
 /**
- * Servlet implementation class ServletCambiarPass
+ * Servlet implementation class ServletTransferencias
  */
-@WebServlet("/ServletCambiarSaldo")
-public class ServletCambiarSaldo extends HttpServlet {
+@WebServlet("/ServletTransferencias")
+public class ServletTransferencias extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletCambiarSaldo() {
+    public ServletTransferencias() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,16 +39,20 @@ public class ServletCambiarSaldo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String saldo = request.getParameter("txtSaldo");
-		BigDecimal saldoDecimal = new BigDecimal(saldo);
-		int userID = Integer.parseInt(request.getParameter("userID"));
-		String TipoCuenta = request.getParameter("ddlTipoCuenta");
-		
-		CuentaDAO cu = new CuentaDAO();		
-		cu.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
-		
-		response.sendRedirect("PanelDeControl.jsp");
-		
+		  int idUser = Integer.parseInt(request.getParameter("userID"));
+		  long CBU = Long.parseLong(request.getParameter("CBU"));
+		  String monto = request.getParameter("monto");
+	     
+		  BigDecimal saldoDecimal = new BigDecimal(monto);
+	      String tipoCuenta = request.getParameter("tipoCuenta");
+	      
+	      
+	      CuentaDAO cu = new CuentaDAO();
+	      if (cu.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
+	    	    request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo");
+	    	}
+	      
+	      response.sendRedirect("Transferencias.jsp");
 	}
 
 }

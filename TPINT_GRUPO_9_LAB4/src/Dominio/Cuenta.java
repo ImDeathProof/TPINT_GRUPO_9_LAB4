@@ -82,9 +82,10 @@ public class Cuenta {
 		
 		String nombre = cu.GetNombreCliente(this.IdUsuario);
 		
-		return nombre;
-		
+		return nombre;		
 	}
+	
+	
 
 	@Override
     public String toString() {

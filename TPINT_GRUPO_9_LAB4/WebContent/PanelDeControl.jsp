@@ -129,8 +129,7 @@
 										    <table>
 										        <tr>
 										            <td>
-<%-- 										                <input type="text" name="txtSaldo" class="form-control" value="<%= cuenta.getSaldo() %>" required> --%>
-														<input type="text" name="txtSaldo" class="form-control" value="10000" required>
+														<input type="text" name="txtSaldo" class="form-control" value="<%= cuenta.getSaldo() %>" required>
 
 										            </td>
 										            <td>

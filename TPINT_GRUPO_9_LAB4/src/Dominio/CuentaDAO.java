@@ -1,5 +1,6 @@
 package Dominio;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,8 +10,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 public class CuentaDAO {
@@ -218,22 +217,118 @@ public class CuentaDAO {
         else return true;
     }
     
-     public int ValidarCuenta(int id)
-	 {
-    	 String query = "UPDATE Cuenta SET Estado = 1, saldo = CASE WHEN saldo = 0 THEN (saldo + 10000) ELSE saldo END WHERE IDCuenta = ?;";
-		 int filas = 0;
+    public int ValidarCuenta(int id)
+  	 {
+      	 String query = "UPDATE Cuenta SET Estado = 1, saldo = CASE WHEN saldo = 0 THEN (saldo + 10000) ELSE saldo END WHERE IDCuenta = ?;";
+  		 int filas = 0;
 
-	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-	            preparedStatement.setInt(1, id);
-	            
-	            filas = preparedStatement.executeUpdate();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+  	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+  	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+  	             preparedStatement.setInt(1, id);
+  	            
+  	            filas = preparedStatement.executeUpdate();
+  	            insertMovimiento(1, id);
+  	            
+  	        } catch (SQLException e) {
+  	            e.printStackTrace();
+  	        }
 
-	        return filas;
-	 } 
+  	        
+  	        return filas;
+  	 } 
+    
+    public int insertMovimiento(int idTipo, int idCuenta)
+    {
+    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (10000, NOW(), 'Alta de cuenta', 1, ?, ?)";
+  		 int filas = 0;
+
+  	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+  	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+  	            preparedStatement.setInt(1, getUserFromCuenta(idCuenta));
+  	            preparedStatement.setInt(2, idCuenta);
+  	            
+  	            filas = preparedStatement.executeUpdate();
+  	        } catch (SQLException e) {
+  	            e.printStackTrace();
+  	        }
+  	        
+  	        return filas;
+    }
+    
+    public int insertMovimiento(int idCuenta,BigDecimal monto)
+    {
+    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (?, NOW(), 'Trasferencia', 4, ?, ?)";
+  		 int filas = 0;
+
+  	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+  	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+  	        	 preparedStatement.setBigDecimal(1, monto);
+  	             preparedStatement.setInt(2, getUserFromCuenta(idCuenta));
+  	             preparedStatement.setInt(3, idCuenta);
+  	            
+  	            filas = preparedStatement.executeUpdate();
+  	        } catch (SQLException e) {
+  	            e.printStackTrace();
+  	        }
+  	        
+  	        return filas;
+    }
+    
+    public int getUserFromCuenta(int idCuenta) {
+        String query = "SELECT IDUsuario AS user FROM Cuenta WHERE IDCuenta = ?;";
+
+        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+            preparedStatement.setInt(1, idCuenta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("user");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+    
+    public int getCuentaFromCBU(long CBU) {
+        String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE CBU = ?;";
+
+        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+            preparedStatement.setLong(1, CBU);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("cuenta");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+    
+    public int getCuentaFromUserID(int userID, String tipoCuenta) {
+        String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE IDUsuario = ? and TipoCuenta = ?;";
+
+        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setString(2, tipoCuenta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("cuenta");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
 
      public int BloquearCuenta(int id)
 	 {
@@ -273,14 +368,14 @@ public class CuentaDAO {
     	}
 
      
-	 public int CambiarSaldo(String saldo, int id, String TipoCuenta )
+	 public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta )
 	 {
 		 String query = "UPDATE Cuenta SET Saldo = ? WHERE IDUsuario = ? AND TipoCuenta = ?";
 		 int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-	        	 preparedStatement.setString(1, saldo);
+	        	 preparedStatement.setBigDecimal(1, saldo);
 	             preparedStatement.setInt(2, id);
 	             preparedStatement.setString(3, TipoCuenta);
 	            
@@ -291,6 +386,29 @@ public class CuentaDAO {
 
 	        return filas;
 	 }
+	 
+ 	 public int CambiarSaldo(BigDecimal saldo, long CBU)
+ 	 {
+ 	    BigDecimal saldoActual = getDineroxCuenta(CBU);
+
+ 	    BigDecimal nuevoSaldo = saldoActual.add(saldo);
+ 		 
+ 		 String query = "UPDATE Cuenta SET Saldo = ? WHERE CBU = ?";
+ 		 
+		 int filas = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	        	 preparedStatement.setBigDecimal(1, nuevoSaldo);
+	             preparedStatement.setLong(2,CBU);
+	            
+	            filas = preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return filas;
+ 	 }
 	 
 
 	 public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) {
@@ -352,6 +470,77 @@ public class CuentaDAO {
 
 	 		    return cant;
 	 		}
+	 	 
+	 	
+	 	public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) {	   
+
+	 		int filasEmisora = -1;
+	 		int filasDestinataria = -1;
+	 		
+	 		if (getDineroxCuenta(getCBU(userID,tipoCuenta)).compareTo(monto) >= 0)
+	 		{	 			
+	 			filasEmisora = CambiarSaldo(monto.negate(), getCBU(userID,tipoCuenta));
+	 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
+	 	        
+	 	        insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate());
+	 	        insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto);
+	 		}
+	 		
+	 	    if (filasEmisora > 0 && filasDestinataria > 0) {
+	 	        return filasEmisora + filasDestinataria;
+	 	    } else {
+	 	        return -1;
+	 	    }
+	 	}
+	 	
+	 	public long getCBU(int userID, String tipoCuenta) {
+	 	    Long saldo = 0L;
+
+	 	    String query = "SELECT CBU FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
+
+	 	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	 	         PreparedStatement ps = cn.prepareStatement(query)) {
+	 	         ps.setInt(1, userID);
+	 	         ps.setString(2, tipoCuenta);
+
+	 	        try (ResultSet rs = ps.executeQuery()) {
+	 	            if (rs.next()) {
+	 	                saldo = rs.getLong("CBU");
+	 	            }
+	 	        }
+	 	    } catch (SQLException e) {
+	 	        e.printStackTrace();
+	 	    }
+
+	 	    return saldo;
+	 	}
+	 	
+	 	public BigDecimal getDineroxCuenta(long CBU) {
+	 	    BigDecimal saldo = BigDecimal.ZERO;
+
+	 	    String query = "SELECT saldo FROM Cuenta WHERE CBU = ?;";
+
+	 	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	 	         PreparedStatement ps = cn.prepareStatement(query)) {
+	 	        ps.setLong(1, CBU);
+
+	 	        try (ResultSet rs = ps.executeQuery()) {
+	 	            if (rs.next()) {
+	 	                saldo = rs.getBigDecimal("saldo");
+	 	            }
+	 	        }
+	 	    } catch (SQLException e) {
+	 	        e.printStackTrace();
+	 	    }
+
+	 	    return saldo;
+	 	}
+
+	 	 
+	
+
+	 	 
+	 	 
      
     
 }
