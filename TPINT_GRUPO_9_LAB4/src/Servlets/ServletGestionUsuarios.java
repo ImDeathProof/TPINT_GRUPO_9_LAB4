@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import entidad.Cliente;
+import negocio.ClienteNeg;
+import negocioImpl.ClienteNegImpl;
 
 /**
  * Servlet implementation class ServletGestionUsuarios
@@ -19,6 +21,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletGestionUsuarios")
 public class ServletGestionUsuarios extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,11 +46,10 @@ public class ServletGestionUsuarios extends HttpServlet {
 	            }
 	        }
 
-	        ClienteDAO clienteDao = new ClienteDAO();
-	        ArrayList<Cliente> listaUsuarios = clienteDao.obtenerUsuariosPaginados(numeroPagina, 5);
+	        ArrayList<Cliente> listaUsuarios = clNeg.obtenerUsuariosPaginados(numeroPagina, 5);
 	        request.setAttribute("listaUsuarios", listaUsuarios);
 	        
-	        request.setAttribute("cantPags", clienteDao.getCantPaginas());
+	        request.setAttribute("cantPags", clNeg.getCantPaginas());
 
 	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 	        rd.forward(request, response);
@@ -59,11 +61,9 @@ public class ServletGestionUsuarios extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnUsuarios")!=null) {
 			
-			ClienteDAO clienteDao = new ClienteDAO();	
+			request.setAttribute("cantPags", clNeg.getCantPaginas());
 			
-			request.setAttribute("cantPags", clienteDao.getCantPaginas());
-			
-			ArrayList<Cliente> lista = (ArrayList<Cliente>)clienteDao.obtenerUsuariosPaginados(1, 5);
+			ArrayList<Cliente> lista = (ArrayList<Cliente>)clNeg.obtenerUsuariosPaginados(1, 5);
 			
 			request.setAttribute("listaUsuarios", lista);
 			

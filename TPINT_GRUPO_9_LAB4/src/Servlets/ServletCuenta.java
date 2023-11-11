@@ -7,13 +7,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Dominio.Cliente;
-import Dominio.Cuenta;
-import Dominio.CuentaDAO;
+
+import daoImpl.CuentaDAO;
+import entidad.Cliente;
+import entidad.Cuenta;
+import negocio.CuentaNeg;
+import negocioImpl.CuentaNegImpl;
 
 @WebServlet("/ServletCuenta")
 public class ServletCuenta extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    CuentaNeg cuNeg = new CuentaNegImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
@@ -21,9 +25,8 @@ public class ServletCuenta extends HttpServlet {
 
         if (usuarioActivo != null) {
            
-            CuentaDAO cuentaDAO = new CuentaDAO();
             
-            ArrayList<Cuenta> cuentas = cuentaDAO.obtenerCuentasPorUsuario(usuarioActivo.get_IDCliente());
+            ArrayList<Cuenta> cuentas = cuNeg.obtenerCuentasPorUsuario(usuarioActivo.get_IDCliente());
            
             request.setAttribute("cuentas", cuentas);
            

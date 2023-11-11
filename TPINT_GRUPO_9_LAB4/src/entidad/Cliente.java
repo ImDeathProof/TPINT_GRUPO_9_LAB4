@@ -1,4 +1,4 @@
-package Dominio;
+package entidad;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

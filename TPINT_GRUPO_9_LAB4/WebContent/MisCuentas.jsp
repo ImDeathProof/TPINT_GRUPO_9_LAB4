@@ -1,5 +1,5 @@
-<%@page import="Dominio.Cliente"%>
-<%@ page import="java.util.ArrayList, Dominio.Cuenta" %>
+<%@page import="entidad.Cliente"%>
+<%@ page import="java.util.ArrayList,entidad.Cuenta" %>
 <jsp:include page="Header.jsp" />
 <jsp:include page="NavbarClientes.jsp" />
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

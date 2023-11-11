@@ -1,4 +1,4 @@
-package Dominio;
+package entidad;
 
 public class Direccion {
 	private String Calle;

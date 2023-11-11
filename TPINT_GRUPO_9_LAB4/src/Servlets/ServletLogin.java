@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import entidad.Cliente;
+import negocio.ClienteNeg;
+import negocioImpl.ClienteNegImpl;
 
 /**
  * Servlet implementation class ServletLogin
@@ -18,6 +20,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,10 +48,8 @@ public class ServletLogin extends HttpServlet {
 		    usuarioActivo.set_Usuario(request.getParameter("user"));
 		    usuarioActivo.set_Contrasena(request.getParameter("password"));
 	
-		    ClienteDAO cl = new ClienteDAO();
-	
 		    try {
-		        usuarioActivo = cl.BuscarUsuario(usuarioActivo);
+		        usuarioActivo = clNeg.BuscarUsuario(usuarioActivo);
 
 		        if (usuarioActivo == null) {
 		            request.getSession().setAttribute("error", "No se pudo conectar. Verifica tus credenciales.");

@@ -1,4 +1,4 @@
-package Dominio;
+package entidad;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

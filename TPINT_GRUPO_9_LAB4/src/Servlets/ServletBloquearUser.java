@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import negocio.ClienteNeg;
+import negocioImpl.ClienteNegImpl;
 
 /**
  * Servlet implementation class ServletBloquearUser
@@ -15,6 +17,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletBloquearUser")
 public class ServletBloquearUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,13 +42,11 @@ public class ServletBloquearUser extends HttpServlet {
 		
 		int userID = Integer.parseInt(request.getParameter("userID"));
 		String buttonValue = request.getParameter("submitValue");
-		
-		ClienteDAO cl = new ClienteDAO();	
 
 		if (buttonValue.equals("Bloquear")) {		
-			cl.BloquearCliente(userID);			
+			clNeg.BloquearCliente(userID);			
 	    } else if (buttonValue.equals("Desbloquear")) {
-	    	cl.DesbloquearCliente(userID);
+	    	clNeg.DesbloquearCliente(userID);
 	    }
 		
 		response.sendRedirect("PanelDeControl.jsp");

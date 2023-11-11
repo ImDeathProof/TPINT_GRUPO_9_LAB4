@@ -8,7 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Dominio.CuentaDAO;
+
+import daoImpl.CuentaDAO;
+import negocio.ClienteNeg;
+import negocio.CuentaNeg;
+import negocioImpl.ClienteNegImpl;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletCambiarPass
@@ -16,6 +21,7 @@ import Dominio.CuentaDAO;
 @WebServlet("/ServletCambiarSaldo")
 public class ServletCambiarSaldo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -42,9 +48,8 @@ public class ServletCambiarSaldo extends HttpServlet {
 		BigDecimal saldoDecimal = new BigDecimal(saldo);
 		int userID = Integer.parseInt(request.getParameter("userID"));
 		String TipoCuenta = request.getParameter("ddlTipoCuenta");
-		
-		CuentaDAO cu = new CuentaDAO();		
-		cu.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
+	
+		cuNeg.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
 		
 		response.sendRedirect("PanelDeControl.jsp");
 		

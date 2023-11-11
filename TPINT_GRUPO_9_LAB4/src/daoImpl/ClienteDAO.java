@@ -1,4 +1,4 @@
-package Dominio;
+package daoImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,11 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ClienteDAO {
+import dao.ClienteDaoInterface;
+import entidad.Cliente;
+
+public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public ClienteDAO() {

@@ -1,4 +1,4 @@
-package Dominio;
+package daoImpl;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -11,11 +11,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
+import dao.CuentaDaoInterface;
+import entidad.Cuenta;
 
-public class CuentaDAO {
+
+public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
 
     public CuentaDAO() {

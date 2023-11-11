@@ -1,5 +1,8 @@
-package Dominio;
+package entidad;
 import java.time.LocalDate;
+
+import daoImpl.CuentaDAO;
+
 import java.math.BigDecimal;
 
 public class Cuenta {

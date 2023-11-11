@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
-import Dominio.Cuenta;
-import Dominio.CuentaDAO;
+import daoImpl.ClienteDAO;
+import daoImpl.CuentaDAO;
+import entidad.Cliente;
+import entidad.Cuenta;
+import negocio.CuentaNeg;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletGestionCuentas
@@ -21,6 +23,7 @@ import Dominio.CuentaDAO;
 @WebServlet("/ServletGestionCuentas")
 public class ServletGestionCuentas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,11 +48,10 @@ public class ServletGestionCuentas extends HttpServlet {
 	            }
 	        }
 
-	        CuentaDAO cu = new CuentaDAO();
-	        ArrayList<Cuenta> listaCu = cu.obtenerCuentasPaginadas(numeroPagina, 5);
+	        ArrayList<Cuenta> listaCu = cuNeg.obtenerCuentasPaginadas(numeroPagina, 5);
 	        request.setAttribute("listaTodasCuentas", listaCu);
 	        
-	        request.setAttribute("cantPagsCuentas", cu.getCantPaginas());
+	        request.setAttribute("cantPagsCuentas", cuNeg.getCantPaginas());
 
 	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 	        rd.forward(request, response);
@@ -61,12 +63,11 @@ public class ServletGestionCuentas extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnCuentas")!=null) {
-			CuentaDAO cu = new CuentaDAO();
 			
-			request.setAttribute("cantPagsCuentas", cu.getCantPaginas());
+			request.setAttribute("cantPagsCuentas", cuNeg.getCantPaginas());
 			
 			
-			ArrayList<Cuenta> listaCu = cu.obtenerCuentasPaginadas(1, 5);
+			ArrayList<Cuenta> listaCu = cuNeg.obtenerCuentasPaginadas(1, 5);
 			
 			request.setAttribute("listaTodasCuentas", listaCu);
 			

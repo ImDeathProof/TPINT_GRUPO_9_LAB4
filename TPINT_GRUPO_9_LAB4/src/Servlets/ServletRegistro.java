@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import entidad.Cliente;
+import negocio.ClienteNeg;
+import negocioImpl.ClienteNegImpl;
 
 /**
  * Servlet implementation class ServletRegistro
@@ -19,6 +21,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletRegistro")
 public class ServletRegistro extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -84,10 +87,9 @@ public class ServletRegistro extends HttpServlet {
 			      
 			    	
 			boolean cargo = false;
-		    ClienteDAO agregadorClientes = new ClienteDAO();
 		    try {
 				    	
-		       cliente = agregadorClientes.agregarUsuario(cliente);			
+		       cliente = clNeg.agregarUsuario(cliente);			
 			   if(cliente != null) {
 		     		request.getSession().setAttribute("usuarioAutenticado", cliente);
 					cargo=true;

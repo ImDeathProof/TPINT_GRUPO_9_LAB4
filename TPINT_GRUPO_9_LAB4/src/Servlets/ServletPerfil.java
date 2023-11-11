@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import entidad.Cliente;
+import negocio.ClienteNeg;
+import negocioImpl.ClienteNegImpl;
 
 /**
  * Servlet implementation class ServletPerfil
@@ -21,6 +23,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletPerfil")
 public class ServletPerfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -76,10 +79,9 @@ public class ServletPerfil extends HttpServlet {
 					}
 			
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
-					ClienteDAO clientedao = new ClienteDAO();
 				    try {
 				    	
-						int filas = clientedao.modificarUsuario(cliente);
+						int filas = clNeg.modificarUsuario(cliente);
 				            
 					} catch (SQLException e) {
 						e.printStackTrace();

@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.ClienteDAO;
-import Dominio.Cuenta;
-import Dominio.CuentaDAO;
+import daoImpl.ClienteDAO;
+import daoImpl.CuentaDAO;
+import entidad.Cliente;
+import entidad.Cuenta;
+import negocio.ClienteNeg;
+import negocio.CuentaNeg;
+import negocioImpl.ClienteNegImpl;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletAprovarCuenta
@@ -21,6 +25,7 @@ import Dominio.CuentaDAO;
 @WebServlet("/ServletAprovarCuenta")
 public class ServletAprovarCuenta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,13 +50,11 @@ public class ServletAprovarCuenta extends HttpServlet {
 		
 		int cuentaID = Integer.parseInt(request.getParameter("cuentaID"));
 		String buttonValueEstado = request.getParameter("submitValueEstado");
-		
-		CuentaDAO cu = new CuentaDAO();
 
 		if (buttonValueEstado.equals("Validar")) {		
-			cu.ValidarCuenta(cuentaID);
+			cuNeg.ValidarCuenta(cuentaID);
 	    } else if (buttonValueEstado.equals("Bloquear")) {
-	    	cu.BloquearCuenta(cuentaID);
+	    	cuNeg.BloquearCuenta(cuentaID);
 	    }
 		
 		response.sendRedirect("PanelDeControl.jsp");

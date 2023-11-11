@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.Cliente;
-import Dominio.CuentaDAO;
+import daoImpl.CuentaDAO;
+import entidad.Cliente;
+import negocio.CuentaNeg;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletRegistroCuenta
@@ -16,6 +18,7 @@ import Dominio.CuentaDAO;
 @WebServlet("/ServletRegistroCuenta")
 public class ServletRegistroCuenta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -49,10 +52,8 @@ public class ServletRegistroCuenta extends HttpServlet {
 		
 		 String tipoValue = request.getParameter("tipoCuenta");
 		 Cliente usuarioAutenticado = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-			
-		 CuentaDAO cc = new CuentaDAO();
 		 
-		 if(cc.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
+		 if(cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
 			 request.getSession().setAttribute("noErrorRegistroCuenta", "Cuenta pedida con exito.");
 		 }
 		 else

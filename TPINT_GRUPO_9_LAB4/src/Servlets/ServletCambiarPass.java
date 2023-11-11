@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.ClienteDAO;
+import daoImpl.ClienteDAO;
+import negocio.ClienteNeg;
+import negocio.CuentaNeg;
+import negocioImpl.ClienteNegImpl;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletCambiarPass
@@ -15,6 +19,7 @@ import Dominio.ClienteDAO;
 @WebServlet("/ServletCambiarPass")
 public class ServletCambiarPass extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNeg clNeg = new ClienteNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,9 +44,8 @@ public class ServletCambiarPass extends HttpServlet {
 		
 		String pass = request.getParameter("txtContaseña");
 		int userID = Integer.parseInt(request.getParameter("userID"));
-		
-		ClienteDAO cl = new ClienteDAO();		
-		cl.CambiarPass(pass, userID);
+				
+		clNeg.CambiarPass(pass, userID);
 		
 		response.sendRedirect("PanelDeControl.jsp");
 		

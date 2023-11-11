@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Dominio.CuentaDAO;
+import daoImpl.CuentaDAO;
+import negocio.CuentaNeg;
+import negocioImpl.CuentaNegImpl;
 
 /**
  * Servlet implementation class ServletTransferencias
@@ -17,6 +19,7 @@ import Dominio.CuentaDAO;
 @WebServlet("/ServletTransferencias")
 public class ServletTransferencias extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,9 +49,7 @@ public class ServletTransferencias extends HttpServlet {
 		  BigDecimal saldoDecimal = new BigDecimal(monto);
 	      String tipoCuenta = request.getParameter("tipoCuenta");
 	      
-	      
-	      CuentaDAO cu = new CuentaDAO();
-	      if (cu.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
+	      if (cuNeg.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
 	    	    request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo");
 	    	}
 	      
