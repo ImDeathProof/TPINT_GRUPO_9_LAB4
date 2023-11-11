@@ -20,12 +20,12 @@
 		<% } %>
 
 	<div class="container">
-        <h2>Registro de Usuario</h2>
+        <h2>Solicitá tu cuenta</h2>
         <form action="ServletRegistroCuenta" method="post">
             <div class="row align-items-start">
 	        <div class="col">
 	        </div>
-	        <div class="col-5">
+	        <div>
 	             <div class="form-group">
 				    <label>Tipo de Cuenta:</label>
 				    <div class="form-check">

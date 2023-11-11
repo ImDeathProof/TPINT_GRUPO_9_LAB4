@@ -57,6 +57,26 @@ public class CuentaDAO implements CuentaDaoInterface {
         return lista;
     }
     
+    public int cantidadCuentasPorUsuario(int idUsuario) {
+    	String cuentasQuery = "SELECT COUNT(*) as cuenta_count from Cuenta where IdUsuario = ?";
+        int cantidadDeCuentas = 0;
+
+        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+             PreparedStatement cuentasStatement = cn.prepareStatement(cuentasQuery)) {
+            cuentasStatement.setInt(1, idUsuario);
+            ResultSet cuentasResultSet = cuentasStatement.executeQuery();
+
+            if (cuentasResultSet.next()) {
+                cantidadDeCuentas = cuentasResultSet.getInt("cuenta_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cantidadDeCuentas;
+    }
+
+    
+    
     public ArrayList<Cuenta> obtenerTodasLasCuentas() {
         ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
         String cuentasQuery = "SELECT * FROM Cuenta";
@@ -86,15 +106,14 @@ public class CuentaDAO implements CuentaDaoInterface {
     
     public int pedirCuenta (String tipoCuenta, int idCliente)
     {		
-    		if ("Ahorros".equals(tipoCuenta) && tieneCuentaAhorros(idCliente))
-	        {
-	        	return 0;		
-	       	}
-    		else if ("Corriente".equals(tipoCuenta) && tieneCuentaCorriente(idCliente))
-	        {
-	        	return 0;
-	        }
-    	
+//    		if ("Ahorros".equals(tipoCuenta) && tieneCuentaAhorros(idCliente))
+//	        {
+//	        	return 0;		
+//	       	}
+//    		else if ("Corriente".equals(tipoCuenta) && tieneCuentaCorriente(idCliente))
+//	        {
+//	        	return 0;
+//	        }
     	   String query = "INSERT INTO Cuenta (TipoCuenta, NumeroCuenta, CBU, Saldo, Fecha_Creacion, IDUsuario, Estado)" +
 	                "VALUES (?, ?, ?, 0, ?, ?,0)";
 

@@ -53,12 +53,14 @@ public class ServletRegistroCuenta extends HttpServlet {
 		 String tipoValue = request.getParameter("tipoCuenta");
 		 Cliente usuarioAutenticado = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 		 
-		 if(cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
+//		 if(cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
+		 if(cuNeg.cantidadCuentasPorUsuario(usuarioAutenticado.get_IDCliente()) < 3){
 			 request.getSession().setAttribute("noErrorRegistroCuenta", "Cuenta pedida con exito.");
+			 cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente());
 		 }
 		 else
 		 {
-			 request.getSession().setAttribute("errorRegistroCuenta", "La cuenta no fue pedida, quizas ya tienes 1 cuenta de ahorro/corriente.");
+			 request.getSession().setAttribute("errorRegistroCuenta", "La cuenta no fue pedida, ya que excede el límite por cliente (3).");
 		 }
 		 
 		 response.sendRedirect("RegistroCuenta.jsp");

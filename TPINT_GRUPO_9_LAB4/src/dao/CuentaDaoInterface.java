@@ -10,6 +10,7 @@ public interface CuentaDaoInterface {
 	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario);
 	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario);
 	public ArrayList<Cuenta> obtenerTodasLasCuentas();
+	public int cantidadCuentasPorUsuario (int idUsuario);
 	public int pedirCuenta (String tipoCuenta, int idCliente);
 	public int ValidarCuenta(int id);
     public int BloquearCuenta(int id);
