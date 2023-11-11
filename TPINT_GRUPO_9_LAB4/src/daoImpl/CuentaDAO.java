@@ -539,6 +539,66 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    return saldo;
 	 	}
 
+		@Override
+		public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
+			// TODO Auto-generated method stub
+			Cuenta cuenta = new Cuenta();
+			
+			String query = "SELECT * FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setInt(1, idUsuario);
+	            preparedStatement.setString(2, "Corriente");
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	            	cuenta.setIdCuenta(resultSet.getInt("IDCuenta"));
+	                cuenta.setIdUsuario(resultSet.getInt("IDUsuario"));
+	                cuenta.setTipoCuenta(resultSet.getString("TipoCuenta"));
+	                cuenta.setNumeroCuenta(resultSet.getString("NumeroCuenta"));
+	                cuenta.setCBU(resultSet.getString("CBU"));
+	                cuenta.setSaldo(resultSet.getBigDecimal("Saldo"));
+	                cuenta.setFechaCreacion(resultSet.getTimestamp("Fecha_Creacion").toLocalDateTime().toLocalDate());
+	                cuenta.setEstado(resultSet.getBoolean("Estado"));
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        
+			return cuenta;
+		}
+
+		@Override
+		public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
+			// TODO Auto-generated method stub
+			Cuenta cuenta = new Cuenta();
+			
+			String query = "SELECT * FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setInt(1, idUsuario);
+	            preparedStatement.setString(2, "Ahorros");
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	            	cuenta.setIdCuenta(resultSet.getInt("IDCuenta"));
+	                cuenta.setIdUsuario(resultSet.getInt("IDUsuario"));
+	                cuenta.setTipoCuenta(resultSet.getString("TipoCuenta"));
+	                cuenta.setNumeroCuenta(resultSet.getString("NumeroCuenta"));
+	                cuenta.setCBU(resultSet.getString("CBU"));
+	                cuenta.setSaldo(resultSet.getBigDecimal("Saldo"));
+	                cuenta.setFechaCreacion(resultSet.getTimestamp("Fecha_Creacion").toLocalDateTime().toLocalDate());
+	                cuenta.setEstado(resultSet.getBoolean("Estado"));
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        
+			return cuenta;
+		}
+
 	 	 
 	
 

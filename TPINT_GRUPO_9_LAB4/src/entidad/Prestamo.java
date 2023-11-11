@@ -17,6 +17,10 @@ public class Prestamo {
 	private Cuenta Cuenta;
 	private Cliente Cliente;
 	
+	public Prestamo() {
+		this.MontoAprobado = new BigDecimal("0.0");
+	}
+	
 	public int getId_Prestamo() {
 		return Id_Prestamo;
 	}

@@ -1,15 +1,28 @@
 package daoImpl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import dao.PrestamoDaoInterface;
 import entidad.Prestamo;
 
 public class PrestamoDAO implements PrestamoDaoInterface{
-private Conexion cn;
+	
+	private String host = "jdbc:mysql://127.0.0.1:3306/";
+    private String user = "root";
+    private String pass = "root";
+    private String dbName = "bancodb";
 	
 	public PrestamoDAO() {
-		
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	@Override
@@ -25,45 +38,49 @@ private Conexion cn;
 	}
 
 	@Override
-	public boolean Insertar(Prestamo prestamo) {
-		boolean estado=true;
-
-		cn = new Conexion();
-		cn.Open();	
-
-		String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario)" +
+	public int Insertar(Prestamo prestamo) {
+		int filas = 0;
+		String query = "INSERT INTO prestamos "
+				+ "(MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres"
+				+ ", Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario)" +
                 "VALUES (?, ?, ?, 0, ?, ?, ?, 0, ?, ?)";
-		System.out.println(query);
-		try
-		 {
-			estado=cn.execute(query);
-		 }
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			cn.close();
-		}
-		return estado;
+		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            
+				preparedStatement.setBigDecimal(1, prestamo.getMonto());
+				preparedStatement.setBigDecimal(2, prestamo.getImporteCuota());
+				preparedStatement.setInt(3, prestamo.getPlazoPago());
+				preparedStatement.setFloat(5, prestamo.getTasaInteres());				
+				LocalDate fechaActual = LocalDate.now();
+				java.sql.Date sqlFechaActual = java.sql.Date.valueOf(fechaActual);
+				preparedStatement.setDate(6, sqlFechaActual);								
+				preparedStatement.setInt(8, prestamo.getCuenta().getIdCuenta());
+				preparedStatement.setInt(9, prestamo.getCliente().get_IDCliente());
+			
+
+	            filas = preparedStatement.executeUpdate();
+	       } catch (SQLException e) {
+	            e.printStackTrace();
+	       }
+
+	        return filas;
 	}
 
 	@Override
-	public boolean Editar(Prestamo prestamo) {
+	public int Editar(Prestamo prestamo) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override
-	public boolean Borrar(int id) {
+	public int Borrar(int id) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override
-	public boolean Aprobar(int id) {
+	public int Aprobar(int id) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 }

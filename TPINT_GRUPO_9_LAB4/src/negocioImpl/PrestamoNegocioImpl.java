@@ -2,11 +2,14 @@ package negocioImpl;
 
 import java.util.List;
 
+import daoImpl.PrestamoDAO;
+import dao.PrestamoDaoInterface;
 import entidad.Prestamo;
 import negocio.PrestamoNeg;
 
 public class PrestamoNegocioImpl implements PrestamoNeg {
-
+	private PrestamoDaoInterface pdao = new PrestamoDAO();
+	
 	@Override
 	public List<Prestamo> ObtenerTodos() {
 		// TODO Auto-generated method stub
@@ -20,27 +23,27 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	}
 
 	@Override
-	public boolean Insertar(Prestamo prestamo) {
+	public int Insertar(Prestamo prestamo) {
 		// TODO Auto-generated method stub
-		return false;
+		return pdao.Insertar(prestamo);
 	}
 
 	@Override
-	public boolean Editar(Prestamo prestamo) {
+	public int Editar(Prestamo prestamo) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override
-	public boolean Borrar(int id) {
+	public int Borrar(int id) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override
-	public boolean Aprobar(int id) {
+	public int Aprobar(int id) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 }

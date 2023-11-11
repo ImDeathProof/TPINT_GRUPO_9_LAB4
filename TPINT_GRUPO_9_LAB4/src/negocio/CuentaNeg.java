@@ -9,6 +9,8 @@ public interface CuentaNeg {
 	
 	public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario);
 	public ArrayList<Cuenta> obtenerTodasLasCuentas();
+	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario);
+	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario);
 	public int pedirCuenta (String tipoCuenta, int idCliente);
 	public int ValidarCuenta(int id);
     public int BloquearCuenta(int id);

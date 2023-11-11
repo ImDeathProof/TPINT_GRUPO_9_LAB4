@@ -62,6 +62,18 @@ public class CuentaNegImpl implements CuentaNeg {
 	public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) {
 		return clDao.transferirDinero(monto, userID, CBUCuentaDestinataria, tipoCuenta);
 	}
+
+	@Override
+	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
