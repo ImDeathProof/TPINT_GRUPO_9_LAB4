@@ -8,6 +8,7 @@ import entidad.Cuenta;
 public interface CuentaDaoInterface {
 	public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario);
 	public ArrayList<Cuenta> obtenerTodasLasCuentas();
+	public int cantidadCuentasPorUsuario (int idUsuario);
 	public int pedirCuenta (String tipoCuenta, int idCliente);
 	public int ValidarCuenta(int id);
     public int BloquearCuenta(int id);

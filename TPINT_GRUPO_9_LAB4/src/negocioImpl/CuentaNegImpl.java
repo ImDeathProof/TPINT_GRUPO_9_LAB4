@@ -17,6 +17,11 @@ public class CuentaNegImpl implements CuentaNeg {
 	public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario) {
 			return clDao.obtenerCuentasPorUsuario(idUsuario);
 	}
+	
+	@Override
+	public int cantidadCuentasPorUsuario(int idUsuario) {
+			return clDao.cantidadCuentasPorUsuario(idUsuario);
+	}
 
 	@Override
 	public ArrayList<Cuenta> obtenerTodasLasCuentas() {
