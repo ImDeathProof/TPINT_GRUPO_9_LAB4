@@ -16,5 +16,6 @@ public interface ClienteNeg {
 	public int CambiarPass(String password, int id );
 	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize);
 	public int getCantPaginas();
+	public Cliente BuscarClientePorID(int idCliente);
 
 }

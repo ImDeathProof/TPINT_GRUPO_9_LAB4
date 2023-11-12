@@ -9,9 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% if (session.getAttribute("usuarioAutenticado") == null) { 
-		response.sendRedirect("Inicio.jsp");
-	} else { 
+	<% if (session.getAttribute("usuarioAutenticado") != null) { 
 		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
 		if(cliente.is_Admin()){%>
 			<jsp:include page="NavbarAdmin.jsp"/>
@@ -29,13 +27,13 @@
 						<label for="text" id="lbl_monto">Monto solicitado:</label>
 						<div class="input-group p-2">
 						    <div class="input-group-text" id="btnGroupAddon">$</div>
-						    <input type="text" name="txtMonto" class="form-control" placeholder="0" aria-label="Input group example" aria-describedby="btnGroupAddon">
+						    <input type="text" name="txtMonto" class="form-control" required placeholder="0" aria-label="Input group example" aria-describedby="btnGroupAddon">
 						</div>
 						<label for="text" id="lbl_cuotas">Cantidad de cuotas:</label>
 						<div class="row">
 							<div class="p-2">
 								<div class="form-check form-check-inline col-1">
-								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1Cuota" value="1cuota">
+								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1Cuota" value="1cuota" required>
 								  <label class="form-check-label" for="1cuota">1 cuota</label>
 								</div>
 								<div class="form-check form-check-inline col-1">
@@ -61,20 +59,26 @@
 							</div>
 						</div>
 						<label for="text" id="lbl_monto">Cuenta:</label>
-						<select name=SelectCuentas id="filtroCuentas" class="form-control p-2">
+						<select name=SelectCuentas id="filtroCuentas" required class="form-control p-2">
 		                    <option value="ahorros">Caja de ahorro</option>
 		                    <option value="corrientes">Cuenta corriente</option>
 	                	</select>
 						<input type="submit" name="btnSolicitar" value="Solicitar Préstamo" class="btn btn-success m-2">
+
+							<!-- 
+							 <div id="mensajeExito" class="alert alert-success">El préstamo se cargó con éxito.</div>
+							 -->
+						
+
 					</div>
 				</form>
-				<!--SELECTOR DE CUOTAS-->
 			</div>
 		</div>
 		<div class="col-1"></div>
 	</div>
 	
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
-	<% } %>
+	<% }else{ 
+		response.sendRedirect("Inicio.jsp");}  %>
 </body>
 </html>

@@ -98,20 +98,16 @@ public class ServletPrestamos extends HttpServlet {
 			pr.setTasaInteres(0);//Por ahora es 0% para testear y despues se puede cambiar
 			
 			try {
-		    	
-			       int filas = negPr.Insertar(pr);		
-				   if(filas > 0) {
-			     		request.getSession().setAttribute("SolicitudPR", true);
-			     		RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+				int filas = negPr.Insertar(pr);		
+				if(filas > 0) {
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
 						dispatcher.forward(request, response);
-						
-				   }
+				}
 					            
-			    } catch (Exception e) {
-					e.printStackTrace();
-			    }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 
 }

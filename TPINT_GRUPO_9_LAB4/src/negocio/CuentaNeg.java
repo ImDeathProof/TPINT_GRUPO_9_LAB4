@@ -20,5 +20,5 @@ public interface CuentaNeg {
     public int getCantPaginas();
     public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta);
 	int cantidadCuentasPorUsuario(int idUsuario);
-
+	public Cuenta obtenerCuentaPorID(int idCuenta);
 }

@@ -301,5 +301,45 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    return cant;
 		}
+
+		@Override
+		public Cliente BuscarClientePorID(int idCliente) {
+			// TODO Auto-generated method stub
+			String checkQuery = "SELECT * FROM Usuario WHERE IDUsuario = ?";
+
+			 try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+			      PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
+			     checkStatement.setInt(1, idCliente);
+
+			     ResultSet resultSet = checkStatement.executeQuery();
+
+			     if (resultSet.next()) {
+			         Cliente usuarioEncontrado = new Cliente();
+			         usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
+			         usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
+			         usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
+			         usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
+			         usuarioEncontrado.set_Apellido(resultSet.getString("Apellido"));
+			         usuarioEncontrado.set_DNI(resultSet.getLong("DNI"));
+			         usuarioEncontrado.set_CUIL(resultSet.getLong("CUIL"));
+			         usuarioEncontrado.set_Sexo(resultSet.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+			         usuarioEncontrado.set_Nacionalidad(resultSet.getString("Nacionalidad"));
+			         usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
+			         usuarioEncontrado.set_Direccion(resultSet.getString("Direccion"));
+			         usuarioEncontrado.set_Localidad(resultSet.getString("Localidad"));
+			         usuarioEncontrado.set_Provincia(resultSet.getString("Provincia"));
+			         usuarioEncontrado.set_Email(resultSet.getString("Mail"));
+			         usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
+			         usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
+			         usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
+			         
+			         return usuarioEncontrado;
+			     }
+			 } catch (SQLException e) {
+			     e.printStackTrace();
+			 }
+
+			 return null;
+		}
 	 
 }

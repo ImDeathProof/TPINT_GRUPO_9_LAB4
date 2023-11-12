@@ -24,7 +24,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Gestión 2</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Gestión 3</a>
+                    <a class="nav-link active" aria-current="page" href="GestionPrestamos.jsp">Gestión Préstamos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="PanelDeControl.jsp">Panel de Control</a>

@@ -7,6 +7,7 @@ import entidad.Cuenta;
 
 public interface CuentaDaoInterface {
 	public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario);
+	public Cuenta obtenerCuentaPorID(int idCuenta);
 	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario);
 	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario);
 	public ArrayList<Cuenta> obtenerTodasLasCuentas();

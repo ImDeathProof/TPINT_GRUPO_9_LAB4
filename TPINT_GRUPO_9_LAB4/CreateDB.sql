@@ -42,7 +42,7 @@ MontoAprobado DECIMAL(10, 2),
 TasaInteres DECIMAL(5, 2),
 Fecha_Pedido DATETIME NOT NULL,
 EstadoPrestamo ENUM('Pendiente', 'Aprobado', 'Rechazado'),
-IDCuenta VARCHAR(20) UNIQUE NOT NULL,
+IDCuenta VARCHAR(20) NOT NULL,
 
 IDUsuario INT NOT NULL,
 FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario)

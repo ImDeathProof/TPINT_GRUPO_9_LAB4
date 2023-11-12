@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import daoImpl.PrestamoDAO;
@@ -13,13 +14,13 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	@Override
 	public List<Prestamo> ObtenerTodos() {
 		// TODO Auto-generated method stub
-		return null;
+		return pdao.ObtenerTodos();
 	}
 
 	@Override
 	public Prestamo ObtenerUno(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return pdao.ObtenerUno(id);
 	}
 
 	@Override
@@ -31,19 +32,37 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	@Override
 	public int Editar(Prestamo prestamo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return pdao.Editar(prestamo);
 	}
 
 	@Override
 	public int Borrar(int id) {
 		// TODO Auto-generated method stub
-		return 0;
+		return pdao.Borrar(id);
 	}
 
 	@Override
 	public int Aprobar(int id) {
 		// TODO Auto-generated method stub
-		return 0;
+		return pdao.Aprobar(id);
+	}
+
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) {
+		// TODO Auto-generated method stub
+		return pdao.obtenerPrestamosPaginados(pageNumber, pageSize);
+	}
+
+	@Override
+	public int getCantPaginas() {
+		// TODO Auto-generated method stub
+		return pdao.getCantPaginas();
+	}
+
+	@Override
+	public int Rechazar(int id) {
+		// TODO Auto-generated method stub
+		return pdao.Rechazar(id);
 	}
 
 }

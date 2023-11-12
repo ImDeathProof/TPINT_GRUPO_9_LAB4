@@ -56,6 +56,12 @@ public class ClienteNegImpl implements ClienteNeg {
 	public int getCantPaginas() {
 		return clDao.getCantPaginas();
 	}
+
+	@Override
+	public Cliente BuscarClientePorID(int idCliente) {
+		// TODO Auto-generated method stub
+		return clDao.BuscarClientePorID(idCliente);
+	}
 	
 	
 
