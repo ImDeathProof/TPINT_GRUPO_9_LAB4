@@ -34,8 +34,7 @@ public class ServletListarPrestamos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		String paginaElegida = request.getParameter("pagina");
         int numeroPagina = 1;
 
@@ -60,8 +59,6 @@ public class ServletListarPrestamos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 		
 		if(request.getParameter("btnListarPrestamos") != null) {
 			request.setAttribute("cantPags", negPr.getCantPaginas());

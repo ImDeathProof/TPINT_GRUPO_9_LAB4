@@ -16,15 +16,20 @@ import entidad.Cuenta;
 import entidad.Prestamo;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
+import negocio.MovimientoNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
+import negocioImpl.MovimientoNegImpl;
+import entidad.TipoMovimiento;
 
 public class PrestamoDAO implements PrestamoDaoInterface{
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
+    
+    MovimientoNeg cuNeg = new MovimientoNegImpl();
 	
 	public PrestamoDAO() {
 		try {
@@ -42,8 +47,44 @@ public class PrestamoDAO implements PrestamoDaoInterface{
 
 	@Override
 	public Prestamo ObtenerUno(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Prestamo prestamo = null;
+		
+	    try {
+	    	Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	        Statement st = cn.createStatement();
+
+	        String query = "SELECT * FROM Prestamos WHERE IDPrestamo = " + id;
+	        ResultSet rs = st.executeQuery(query);
+
+	        if (rs.next()) {
+	            prestamo = new Prestamo();
+
+	            CuentaNeg ctNeg = new CuentaNegImpl();
+	            int idCuenta = rs.getInt("IDCuenta");
+	            Cuenta ct = ctNeg.obtenerCuentaPorID(idCuenta);
+	            prestamo.setCuenta(ct);
+
+	            ClienteNeg clNeg = new ClienteNegImpl();
+	            Cliente cl = clNeg.BuscarClientePorID(ct.getIdUsuario());
+	            prestamo.setCliente(cl);
+	            prestamo.setFechaPedido(rs.getTimestamp("Fecha_Pedido").toLocalDateTime().toLocalDate());
+
+	            prestamo.setImporteCuota(rs.getBigDecimal("Importe_x_Cuota"));
+	            prestamo.setPlazoPago(rs.getInt("Plazo_Pago"));
+	            prestamo.setMontoAprobado(rs.getBigDecimal("MontoAprobado"));
+	            prestamo.setMonto(rs.getBigDecimal("MontoTotal"));
+	            prestamo.setTasaInteres(rs.getFloat("TasaInteres"));
+	            prestamo.setEstado(rs.getString("EstadoPrestamo"));
+	            prestamo.setId_Prestamo(rs.getInt("IDPrestamo"));
+	        }
+
+	        cn.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return prestamo;
+
 	}
 
 	@Override
@@ -87,6 +128,7 @@ public class PrestamoDAO implements PrestamoDaoInterface{
 
 	@Override
 	public int Aprobar(int id) {
+		Prestamo p = ObtenerUno(id);
 		String query = "UPDATE Prestamos SET EstadoPrestamo = 'Aprobado', MontoAprobado = MontoTotal WHERE IDPrestamo = ?;";
 		 int filas = 0;
 
@@ -95,6 +137,7 @@ public class PrestamoDAO implements PrestamoDaoInterface{
 	            preparedStatement.setInt(1, id);
 	            
 	            filas = preparedStatement.executeUpdate();
+	            cuNeg.insertMovimiento(p.getCuenta().getIdCuenta(),p.getMonto(), new TipoMovimiento(2));
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }

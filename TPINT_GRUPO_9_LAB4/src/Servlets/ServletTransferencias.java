@@ -50,7 +50,7 @@ public class ServletTransferencias extends HttpServlet {
 	      String tipoCuenta = request.getParameter("tipoCuenta");
 	      
 	      if (cuNeg.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
-	    	    request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo");
+	    	    request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo o el estado de tu cuenta");
 	    	}
 	      
 	      response.sendRedirect("Transferencias.jsp");

@@ -27,7 +27,10 @@
                     <a class="nav-link active" aria-current="page" href="GestionPrestamos.jsp">Gestión Préstamos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="PanelDeControl.jsp">Panel de Control</a>
+                    <a class="nav-link active" aria-current="page" href="PanelDeControl.jsp">Gestión Clientes/Cuentas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="MovimientosBanco.jsp">Movimientos en el Banco</a>
                 </li>
             </ul>
             </div>

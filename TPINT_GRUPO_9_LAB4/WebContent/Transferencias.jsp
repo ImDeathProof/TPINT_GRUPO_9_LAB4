@@ -43,6 +43,11 @@
 	                <input type="text" name="monto" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 	            </div>
            <button type="submit" class="btn btn-primary mt-2" name="btnFiltrar">Transferir</button>
+            <% if (session.getAttribute("errorTransfer") != null) { %>
+	        <div class="alert alert-danger">
+	             <%= (String)session.getAttribute("errorTransfer")%> 
+	        </div>
+	    	<% } %>	
        </form>
 	
 	

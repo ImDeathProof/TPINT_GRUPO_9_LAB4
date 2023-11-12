@@ -13,13 +13,20 @@ import java.util.Random;
 
 import dao.CuentaDaoInterface;
 import entidad.Cuenta;
+import entidad.TipoMovimiento;
+import negocio.CuentaNeg;
+import negocio.MovimientoNeg;
+import negocioImpl.CuentaNegImpl;
+import negocioImpl.MovimientoNegImpl;
 
 
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
+    
+    MovimientoNeg cuNeg = new MovimientoNegImpl();
 
     public CuentaDAO() {
         try {
@@ -249,7 +256,8 @@ public class CuentaDAO implements CuentaDaoInterface {
   	             preparedStatement.setInt(1, id);
   	            
   	            filas = preparedStatement.executeUpdate();
-  	            insertMovimiento(1, id);
+  	            
+  	            cuNeg.insertMovimiento(1, id);
   	            
   	        } catch (SQLException e) {
   	            e.printStackTrace();
@@ -258,61 +266,6 @@ public class CuentaDAO implements CuentaDaoInterface {
   	        
   	        return filas;
   	 } 
-    
-    public int insertMovimiento(int idTipo, int idCuenta)
-    {
-    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (10000, NOW(), 'Alta de cuenta', 1, ?, ?)";
-  		 int filas = 0;
-
-  	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-  	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-  	            preparedStatement.setInt(1, getUserFromCuenta(idCuenta));
-  	            preparedStatement.setInt(2, idCuenta);
-  	            
-  	            filas = preparedStatement.executeUpdate();
-  	        } catch (SQLException e) {
-  	            e.printStackTrace();
-  	        }
-  	        
-  	        return filas;
-    }
-    
-    public int insertMovimiento(int idCuenta,BigDecimal monto)
-    {
-    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (?, NOW(), 'Trasferencia', 4, ?, ?)";
-  		 int filas = 0;
-
-  	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-  	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-  	        	 preparedStatement.setBigDecimal(1, monto);
-  	             preparedStatement.setInt(2, getUserFromCuenta(idCuenta));
-  	             preparedStatement.setInt(3, idCuenta);
-  	            
-  	            filas = preparedStatement.executeUpdate();
-  	        } catch (SQLException e) {
-  	            e.printStackTrace();
-  	        }
-  	        
-  	        return filas;
-    }
-    
-    public int getUserFromCuenta(int idCuenta) {
-        String query = "SELECT IDUsuario AS user FROM Cuenta WHERE IDCuenta = ?;";
-
-        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-            preparedStatement.setInt(1, idCuenta);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                return resultSet.getInt("user");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return -1;
-    }
     
     public int getCuentaFromCBU(long CBU) {
         String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE CBU = ?;";
@@ -504,8 +457,8 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 			filasEmisora = CambiarSaldo(monto.negate(), getCBU(userID,tipoCuenta));
 	 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
 	 	        
-	 	        insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate());
-	 	        insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto);
+	 	       cuNeg.insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate(), new TipoMovimiento(4));
+	 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, new TipoMovimiento(4));
 	 		}
 	 		
 	 	    if (filasEmisora > 0 && filasDestinataria > 0) {
