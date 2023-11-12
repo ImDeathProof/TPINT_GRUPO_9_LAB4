@@ -71,13 +71,13 @@ public class CuentaNegImpl implements CuentaNeg {
 	@Override
 	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
 		// TODO Auto-generated method stub
-		return null;
+		return clDao.obtenerCuentaCorrientePorUsuario(idUsuario);
 	}
 
 	@Override
 	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
 		// TODO Auto-generated method stub
-		return null;
+		return clDao.obtenerCuentaAhorroPorUsuario(idUsuario);
 	}
 	
 	

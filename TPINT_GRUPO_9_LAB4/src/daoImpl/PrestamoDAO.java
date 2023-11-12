@@ -40,22 +40,20 @@ public class PrestamoDAO implements PrestamoDaoInterface{
 	@Override
 	public int Insertar(Prestamo prestamo) {
 		int filas = 0;
-		String query = "INSERT INTO prestamos "
-				+ "(MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres"
-				+ ", Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario)" +
-                "VALUES (?, ?, ?, 0, ?, ?, ?, 0, ?, ?)";
+		String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?)";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	            
 				preparedStatement.setBigDecimal(1, prestamo.getMonto());
 				preparedStatement.setBigDecimal(2, prestamo.getImporteCuota());
 				preparedStatement.setInt(3, prestamo.getPlazoPago());
-				preparedStatement.setFloat(5, prestamo.getTasaInteres());				
+				preparedStatement.setFloat(4, prestamo.getTasaInteres());				
 				LocalDate fechaActual = LocalDate.now();
 				java.sql.Date sqlFechaActual = java.sql.Date.valueOf(fechaActual);
-				preparedStatement.setDate(6, sqlFechaActual);								
-				preparedStatement.setInt(8, prestamo.getCuenta().getIdCuenta());
-				preparedStatement.setInt(9, prestamo.getCliente().get_IDCliente());
+				preparedStatement.setDate(5, sqlFechaActual);								
+				preparedStatement.setString(6, prestamo.getEstado());
+				preparedStatement.setInt(7, prestamo.getCuenta().getIdCuenta());
+				preparedStatement.setInt(8, prestamo.getCliente().get_IDCliente());
 			
 
 	            filas = preparedStatement.executeUpdate();

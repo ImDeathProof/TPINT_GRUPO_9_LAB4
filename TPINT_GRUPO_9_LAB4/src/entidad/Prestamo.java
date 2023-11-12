@@ -13,7 +13,7 @@ public class Prestamo {
 	private BigDecimal MontoAprobado;
 	private float TasaInteres;
 	private LocalDate FechaPedido;
-	private boolean Estado;
+	private String Estado;
 	private Cuenta Cuenta;
 	private Cliente Cliente;
 	
@@ -63,10 +63,10 @@ public class Prestamo {
 	public void setFechaPedido(LocalDate fechaPedido) {
 		FechaPedido = fechaPedido;
 	}
-	public boolean isEstado() {
+	public String getEstado() {
 		return Estado;
 	}
-	public void setEstado(boolean estado) {
+	public void setEstado(String estado) {
 		Estado = estado;
 	}
 	public Cuenta getCuenta() {

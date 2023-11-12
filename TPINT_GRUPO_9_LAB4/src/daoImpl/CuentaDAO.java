@@ -474,7 +474,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    return lista;
 	 	}
 	  
-	 	 public int getCantPaginas() {
+	 public int getCantPaginas() {
 	 		 
 	 		    int cant = 0;
 
@@ -491,10 +491,10 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 		    }
 
 	 		    return cant;
-	 		}
+	 }
 	 	 
 	 	
-	 	public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) {	   
+	 public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) {	   
 
 	 		int filasEmisora = -1;
 	 		int filasDestinataria = -1;
@@ -515,7 +515,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    }
 	 	}
 	 	
-	 	public long getCBU(int userID, String tipoCuenta) {
+	 public long getCBU(int userID, String tipoCuenta) {
 	 	    Long saldo = 0L;
 
 	 	    String query = "SELECT CBU FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
@@ -535,9 +535,9 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    }
 
 	 	    return saldo;
-	 	}
+	 }
 	 	
-	 	public BigDecimal getDineroxCuenta(long CBU) {
+	 public BigDecimal getDineroxCuenta(long CBU) {
 	 	    BigDecimal saldo = BigDecimal.ZERO;
 
 	 	    String query = "SELECT saldo FROM Cuenta WHERE CBU = ?;";
@@ -558,8 +558,8 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    return saldo;
 	 	}
 
-		@Override
-		public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
+	@Override
+	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
 			// TODO Auto-generated method stub
 			Cuenta cuenta = new Cuenta();
 			
@@ -588,8 +588,8 @@ public class CuentaDAO implements CuentaDaoInterface {
 			return cuenta;
 		}
 
-		@Override
-		public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
+	@Override
+	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
 			// TODO Auto-generated method stub
 			Cuenta cuenta = new Cuenta();
 			
@@ -616,13 +616,5 @@ public class CuentaDAO implements CuentaDaoInterface {
 	        }
 	        
 			return cuenta;
-		}
-
-	 	 
-	
-
-	 	 
-	 	 
-     
-    
+	}
 }

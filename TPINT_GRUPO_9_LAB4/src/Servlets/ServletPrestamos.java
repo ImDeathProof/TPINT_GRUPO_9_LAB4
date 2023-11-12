@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -59,46 +60,40 @@ public class ServletPrestamos extends HttpServlet {
 			Cuenta cuenta = new Cuenta();
 			Cliente cliente = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			
-			if ("ahorros".equals(request.getParameter("SelectCuentas"))) {
+			if ("ahorros".equals(request.getParameter("SelectCuentas")) && request.getParameter("SelectCuentas") != null) {
 				cuenta = cn.obtenerCuentaAhorroPorUsuario(cliente.get_IDCliente());
-			}else {
+			}else if(request.getParameter("SelectCuentas") != null){
 				cuenta = cn.obtenerCuentaCorrientePorUsuario(cliente.get_IDCliente());
 			}
 			String cuotas;
 			int cantCuotas = 0;
-			if(request.getParameter("inlineRadioOptions")!=null) {
+			if(request.getParameter("inlineRadioOptions") != null) {
 				cuotas = request.getParameter("inlineRadioOptions");
-				switch (cuotas) {
-				case "1cuota":
+				if(cuotas.equals("1cuota")) {
 					cantCuotas = 1;
-					break;
-				case "3cuotas":
+				}else if(cuotas.equals("3Cuotas")) {
 					cantCuotas = 3;
-					break;
-				case "6cuotas":
+				}else if(cuotas.equals("6Cuotas")) {
 					cantCuotas = 6;
-					break;
-				case "12cuotas":
+				}else if(cuotas.equals("12Cuotas")) {
 					cantCuotas = 12;
-					break;
-				case "24cuotas":
+				}else if(cuotas.equals("24Cuotas")) {
 					cantCuotas = 24;
-					break;
-				case "36cuotas":
+				}else if(cuotas.equals("36Cuotas")) {
 					cantCuotas = 36;
-					break;
 				}
 			}
 			
 			pr.setCliente(cliente);
 			pr.setCuenta(cuenta);
-			pr.setEstado(false);
+			pr.setEstado("Pendiente");
 			pr.setFechaPedido(LocalDate.now());
 			BigDecimal monto = new BigDecimal(request.getParameter("txtMonto"));
 			pr.setMonto(monto);
-			BigDecimal cuotasBD = new BigDecimal(cantCuotas);
-			BigDecimal importeCuota = monto.divide(cuotasBD);
-			pr.setImporteCuota(importeCuota);
+			if (cantCuotas != 0) {
+	            BigDecimal importeCuota = monto.divide(new BigDecimal(cantCuotas), RoundingMode.HALF_UP);
+	            pr.setImporteCuota(importeCuota);
+	        }
 			pr.setPlazoPago(30); //Por ahora es 30(dias) para testear y despues se peude cambiar
 			pr.setTasaInteres(0);//Por ahora es 0% para testear y despues se puede cambiar
 			
@@ -109,6 +104,7 @@ public class ServletPrestamos extends HttpServlet {
 			     		request.getSession().setAttribute("SolicitudPR", true);
 			     		RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
 						dispatcher.forward(request, response);
+						
 				   }
 					            
 			    } catch (Exception e) {

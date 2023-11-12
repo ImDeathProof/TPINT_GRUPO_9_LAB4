@@ -35,7 +35,7 @@
 						<div class="row">
 							<div class="p-2">
 								<div class="form-check form-check-inline col-1">
-								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1cuota" value="1cuota">
+								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="1Cuota" value="1cuota">
 								  <label class="form-check-label" for="1cuota">1 cuota</label>
 								</div>
 								<div class="form-check form-check-inline col-1">
