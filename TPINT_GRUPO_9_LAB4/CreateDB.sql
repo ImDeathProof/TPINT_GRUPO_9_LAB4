@@ -49,9 +49,12 @@ FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario)
 );
 
 CREATE TABLE Cuotas_x_Clientes (
-Monto_a_Pagar INT NOT NULL,
+IDCuota INT AUTO_INCREMENT PRIMARY KEY,
+Monto_a_Pagar DECIMAL(10, 2) NOT NULL,
 Estado ENUM('Pagado', 'No Pagado', 'Vencido'),
 Fecha_Pago DATETIME NOT NULL,
+Nro_Cuota INT NOT NULL,
+Cuotas_Totales INT NOT NULL,
 
 IDPrestamo INT NOT NULL,
 FOREIGN KEY (IDPrestamo) REFERENCES Prestamos(IDPrestamo),

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente extends Usuario {
+public class Cliente{
 
 	private int _IDCliente;
     private String _Usuario;

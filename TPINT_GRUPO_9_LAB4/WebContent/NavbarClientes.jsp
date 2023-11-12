@@ -1,7 +1,7 @@
 <%@page import="entidad.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<jsp:include page="Header.jsp" />
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,9 +23,16 @@
 	                <li class="nav-item">
 	                    <a class="nav-link active" aria-current="page" href="Transferencias.jsp">Transferencias</a>
 	                </li>
-	                <li class="nav-item">
-	                    <a class="nav-link active" aria-current="page" href="SolicitarPrestamo.jsp">Préstamos</a>
-	                </li>
+	               <li class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            Préstamos
+			          </a>
+			          <ul class="dropdown-menu">
+			            <li><a class="dropdown-item" href="SolicitarPrestamo.jsp">Solicitar Préstamo</a></li>
+			            <li><a class="dropdown-item" href="PrestamosAprobados.jsp">Préstamos Aprobados</a></li>
+			            <li><a class="dropdown-item" href="PagoDePrestamos.jsp">Pagar Préstamos</a></li>
+			          </ul>
+			        </li>     
 	            </ul>
 	            </div>
 	           <div>
