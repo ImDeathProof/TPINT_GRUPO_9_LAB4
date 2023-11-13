@@ -17,12 +17,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Gestión 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Gestión 2</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="GestionPrestamos.jsp">Gestión Préstamos</a>
                 </li>

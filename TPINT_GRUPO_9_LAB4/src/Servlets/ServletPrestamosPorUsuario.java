@@ -31,7 +31,7 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
         if (usuarioActivo != null) {
             ArrayList<Prestamo> prestamos = prestamoNeg.obtenerPrestamosPorUsuario(usuarioActivo.get_IDCliente());
 
-            request.setAttribute("listaPrestamos", prestamos); // Asegúrate del nombre correcto aquí
+            request.setAttribute("listaPrestamos", prestamos); 
 
             request.getRequestDispatcher("PrestamosAprobados.jsp").forward(request, response);
         } else {
