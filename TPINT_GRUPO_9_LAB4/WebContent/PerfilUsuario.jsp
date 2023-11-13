@@ -66,7 +66,7 @@
 						<label for="user" id="lbl_usuario">Nombre de usuario:</label>
 						<input type="text" name="txtUsuario" class="form-control" value="<%=cliente.get_Usuario()%>" required>
 						<label for="password" id="lbl_contraseña">Contraseña:</label>
-						<input type="text" name="txtContaseña" class="form-control" value="<%=cliente.get_Contrasena()%>" required>
+						<input type="password" name="txtContaseña" class="form-control" value="<%=cliente.get_Contrasena()%>" required>
 						<br>
 						<input type="submit" name="btnModificar" value="Modificar datos" class="btn btn-warning">
 					</div>
