@@ -41,19 +41,23 @@ public class ServletTransferencias extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		  int idUser = Integer.parseInt(request.getParameter("userID"));
-		  long CBU = Long.parseLong(request.getParameter("CBU"));
-		  String monto = request.getParameter("monto");
+	    int idUser = Integer.parseInt(request.getParameter("userID"));
+	    long CBU = Long.parseLong(request.getParameter("CBU"));
+	    String monto = request.getParameter("monto");
 	     
-		  BigDecimal saldoDecimal = new BigDecimal(monto);
-	      String tipoCuenta = request.getParameter("tipoCuenta");
-	      
-	      if (cuNeg.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
-	    	    request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo o el estado de tu cuenta");
-	    	}
-	      
-	      response.sendRedirect("Transferencias.jsp");
+	    BigDecimal saldoDecimal = new BigDecimal(monto);
+	    String tipoCuenta = request.getParameter("tipoCuenta");
+	    
+	    if (cuNeg.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
+	        // Si hay un error en la transferencia
+	        request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo o el estado de tu cuenta");
+	        response.sendRedirect("Transferencias.jsp");
+	    } else {
+	        // Si la transferencia es exitosa
+	        request.getSession().setAttribute("successTransfer", "Transferencia realizada exitósamente");
+	        response.sendRedirect("Transferencias.jsp");
+	    }
 	}
+
 
 }

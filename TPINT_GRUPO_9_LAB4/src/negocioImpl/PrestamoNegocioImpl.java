@@ -64,6 +64,11 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 		// TODO Auto-generated method stub
 		return pdao.Rechazar(id);
 	}
+	
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int get_IDCliente){
+		return pdao.obtenerPrestamosPorUsuario(get_IDCliente);
+	}
 
 }
 

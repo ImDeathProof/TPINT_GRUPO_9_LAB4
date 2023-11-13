@@ -31,9 +31,9 @@
 								<input class="btn btn-success m-2" type="submit" name="btnListarPrestamos" value="Ver mis Préstamos">
 						</form>
 						<%
-					     		ArrayList<Prestamo> listaPrestamos = null;
-					      		if(request.getAttribute("listaPrestamos")!=null){
-					      			listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");%>
+					     		ArrayList<Prestamo> lista = null;
+					      		if(request.getAttribute("lista")!=null){
+					      			lista = (ArrayList<Prestamo>) request.getAttribute("lista");%>
 					      			
 							   <table class="table">
 								    <thead>
@@ -47,8 +47,8 @@
 								        </tr>
 								    </thead>
 								    <tbody>
-								        <% if (listaPrestamos != null) {
-								            for (Prestamo pr : listaPrestamos) { %>
+								        <% if (lista != null) {
+								            for (Prestamo pr : lista) { %>
 								            <tr>
 								                <td><%= pr.getFechaPedido() %></td>
 								                <td><%= pr.getCliente().get_Usuario() %></td>

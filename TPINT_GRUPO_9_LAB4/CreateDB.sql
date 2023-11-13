@@ -82,3 +82,11 @@ FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario),
 IDCuenta INT NOT NULL,
 foreign key (IDCuenta) references Cuenta(IDCuenta)
 );
+
+ALTER TABLE Prestamos
+DROP INDEX IDCuenta;
+ALTER TABLE cuotas_x_clientes
+ADD COLUMN Nro_Cuota INT NOT NULL,
+ADD COLUMN Cuotas_Totales INT NOT NULL,
+ADD COLUMN IDCuota INT AUTO_INCREMENT PRIMARY KEY,
+MODIFY COLUMN Monto_a_Pagar DECIMAL(10, 2) NOT NULL;

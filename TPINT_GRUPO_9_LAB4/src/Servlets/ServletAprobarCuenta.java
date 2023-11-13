@@ -23,14 +23,14 @@ import negocioImpl.CuentaNegImpl;
  * Servlet implementation class ServletAprovarCuenta
  */
 @WebServlet("/ServletAprovarCuenta")
-public class ServletAprovarCuenta extends HttpServlet {
+public class ServletAprobarCuenta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CuentaNeg cuNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAprovarCuenta() {
+    public ServletAprobarCuenta() {
         super();
         // TODO Auto-generated constructor stub
     }
