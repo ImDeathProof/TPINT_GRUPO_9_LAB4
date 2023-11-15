@@ -66,8 +66,14 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	}
 	
 	@Override
-	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int get_IDCliente){
-		return pdao.obtenerPrestamosPorUsuario(get_IDCliente);
+	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente){
+		return pdao.obtenerPrestamosPorUsuario(IDCliente);
+	}
+
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente) {
+		// TODO Auto-generated method stub
+		return pdao.obtenerPrestamosAprobadosPorUsuario(IDCliente);
 	}
 
 }

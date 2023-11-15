@@ -31,19 +31,16 @@
 								<input class="btn btn-success m-2" type="submit" name="btnListarPrestamos" value="Ver mis Préstamos">
 						</form>
 						<%
-					     		ArrayList<Prestamo> lista = null;
-					      		if(request.getAttribute("lista")!=null){
-					      			lista = (ArrayList<Prestamo>) request.getAttribute("lista");%>
+					     		ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+					      		if(request.getAttribute("listaPrestamos")!=null){
+					      			lista = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");%>
 					      			
 							   <table class="table">
 								    <thead>
 								        <tr>
 								            <th scope="col">Fecha</th>
-								            <th scope="col">Usuario</th>
 								            <th scope="col">Monto Solicitado</th>
 								            <th scope="col">Monto Aprobado</th>
-								            <th scope="col">Estado</th>
-								            <th scope="col">Acción</th>
 								        </tr>
 								    </thead>
 								    <tbody>
@@ -51,41 +48,15 @@
 								            for (Prestamo pr : lista) { %>
 								            <tr>
 								                <td><%= pr.getFechaPedido() %></td>
-								                <td><%= pr.getCliente().get_Usuario() %></td>
 								                <td><%= pr.getMonto() %></td>
 								                <td><%= pr.getMontoAprobado() %></td>
-	
-								                <td><%= pr.getEstado() %></td>
-								                <td>
-								                    <form action="ServletGestionarPrestamos" method="post">
-								                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
-								                        <% if (pr.getEstado().equalsIgnoreCase("Pendiente")) { %>
-								                            <input type="submit" name="submitValue" value="Aprobar" class="btn btn-success">
-								                            <input type="submit" name="submitValue" value="Rechazar" class="btn btn-danger">
-								                        <% } else { %>
-								                        	<label>Sin Acciones</label>
-								                        <% } %>
-								                    </form>
-								                </td>
 								            </tr>
 								            <% } } %>
 								    </tbody>
 								</table>
-								<form method="get" action="ServletPrestamosPorUsuario">
-							    <%
-							    int cantPags = (int)request.getAttribute("cantPags");
-							    if (cantPags != 0) {
-							        for (int i = 1; i <= cantPags; i++) {
-							    %>
-							        <button class="btn btn-primary" type="submit" name="pagina" value="<%= i %>">
-							            Página <%= i %>
-							        </button>
-							    <%
-							        } 
-							    }
-							    %>
-							</form>
-							<% } %>
+								
+							
+							<%} %>
 					</div>
 					<div class="col-1"></div>
 			</div>

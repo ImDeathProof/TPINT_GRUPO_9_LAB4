@@ -233,25 +233,25 @@
 		}
 		
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int idUsuario){
-			  ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente){
+			  	ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ?";
 
 		        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		             PreparedStatement prestamoStatement = cn.prepareStatement(prestamoQuery)) {
-		            prestamoStatement.setInt(1, idUsuario);
+		            prestamoStatement.setInt(1, IDCliente);
 		            ResultSet prestamosResultSet = prestamoStatement.executeQuery();
 
 		            while (prestamosResultSet.next()) {
 		                Prestamo prestamo = new Prestamo();
 		                prestamo.setId_Prestamo(prestamosResultSet.getInt("IDPrestamo"));
-		                prestamo.setMonto(prestamosResultSet.getBigDecimal("Monto"));
-		                prestamo.setImporteCuota(prestamosResultSet.getBigDecimal("ImporteCuota"));
-		                prestamo.setPlazoPago(prestamosResultSet.getInt("PlazoPago"));
+		                prestamo.setMonto(prestamosResultSet.getBigDecimal("MontoTotal"));
+		                prestamo.setImporteCuota(prestamosResultSet.getBigDecimal("Importe_x_Cuota"));
+		                prestamo.setPlazoPago(prestamosResultSet.getInt("Plazo_Pago"));
 		                prestamo.setMontoAprobado(prestamosResultSet.getBigDecimal("MontoAprobado"));
 		                prestamo.setTasaInteres(prestamosResultSet.getFloat("TasaInteres"));
-		                prestamo.setFechaPedido(prestamosResultSet.getDate("FechaPedido").toLocalDate());
-		                prestamo.setEstado(prestamosResultSet.getString("Estado"));
+		                prestamo.setFechaPedido(prestamosResultSet.getDate("Fecha_Pedido").toLocalDate());
+		                prestamo.setEstado(prestamosResultSet.getString("EstadoPrestamo"));
 		                
 		                
 
@@ -266,6 +266,43 @@
 		            e.printStackTrace();
 		        }
 		        return lista;
+		}
+
+		@Override
+		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente) {
+			// TODO Auto-generated method stub
+			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
+	        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ? AND EstadoPrestamo = 'Aprobado'";
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement prestamoStatement = cn.prepareStatement(prestamoQuery)) {
+	            prestamoStatement.setInt(1, IDCliente);
+	            ResultSet prestamosResultSet = prestamoStatement.executeQuery();
+
+	            while (prestamosResultSet.next()) {
+	                Prestamo prestamo = new Prestamo();
+	                prestamo.setId_Prestamo(prestamosResultSet.getInt("IDPrestamo"));
+	                prestamo.setMonto(prestamosResultSet.getBigDecimal("MontoTotal"));
+	                prestamo.setImporteCuota(prestamosResultSet.getBigDecimal("Importe_x_Cuota"));
+	                prestamo.setPlazoPago(prestamosResultSet.getInt("Plazo_Pago"));
+	                prestamo.setMontoAprobado(prestamosResultSet.getBigDecimal("MontoAprobado"));
+	                prestamo.setTasaInteres(prestamosResultSet.getFloat("TasaInteres"));
+	                prestamo.setFechaPedido(prestamosResultSet.getDate("Fecha_Pedido").toLocalDate());
+	                prestamo.setEstado(prestamosResultSet.getString("EstadoPrestamo"));
+	                
+	                
+
+	                lista.add(prestamo);
+	            }
+	            if (lista.isEmpty()) {
+	                Prestamo prestamoVacio = new Prestamo();
+	                prestamoVacio.setEstado("No posee préstamos aprobados, consulte con el banco, o bien, solicite un préstamo en la pestaña correspondiente");
+	                lista.add(prestamoVacio);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return lista;
 		}
 		
 		

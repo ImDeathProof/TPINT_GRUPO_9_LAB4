@@ -21,6 +21,7 @@ public interface PrestamoDaoInterface {
 	public int Rechazar(int id);
 	public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize);
 	public int getCantPaginas();
-	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int get_IDCliente);
+	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente);
+	public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente);
 	
 }
