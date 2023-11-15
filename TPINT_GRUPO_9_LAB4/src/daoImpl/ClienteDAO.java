@@ -15,7 +15,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public ClienteDAO() {
@@ -61,10 +61,11 @@ public class ClienteDAO implements ClienteDaoInterface {
 	 
 	 public Cliente BuscarUsuario(Cliente cliente) throws SQLException {
 	
-		 String username = cliente.get_Usuario();
+		 String username = cliente.get_Usuario().trim();
 		 String password = cliente.get_Contrasena();
 
-		 String checkQuery = "SELECT * FROM Usuario WHERE Username = ? AND Pass = ?";
+		 String checkQuery = "SELECT * FROM Usuario WHERE BINARY Username = ? AND BINARY Pass = ?";
+
 
 		 try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		      PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
@@ -127,8 +128,8 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            preparedStatement.setString(13, cliente.get_Email());
 	            preparedStatement.setLong(14, cliente.get_Telefono());
 	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
-	            preparedStatement.setInt(16, cliente.get_IDCliente());
-	            preparedStatement.setInt(17, cliente.isBloqueado() ? 1 : 0);
+	            preparedStatement.setInt(16, cliente.isBloqueado() ? 1 : 0);
+	            preparedStatement.setInt(17, cliente.get_IDCliente());
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
@@ -138,6 +139,25 @@ public class ClienteDAO implements ClienteDaoInterface {
 	        return filas;
 	 
 	 }
+	 
+	 public boolean usuarioExistente(String username, int idUsuario) throws SQLException {
+		    String query = "SELECT COUNT(*) FROM Usuario WHERE Username = ? AND IDUsuario <> ?";
+		    int count = 0;
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+		        preparedStatement.setString(1, username);
+		        preparedStatement.setInt(2, idUsuario);
+		        ResultSet resultSet = preparedStatement.executeQuery();
+		        if (resultSet.next()) {
+		            count = resultSet.getInt(1);
+		        }
+		    }
+
+		    return count > 0;
+		}
+	 
+	 
 	 public ArrayList<Cliente> obtenerUsuarios(){
 		 try {
 			 Class.forName("com.mysql.cj.jdbc.Driver");

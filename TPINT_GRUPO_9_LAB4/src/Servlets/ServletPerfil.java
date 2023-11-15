@@ -51,6 +51,8 @@ public class ServletPerfil extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnModificar")!=null) {
+					request.getSession().removeAttribute("usuarioModificado");
+					request.getSession().removeAttribute("errorModificarUser");
 			
 					Cliente cliente = new Cliente();
 					HttpSession session = request.getSession();
@@ -80,8 +82,15 @@ public class ServletPerfil extends HttpServlet {
 			
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
 				    try {
-				    	
-						int filas = clNeg.modificarUsuario(cliente);
+				    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
+				    	{
+				    		clNeg.modificarUsuario(cliente);			
+				    		request.getSession().setAttribute("usuarioModificado", "El usuario fue modificado correctamente!");
+				    	}
+				    	else
+				    	{
+				    		request.getSession().setAttribute("errorModificarUser", "El usuario ya existe.");
+				    	}
 				            
 					} catch (SQLException e) {
 						e.printStackTrace();

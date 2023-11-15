@@ -62,6 +62,11 @@ public class ClienteNegImpl implements ClienteNeg {
 		// TODO Auto-generated method stub
 		return clDao.BuscarClientePorID(idCliente);
 	}
+
+	@Override
+	public boolean usuarioExistente(String username, int idUsuario) throws SQLException {
+		return clDao.usuarioExistente(username, idUsuario);
+	}
 	
 	
 

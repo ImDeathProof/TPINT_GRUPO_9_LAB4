@@ -27,7 +27,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public MovimientoDAO() {
@@ -208,7 +208,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 			// TODO Auto-generated method stub
 			int cant = 0;
 
-		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Prestamos;";
+		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento;";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         Statement st = cn.createStatement();
