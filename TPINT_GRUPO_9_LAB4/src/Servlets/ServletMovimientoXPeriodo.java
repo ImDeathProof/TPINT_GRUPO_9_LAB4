@@ -52,14 +52,14 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
         }
         
         HttpSession session = request.getSession();
-        LocalDate fechaInicio = (LocalDate) session.getAttribute("fechaInicio");
-        LocalDate fechaFin = (LocalDate) session.getAttribute("fechaFin");
-        String orderBy = (String) session.getAttribute("orderBy");
+        LocalDate fechaInicio = (LocalDate) session.getAttribute("fechaInicioInforme");
+        LocalDate fechaFin = (LocalDate) session.getAttribute("fechaFinInforme");
+        String orderBy = (String) session.getAttribute("orderByInforme");
 
         ArrayList<Movimiento> lista = movNeg.obtenerInformePaginado(numeroPagina, 5, fechaInicio, fechaFin, orderBy);
         request.setAttribute("listaMovimientosPeriodo", lista);
         
-        request.setAttribute("cantPags", movNeg.getCantPaginas());
+        request.setAttribute("cantPagsInforme", movNeg.getCantPaginas());
 
         RequestDispatcher rd = request.getRequestDispatcher("MovimientosBanco.jsp");
         rd.forward(request, response);
@@ -87,7 +87,6 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 		
 		 RequestDispatcher rd = request.getRequestDispatcher("/MovimientosBanco.jsp");
 		 rd.forward(request, response);
-		 
 		 
 	}
 

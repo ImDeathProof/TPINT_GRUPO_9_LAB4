@@ -75,6 +75,16 @@
 			<div class="col-1">
 			</div>
 	</div>
+	 <% if (session.getAttribute("errorModificarUser") != null) { %>
+	         <div class="alert alert-danger">
+	              <%= (String)session.getAttribute("errorModificarUser")%> 
+	         </div>
+	     	<% } else if (session.getAttribute("usuarioModificado") != null)
+	     		{%>
+	     	 <div class="alert alert-success">
+	              <%= (String)session.getAttribute("usuarioModificado")%> 
+	         </div>
+	     		<%} %>
 	</form>
 	<% } %>
 	
