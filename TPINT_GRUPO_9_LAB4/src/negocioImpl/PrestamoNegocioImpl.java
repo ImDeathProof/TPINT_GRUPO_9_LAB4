@@ -76,5 +76,11 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 		return pdao.obtenerPrestamosAprobadosPorUsuario(IDCliente);
 	}
 
+	@Override
+	public int generarcuotas(Prestamo prestamo) {
+		// TODO Auto-generated method stub
+		return pdao.generarcuotas(prestamo);
+	}
+
 }
 

@@ -17,4 +17,5 @@ public interface PrestamoNeg {
 	public int getCantPaginas();
 	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente);
 	public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente);
+	public int generarcuotas(Prestamo prestamo);
 }

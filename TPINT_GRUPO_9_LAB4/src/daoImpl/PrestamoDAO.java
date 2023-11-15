@@ -304,11 +304,11 @@
 	        }
 	        return lista;
 		}
-		
-		
-		
-		
-		
 
+		@Override
+		public int generarcuotas(Prestamo prestamo) {
+			int filas = 0;
+			return filas;
+		}
 	}
 	
