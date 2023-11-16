@@ -37,6 +37,7 @@
 							            <th scope="col">Monto Solicitado</th>
 							            <th scope="col">Monto Aprobado</th>
 							            <th scope="col">Estado</th>
+							            <th scope="col">Cantidad de cuotas</th>
 							            <th scope="col">Acción</th>
 							        </tr>
 							    </thead>
@@ -48,7 +49,7 @@
 							                <td><%= pr.getCliente().get_Usuario() %></td>
 							                <td><%= pr.getMonto() %></td>
 							                <td><%= pr.getMontoAprobado() %></td>
-
+							                <td><%= pr.getCantidadCuotas() %></td>
 							                <td><%= pr.getEstado() %></td>
 							                <td>
 							                    <form action="ServletGestionarPrestamos" method="post">

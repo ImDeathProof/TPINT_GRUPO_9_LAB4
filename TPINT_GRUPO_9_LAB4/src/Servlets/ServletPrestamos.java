@@ -104,7 +104,8 @@ public class ServletPrestamos extends HttpServlet {
 			try {
 				int filas = negPr.Insertar(pr);		
 				if(filas > 0) {
-					try {
+					
+					/*try { //ESTO ES PARA CARGAR LAS CUOTAS
 						int ultimo = negPr.obtenerUltimoID();
 						CuotaNeg negCt = new CuotaNegImpl();
 						for(int i = 0; i< cantCuotas ; i++) {
@@ -114,7 +115,7 @@ public class ServletPrestamos extends HttpServlet {
 					}
 					catch (Exception e) {
 						e.printStackTrace();
-					}
+					}*/
 					
 					request.getSession().setAttribute("PrestamoExitoso", "El préstamo fue solicitado con exito!");	
 				}else {

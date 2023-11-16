@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Cuota;
+import entidad.Prestamo;
+import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
+import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 
 /**
@@ -49,7 +53,18 @@ public class ServletGestionarPrestamos extends HttpServlet {
 						String buttonValue = request.getParameter("submitValue");
 
 						if (buttonValue.equals("Aprobar")) {		
-							negPr.Aprobar(prID);			
+							negPr.Aprobar(prID);
+							try { //ESTO ES PARA CARGAR LAS CUOTAS
+								CuotaNeg negCt = new CuotaNegImpl();
+								Prestamo pr = negPr.ObtenerUno(prID);
+								for(int i = 0; i< pr.getCantidadCuotas() ; i++) {
+									Cuota ct = negCt.generarCuota(pr, prID, i+1);	
+									negCt.Agregar(ct);
+								} 
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+							}
 					    } else if (buttonValue.equals("Rechazar")) {
 					    	negPr.Rechazar(prID);
 					    }

@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -45,14 +46,19 @@ public class ServletListarPrestamos extends HttpServlet {
             	  throw e;
             }
         }
-
-        ArrayList<Prestamo> lista = negPr.obtenerPrestamosPaginados(numeroPagina, 5);
-        request.setAttribute("listaPrestamos", lista);
-        
-        request.setAttribute("cantPags", negPr.getCantPaginas());
-
-        RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
-        rd.forward(request, response);
+        try {
+	        ArrayList<Prestamo> lista = negPr.obtenerPrestamosPaginados(numeroPagina, 5);
+	        request.setAttribute("listaPrestamos", lista);
+	        
+	        request.setAttribute("cantPags", negPr.getCantPaginas());
+        }catch(SQLException e) {
+ 	        e.printStackTrace();
+		}catch(Exception ex) {
+ 	        ex.printStackTrace();
+		}finally {
+	        RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
+	        rd.forward(request, response);
+		}
 	}
 
 	/**
@@ -61,14 +67,20 @@ public class ServletListarPrestamos extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnListarPrestamos") != null) {
-			request.setAttribute("cantPags", negPr.getCantPaginas());
-			
-			ArrayList<Prestamo> lista = (ArrayList<Prestamo>)negPr.obtenerPrestamosPaginados(1, 5);
-			
-			request.setAttribute("listaPrestamos", lista);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
-			rd.forward(request, response);
+			try {
+				request.setAttribute("cantPags", negPr.getCantPaginas());
+				
+				ArrayList<Prestamo> lista = (ArrayList<Prestamo>)negPr.obtenerPrestamosPaginados(1, 5);
+				
+				request.setAttribute("listaPrestamos", lista);
+			}catch(SQLException e) {
+	 	        e.printStackTrace();
+    		}catch(Exception ex) {
+	 	        ex.printStackTrace();
+    		}finally {
+				RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
+				rd.forward(request, response);
+    		}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,72 +16,72 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	private CuotaDaoInterface cdao = new CuotaDAO();
 	
 	@Override
-	public List<Prestamo> ObtenerTodos() {
+	public List<Prestamo> ObtenerTodos()  throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.ObtenerTodos();
 	}
 
 	@Override
-	public Prestamo ObtenerUno(int id) {
+	public Prestamo ObtenerUno(int id) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.ObtenerUno(id);
 	}
 
 	@Override
-	public int Insertar(Prestamo prestamo) {
+	public int Insertar(Prestamo prestamo) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.Insertar(prestamo);
 	}
 
 	@Override
-	public int Editar(Prestamo prestamo) {
+	public int Editar(Prestamo prestamo) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.Editar(prestamo);
 	}
 
 	@Override
-	public int Borrar(int id) {
+	public int Borrar(int id) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.Borrar(id);
 	}
 
 	@Override
-	public int Aprobar(int id) {
+	public int Aprobar(int id) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.Aprobar(id);
 	}
 
 	@Override
-	public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) {
+	public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.obtenerPrestamosPaginados(pageNumber, pageSize);
 	}
 
 	@Override
-	public int getCantPaginas() {
+	public int getCantPaginas() throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.getCantPaginas();
 	}
 
 	@Override
-	public int Rechazar(int id) {
+	public int Rechazar(int id) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.Rechazar(id);
 	}
 	
 	@Override
-	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente){
+	public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws SQLException{
 		return pdao.obtenerPrestamosPorUsuario(IDCliente);
 	}
 
 	@Override
-	public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente) {
+	public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente) throws SQLException{
 		// TODO Auto-generated method stub
 		return pdao.obtenerPrestamosAprobadosPorUsuario(IDCliente);
 	}
 
 	@Override
-	public int obtenerUltimoID() {
+	public int obtenerUltimoID() throws SQLException{
 		return pdao.obtenerUltimoID();
 	}
 

@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -37,16 +38,23 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
     	if(request.getParameter("btnListarPrestamos")!=null) {
     		Cliente usuarioActivo = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
     		
-    		if (usuarioActivo != null) {
-    			ArrayList<Prestamo> prestamos = prestamoNeg.obtenerPrestamosAprobadosPorUsuario(usuarioActivo.get_IDCliente());
-    			if(!(prestamos.isEmpty())) {
-    				request.setAttribute("listaPrestamos", prestamos); 
-    			}
-    			else {
-    				request.setAttribute("errorCarga", true);
-    			}
+    		try {
+	    		if (usuarioActivo != null) {
+	    			ArrayList<Prestamo> prestamos = prestamoNeg.obtenerPrestamosAprobadosPorUsuario(usuarioActivo.get_IDCliente());
+	    			if(!(prestamos.isEmpty())) {
+	    				request.setAttribute("listaPrestamos", prestamos); 
+	    			}
+	    			else {
+	    				request.setAttribute("errorCarga", true);
+	    			}
+	    		}
+    		}catch(SQLException e) {
+	 	        e.printStackTrace();
+    		}catch(Exception ex) {
+	 	        ex.printStackTrace();
+    		}finally {
+    			request.getRequestDispatcher("PrestamosAprobados.jsp").forward(request, response);    			
     		}
-    		request.getRequestDispatcher("PrestamosAprobados.jsp").forward(request, response);
     	}
     	
     }

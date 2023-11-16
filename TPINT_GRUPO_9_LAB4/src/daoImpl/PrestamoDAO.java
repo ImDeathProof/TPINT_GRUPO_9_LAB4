@@ -27,12 +27,12 @@
 		
 		private String host = "jdbc:mysql://127.0.0.1:3306/";
 	    private String user = "root";
-	    private String pass = "tobias01032004";
+	    private String pass = "root";
 	    private String dbName = "bancodb";
 	    
 	    MovimientoNeg cuNeg = new MovimientoNegImpl();
 		
-		public PrestamoDAO() {
+		public PrestamoDAO(){
 			try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	        } catch (ClassNotFoundException e) {
@@ -41,13 +41,13 @@
 		}
 		
 		@Override
-		public List<Prestamo> ObtenerTodos() {
+		public List<Prestamo> ObtenerTodos() throws SQLException{
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public Prestamo ObtenerUno(int id) {
+		public Prestamo ObtenerUno(int id) throws SQLException{
 			
 			Prestamo prestamo = null;
 			
@@ -90,7 +90,7 @@
 		}
 
 		@Override
-		public int Insertar(Prestamo prestamo) {
+		public int Insertar(Prestamo prestamo) throws SQLException{
 			int filas = 0;
 			String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario, Cant_Cuotas) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?)";
 			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -118,19 +118,19 @@
 		}
 
 		@Override
-		public int Editar(Prestamo prestamo) {
+		public int Editar(Prestamo prestamo) throws SQLException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Borrar(int id) {
+		public int Borrar(int id) throws SQLException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Aprobar(int id) {
+		public int Aprobar(int id) throws SQLException{
 			Prestamo p = ObtenerUno(id);
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Aprobado', MontoAprobado = MontoTotal WHERE IDPrestamo = ?;";
 			 int filas = 0;
@@ -149,7 +149,7 @@
 		}
 
 		@Override
-		public int Rechazar(int id) {
+		public int Rechazar(int id) throws SQLException{
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Rechazado' WHERE IDPrestamo = ?;";
 			int filas = 0;
 
@@ -166,7 +166,7 @@
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) {
+		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws SQLException{
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	 	    Connection cn = null;
@@ -216,7 +216,7 @@
 		
 
 		@Override
-		public int getCantPaginas() {
+		public int getCantPaginas() throws SQLException{
 			// TODO Auto-generated method stub
 			int cant = 0;
 
@@ -236,7 +236,7 @@
 		}
 		
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente){
+		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws SQLException{
 			  	ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ?";
 
@@ -273,7 +273,7 @@
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente) {
+		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente)throws SQLException {
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ? AND EstadoPrestamo = 'Aprobado'";
@@ -311,7 +311,7 @@
 		}
 
 		@Override
-		public int obtenerUltimoID() {
+		public int obtenerUltimoID() throws SQLException{
 			String query = "SELECT IDPrestamo as UltimoID " + 
 					"FROM prestamos " + 
 					"ORDER BY IDPrestamo DESC " + 
