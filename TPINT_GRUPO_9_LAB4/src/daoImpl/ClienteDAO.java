@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 import dao.ClienteDaoInterface;
 import entidad.Cliente;
+import entidad.Direccion;
+import entidad.Localidad;
+import entidad.Provincia;
+import entidad.TipoMovimiento;
 
 public class ClienteDAO implements ClienteDaoInterface {
 	
@@ -27,11 +31,11 @@ public class ClienteDAO implements ClienteDaoInterface {
  }
 	
 	 public Cliente agregarUsuario(Cliente cliente) throws SQLException {
-	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin,Bloqueado) " +
+	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin,Bloqueado) " +
 	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	            preparedStatement.setString(1, cliente.get_Usuario());
 	            preparedStatement.setString(2, cliente.get_Contrasena());
 	            preparedStatement.setString(3, cliente.get_Nombre());
@@ -44,12 +48,10 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(cliente.get_FechaNacimiento());
 	            preparedStatement.setDate(9, sqlFechaNacimiento);
 	            
-	            preparedStatement.setString(10, cliente.get_Direccion().toString());
-	            preparedStatement.setString(11, cliente.get_Localidad());
-	            preparedStatement.setString(12, cliente.get_Provincia());
-	            preparedStatement.setString(13, cliente.get_Email());
-	            preparedStatement.setLong(14, cliente.get_Telefono());
-	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
+	            preparedStatement.setInt(10, cliente.get_Direccion().getId());
+	            preparedStatement.setString(11, cliente.get_Email());
+	            preparedStatement.setLong(12, cliente.get_Telefono());
+	            preparedStatement.setInt(13, cliente.is_Admin() ? 1 : 0);
 
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
@@ -60,85 +62,153 @@ public class ClienteDAO implements ClienteDaoInterface {
 	    }
 	 
 	 public Cliente BuscarUsuario(Cliente cliente) throws SQLException {
-	
-		 String username = cliente.get_Usuario().trim();
-		 String password = cliente.get_Contrasena();
 
-		 String checkQuery = "SELECT * FROM Usuario WHERE BINARY Username = ? AND BINARY Pass = ?";
+		    String username = cliente.get_Usuario().trim();
+		    String password = cliente.get_Contrasena();
 
+		    String checkQuery = "SELECT * FROM Usuario WHERE BINARY Username = ? AND BINARY Pass = ?";
 
-		 try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-		      PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
-		     checkStatement.setString(1, username);
-		     checkStatement.setString(2, password);
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
+		        checkStatement.setString(1, username);
+		        checkStatement.setString(2, password);
 
-		     ResultSet resultSet = checkStatement.executeQuery();
+		        ResultSet resultSet = checkStatement.executeQuery();
 
-		     if (resultSet.next()) {
-		         Cliente usuarioEncontrado = new Cliente();
-		         usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
-		         usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
-		         usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
-		         usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
-		         usuarioEncontrado.set_Apellido(resultSet.getString("Apellido"));
-		         usuarioEncontrado.set_DNI(resultSet.getLong("DNI"));
-		         usuarioEncontrado.set_CUIL(resultSet.getLong("CUIL"));
-		         usuarioEncontrado.set_Sexo(resultSet.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
-		         usuarioEncontrado.set_Nacionalidad(resultSet.getString("Nacionalidad"));
-		         usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
-		         usuarioEncontrado.set_Direccion(resultSet.getString("Direccion"));
-		         usuarioEncontrado.set_Localidad(resultSet.getString("Localidad"));
-		         usuarioEncontrado.set_Provincia(resultSet.getString("Provincia"));
-		         usuarioEncontrado.set_Email(resultSet.getString("Mail"));
-		         usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
-		         usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
-		         usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
-		         
-		         return usuarioEncontrado;
-		     }
-		 } catch (SQLException e) {
-		     e.printStackTrace();
-		 }
+		        if (resultSet.next()) {
+		            Cliente usuarioEncontrado = new Cliente();
+		            usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
+		            usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
+		            usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
+		            usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
+		            usuarioEncontrado.set_Apellido(resultSet.getString("Apellido"));
+		            usuarioEncontrado.set_DNI(resultSet.getLong("DNI"));
+		            usuarioEncontrado.set_CUIL(resultSet.getLong("CUIL"));
+		            usuarioEncontrado.set_Sexo(resultSet.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+		            usuarioEncontrado.set_Nacionalidad(resultSet.getString("Nacionalidad"));
+		            usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
 
-		 return null;
-		 
-	 }
+		            int idDireccion = resultSet.getInt("IDDireccion");
+		            Direccion direc = obtenerDireccionPorID(idDireccion); 
+		            usuarioEncontrado.set_Direccion(direc);
+
+		            usuarioEncontrado.set_Email(resultSet.getString("Mail"));
+		            usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
+		            usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
+		            usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
+
+		            return usuarioEncontrado;
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return null;
+		}
 	 
-	 public int modificarUsuario(Cliente cliente) throws SQLException {
-		 String query = "UPDATE Usuario SET Username = ?,Pass = ?,Nombre = ?,Apellido = ?,DNI = ?,CUIL = ?,Sexo = ?,Nacionalidad = ?,FechaNacimiento = ?,Direccion = ?,Localidad = ?,Provincia = ?,Mail = ?,Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?;";
-		 int filas = 0;
-
-	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-	            preparedStatement.setString(1, cliente.get_Usuario());
-	            preparedStatement.setString(2, cliente.get_Contrasena());
-	            preparedStatement.setString(3, cliente.get_Nombre());
-	            preparedStatement.setString(4, cliente.get_Apellido());
-	            preparedStatement.setLong(5, cliente.get_DNI());
-	            preparedStatement.setLong(6, cliente.get_CUIL());
-	            preparedStatement.setInt(7, cliente.is_Sexo() ? 1 : 0);
-	            preparedStatement.setString(8, cliente.get_Nacionalidad());
-
-	            java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(cliente.get_FechaNacimiento());
-	            preparedStatement.setDate(9, sqlFechaNacimiento);
-	            
-	            preparedStatement.setString(10, cliente.get_Direccion().toString());
-	            preparedStatement.setString(11, cliente.get_Localidad());
-	            preparedStatement.setString(12, cliente.get_Provincia());
-	            preparedStatement.setString(13, cliente.get_Email());
-	            preparedStatement.setLong(14, cliente.get_Telefono());
-	            preparedStatement.setInt(15, cliente.is_Admin() ? 1 : 0);
-	            preparedStatement.setInt(16, cliente.isBloqueado() ? 1 : 0);
-	            preparedStatement.setInt(17, cliente.get_IDCliente());
-	            
-	            filas = preparedStatement.executeUpdate();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-
-	        return filas;
 	 
-	 }
+		private Direccion obtenerDireccionPorID(int idDireccion) throws SQLException {
+		    String queryDireccion = "SELECT * FROM Direccion WHERE IDDireccion = ?";
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatementDireccion = cn.prepareStatement(queryDireccion)) {
+		        preparedStatementDireccion.setInt(1, idDireccion);
+
+		        ResultSet resultSetDireccion = preparedStatementDireccion.executeQuery();
+
+		        if (resultSetDireccion.next()) {
+		            Direccion direccion = new Direccion();
+		            direccion.setId(resultSetDireccion.getInt("IDDireccion"));
+		            direccion.setCalle(resultSetDireccion.getString("Calle"));
+		            direccion.setNumero(resultSetDireccion.getInt("Numero"));
+
+		            int idLocalidad = resultSetDireccion.getInt("IDLocalidad");
+		            int idProvincia = resultSetDireccion.getInt("IDProvincia");
+
+		            Localidad localidad = obtenerLocalidadPorID(idLocalidad); 
+		            Provincia provincia = obtenerProvinciaPorID(idProvincia); 
+
+		            direccion.set_Localidad(localidad);
+		            direccion.set_Provincia(provincia);
+
+		            return direccion;
+		        }
+		    }
+		    return null;
+		}
+
+		private Localidad obtenerLocalidadPorID(int idLocalidad) throws SQLException {
+		    String queryLocalidad = "SELECT * FROM Localidad WHERE IDLocalidad = ?";
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatementLocalidad = cn.prepareStatement(queryLocalidad)) {
+		        preparedStatementLocalidad.setInt(1, idLocalidad);
+
+		        ResultSet resultSetLocalidad = preparedStatementLocalidad.executeQuery();
+
+		        if (resultSetLocalidad.next()) {
+		            Localidad localidad = new Localidad();
+		            localidad.setIdLocalidad(idLocalidad);
+		            localidad.setDescripcion(resultSetLocalidad.getString("Descripcion"));
+		            return localidad;
+		        }
+		    }
+
+		    return null;
+		}
+
+		private Provincia obtenerProvinciaPorID(int idProvincia) throws SQLException {
+		    String queryProvincia = "SELECT * FROM Provincia WHERE IDProvincia = ?";
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatementProvincia = cn.prepareStatement(queryProvincia)) {
+		        preparedStatementProvincia.setInt(1, idProvincia);
+
+		        ResultSet resultSetProvincia = preparedStatementProvincia.executeQuery();
+
+		        if (resultSetProvincia.next()) {
+		            Provincia provincia = new Provincia();
+		            provincia.setIdProvincia(idProvincia);
+		            provincia.setDescripcion(resultSetProvincia.getString("Descripcion"));
+		            return provincia;
+		        }
+		    }
+
+		    return null;
+		}
+
+	 
+		public int modificarUsuario(Cliente cliente) throws SQLException {
+		    String query = "UPDATE Usuario SET Username = ?, Pass = ?, Nombre = ?, Apellido = ?, DNI = ?, CUIL = ?, Sexo = ?, Nacionalidad = ?, FechaNacimiento = ?, IDDireccion = ?, Mail = ?, Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?";
+		    int filas = 0;
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+		        preparedStatement.setString(1, cliente.get_Usuario());
+		        preparedStatement.setString(2, cliente.get_Contrasena());
+		        preparedStatement.setString(3, cliente.get_Nombre());
+		        preparedStatement.setString(4, cliente.get_Apellido());
+		        preparedStatement.setLong(5, cliente.get_DNI());
+		        preparedStatement.setLong(6, cliente.get_CUIL());
+		        preparedStatement.setInt(7, cliente.is_Sexo() ? 1 : 0);
+		        preparedStatement.setString(8, cliente.get_Nacionalidad());
+
+		        java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(cliente.get_FechaNacimiento());
+		        preparedStatement.setDate(9, sqlFechaNacimiento);
+
+		        preparedStatement.setInt(10, cliente.get_Direccion().getId());
+		        
+		        preparedStatement.setString(11, cliente.get_Email());
+		        preparedStatement.setLong(12, cliente.get_Telefono());
+		        preparedStatement.setInt(13, cliente.is_Admin() ? 1 : 0);
+		        preparedStatement.setInt(14, cliente.isBloqueado() ? 1 : 0);
+		        preparedStatement.setInt(15, cliente.get_IDCliente());
+
+		        filas = preparedStatement.executeUpdate();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return filas;
+		}
+
 	 
 	 public boolean usuarioExistente(String username, int idUsuario) throws SQLException {
 		    String query = "SELECT COUNT(*) FROM Usuario WHERE Username = ? AND IDUsuario <> ?";
@@ -158,48 +228,53 @@ public class ClienteDAO implements ClienteDaoInterface {
 		}
 	 
 	 
-	 public ArrayList<Cliente> obtenerUsuarios(){
-		 try {
-			 Class.forName("com.mysql.cj.jdbc.Driver");
-		 }catch(ClassNotFoundException e) {
-			 e.printStackTrace();
-		 }
-		 
-		 ArrayList<Cliente> lista = new ArrayList<Cliente>();
-		 Connection cn = null;
-		 try {
-			 cn = DriverManager.getConnection(host + dbName, user, pass);
-			 Statement st = cn.createStatement();
-			 
-			 ResultSet rs = st.executeQuery("Select IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin, Bloqueado from Usuario");
-			 while(rs.next()) {
-				 Cliente clienteRs = new Cliente();
-				 clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
-				 clienteRs.set_Usuario(rs.getString("Username"));
-				 clienteRs.set_Contrasena(rs.getString("Pass"));
-				 clienteRs.set_Nombre(rs.getString("Nombre"));
-				 clienteRs.set_Apellido(rs.getString("Apellido"));
-				 clienteRs.set_DNI(rs.getLong("DNI"));
-				 clienteRs.set_CUIL(rs.getLong("CUIL"));
-				 clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
-				 clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
-				 clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
-				 clienteRs.set_Direccion(rs.getString("Direccion"));
-				 clienteRs.set_Localidad(rs.getString("Localidad"));
-				 clienteRs.set_Provincia(rs.getString("Provincia"));
-				 clienteRs.set_Email(rs.getString("Mail"));
-				 clienteRs.set_Telefono(rs.getLong("Telefono"));
-				 clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
-				 clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
-				 
-				 lista.add(clienteRs);
-			 }
-			 cn.close();
-		 } catch (SQLException e) {
-		     e.printStackTrace();
-		 }
-		 return lista;
-	 }
+	 public ArrayList<Cliente> obtenerUsuarios() {
+		    ArrayList<Cliente> lista = new ArrayList<>();
+		    
+		    try {
+		        Class.forName("com.mysql.cj.jdbc.Driver");
+		    } catch (ClassNotFoundException e) {
+		        e.printStackTrace();
+		    }
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(
+		                 "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado FROM Usuario")) {
+
+		        try (ResultSet rs = preparedStatement.executeQuery()) {
+		            while (rs.next()) {
+		                Cliente clienteRs = new Cliente();
+		                clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
+		                clienteRs.set_Usuario(rs.getString("Username"));
+		                clienteRs.set_Contrasena(rs.getString("Pass"));
+		                clienteRs.set_Nombre(rs.getString("Nombre"));
+		                clienteRs.set_Apellido(rs.getString("Apellido"));
+		                clienteRs.set_DNI(rs.getLong("DNI"));
+		                clienteRs.set_CUIL(rs.getLong("CUIL"));
+		                clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+		                clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
+		                clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
+	              
+		                int idDireccion = rs.getInt("IDDireccion");
+		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                clienteRs.set_Direccion(direccion);
+
+		                clienteRs.set_Email(rs.getString("Mail"));
+		                clienteRs.set_Telefono(rs.getLong("Telefono"));
+		                clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+		                clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
+
+		                lista.add(clienteRs);
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return lista;
+		}
+
 	 
 	 public int BloquearCliente(int id)
 	 {
@@ -260,48 +335,52 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        e.printStackTrace();
 		    }
 
-		    ArrayList<Cliente> lista = new ArrayList<Cliente>();
-		    Connection cn = null;
-		    try {
-		        cn = DriverManager.getConnection(host + dbName, user, pass);
-		        Statement st = cn.createStatement();
-		        int offset = (pageNumber - 1) * pageSize; 
+		    ArrayList<Cliente> lista = new ArrayList<>();
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(
+		                 "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado FROM Usuario" +
+		                         " ORDER BY IDUsuario" +
+		                         " LIMIT ?" +
+		                         " OFFSET ?")) {
 
-		        String query = "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, Direccion, Localidad, Provincia, Mail, Telefono, Admin, Bloqueado FROM Usuario" +
-		                       " ORDER BY IDUsuario" +
-		                       " LIMIT " + pageSize +
-		                       " OFFSET " + offset;
-		        ResultSet rs = st.executeQuery(query);
+		        int offset = (pageNumber - 1) * pageSize;
+		        preparedStatement.setInt(1, pageSize);
+		        preparedStatement.setInt(2, offset);
 
-		        while (rs.next()) {
-		            Cliente clienteRs = new Cliente();
-					 clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
-					 clienteRs.set_Usuario(rs.getString("Username"));
-					 clienteRs.set_Contrasena(rs.getString("Pass"));
-					 clienteRs.set_Nombre(rs.getString("Nombre"));
-					 clienteRs.set_Apellido(rs.getString("Apellido"));
-					 clienteRs.set_DNI(rs.getLong("DNI"));
-					 clienteRs.set_CUIL(rs.getLong("CUIL"));
-					 clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
-					 clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
-					 clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
-					 clienteRs.set_Direccion(rs.getString("Direccion"));
-					 clienteRs.set_Localidad(rs.getString("Localidad"));
-					 clienteRs.set_Provincia(rs.getString("Provincia"));
-					 clienteRs.set_Email(rs.getString("Mail"));
-					 clienteRs.set_Telefono(rs.getLong("Telefono"));
-					 clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
-					 clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
-					 
-					 lista.add(clienteRs);
+		        try (ResultSet rs = preparedStatement.executeQuery()) {
+		            while (rs.next()) {
+		                Cliente clienteRs = new Cliente();
+		                clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
+		                clienteRs.set_Usuario(rs.getString("Username"));
+		                clienteRs.set_Contrasena(rs.getString("Pass"));
+		                clienteRs.set_Nombre(rs.getString("Nombre"));
+		                clienteRs.set_Apellido(rs.getString("Apellido"));
+		                clienteRs.set_DNI(rs.getLong("DNI"));
+		                clienteRs.set_CUIL(rs.getLong("CUIL"));
+		                clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+		                clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
+		                clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
+
+		                int idDireccion = rs.getInt("IDDireccion");
+		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                clienteRs.set_Direccion(direccion);
+
+		                clienteRs.set_Email(rs.getString("Mail"));
+		                clienteRs.set_Telefono(rs.getLong("Telefono"));
+		                clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+		                clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
+
+		                lista.add(clienteRs);
+		            }
 		        }
 
-		        cn.close();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		    }
+
 		    return lista;
 		}
+
 
 	 	public int getCantPaginas() {
 		 
@@ -324,42 +403,44 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		@Override
 		public Cliente BuscarClientePorID(int idCliente) {
-			// TODO Auto-generated method stub
-			String checkQuery = "SELECT * FROM Usuario WHERE IDUsuario = ?";
+		    String checkQuery = "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado FROM Usuario WHERE IDUsuario = ?";
 
-			 try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-			      PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
-			     checkStatement.setInt(1, idCliente);
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
+		        checkStatement.setInt(1, idCliente);
 
-			     ResultSet resultSet = checkStatement.executeQuery();
+		        try (ResultSet resultSet = checkStatement.executeQuery()) {
+		            if (resultSet.next()) {
+		                Cliente usuarioEncontrado = new Cliente();
+		                usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
+		                usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
+		                usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
+		                usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
+		                usuarioEncontrado.set_Apellido(resultSet.getString("Apellido"));
+		                usuarioEncontrado.set_DNI(resultSet.getLong("DNI"));
+		                usuarioEncontrado.set_CUIL(resultSet.getLong("CUIL"));
+		                usuarioEncontrado.set_Sexo(resultSet.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+		                usuarioEncontrado.set_Nacionalidad(resultSet.getString("Nacionalidad"));
+		                usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
 
-			     if (resultSet.next()) {
-			         Cliente usuarioEncontrado = new Cliente();
-			         usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
-			         usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
-			         usuarioEncontrado.set_Contrasena(resultSet.getString("Pass"));
-			         usuarioEncontrado.set_Nombre(resultSet.getString("Nombre"));
-			         usuarioEncontrado.set_Apellido(resultSet.getString("Apellido"));
-			         usuarioEncontrado.set_DNI(resultSet.getLong("DNI"));
-			         usuarioEncontrado.set_CUIL(resultSet.getLong("CUIL"));
-			         usuarioEncontrado.set_Sexo(resultSet.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
-			         usuarioEncontrado.set_Nacionalidad(resultSet.getString("Nacionalidad"));
-			         usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
-			         usuarioEncontrado.set_Direccion(resultSet.getString("Direccion"));
-			         usuarioEncontrado.set_Localidad(resultSet.getString("Localidad"));
-			         usuarioEncontrado.set_Provincia(resultSet.getString("Provincia"));
-			         usuarioEncontrado.set_Email(resultSet.getString("Mail"));
-			         usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
-			         usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
-			         usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
-			         
-			         return usuarioEncontrado;
-			     }
-			 } catch (SQLException e) {
-			     e.printStackTrace();
-			 }
+		                int idDireccion = resultSet.getInt("IDDireccion");
+		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                usuarioEncontrado.set_Direccion(direccion);
 
-			 return null;
+		                usuarioEncontrado.set_Email(resultSet.getString("Mail"));
+		                usuarioEncontrado.set_Telefono(resultSet.getLong("Telefono"));
+		                usuarioEncontrado.set_Admin(resultSet.getBoolean("Admin")); // 1 indica administrador, cualquier otro valor indica cliente
+		                usuarioEncontrado.setBloqueado(resultSet.getBoolean("Bloqueado"));
+
+		                return usuarioEncontrado;
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return null;
 		}
+
 	 
 }

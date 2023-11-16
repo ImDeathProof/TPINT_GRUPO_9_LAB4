@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
+import entidad.Direccion;
+import entidad.Localidad;
+import entidad.Provincia;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
 
@@ -76,15 +79,17 @@ public class ServletRegistro extends HttpServlet {
 		    String nacionalidad = request.getParameter("Nacionalidad");
 		    String email = request.getParameter("email");
 		    long Telefono = Long.parseLong(request.getParameter("Telefono"));
-		    String Direccion = request.getParameter("Direccion");
+		    String calle = request.getParameter("Direccion");
+		    int numeroCalle = Integer.parseInt(request.getParameter("numeroDic"));
 		    String Localidad = request.getParameter("Localidad");
 		    String Provincia = request.getParameter("Provincia");
+		    
+		    Direccion dic = new Direccion(calle, numeroCalle,new Localidad(Localidad), new Provincia(Provincia));
 			    
 		    LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));
 			    
 			  
-		  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, Direccion, Localidad, Provincia, email, Telefono);	    	
-			      
+		  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, dic, email, Telefono);	    		      
 			    	
 			boolean cargo = false;
 		    try {

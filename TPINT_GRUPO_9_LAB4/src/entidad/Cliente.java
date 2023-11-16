@@ -16,9 +16,7 @@ public class Cliente{
     private boolean _Sexo; // 0: Masculino, 1: Femenino
     private String _Nacionalidad;
     private LocalDate _FechaNacimiento; // Utiliza LocalDate para la fecha de nacimiento
-    private String _Direccion;
-    private String _Localidad;
-    private String _Provincia;
+    private Direccion _Direccion;
     private String _Email;
     private long _Telefono;
     private boolean _Admin; //0=cliente, 1=admin
@@ -38,8 +36,7 @@ public class Cliente{
 	}
     
     public Cliente(String _Usuario, String _Contrasena, String _Nombre, String _Apellido, long _DNI, long _CUIL,
-			boolean _Sexo, String _Nacionalidad, LocalDate _FechaNacimiento, String _Direccion, String _Localidad,
-			String _Provincia, String _Email, long _Telefono) {
+			boolean _Sexo, String _Nacionalidad, LocalDate _FechaNacimiento, Direccion _Direccion, String _Email, long _Telefono) {
 		super();
 		this._Usuario = _Usuario;
 		this._Contrasena = _Contrasena;
@@ -51,8 +48,6 @@ public class Cliente{
 		this._Nacionalidad = _Nacionalidad;
 		this._FechaNacimiento = _FechaNacimiento;
 		this._Direccion = _Direccion;
-		this._Localidad = _Localidad;
-		this._Provincia = _Provincia;
 		this._Email = _Email;
 		this._Telefono = _Telefono;
 		this._Admin = false;
@@ -130,25 +125,11 @@ public class Cliente{
 		this._FechaNacimiento = _FechaNacimiento;
 	}
 
-	public String get_Direccion() {
+	public Direccion get_Direccion() {
 		return _Direccion;
 	}
-	public void set_Direccion(String _Direccion) {
+	public void set_Direccion(Direccion _Direccion) {
 		this._Direccion = _Direccion;
-	}
-
-	public String get_Localidad() {
-		return _Localidad;
-	}
-	public void set_Localidad(String _Localidad) {
-		this._Localidad = _Localidad;
-	}
-
-	public String get_Provincia() {
-		return _Provincia;
-	}
-	public void set_Provincia(String _Provincia) {
-		this._Provincia = _Provincia;
 	}
 
 	public String get_Email() {
@@ -182,7 +163,7 @@ public class Cliente{
 		return "Cliente [_Usuario=" + _Usuario + ", _Contrasena=" + _Contrasena + ", _Nombre=" + _Nombre
 				+ ", _Apellido=" + _Apellido + ", _DNI=" + _DNI + ", _CUIL=" + _CUIL + ", _Sexo=" + _Sexo
 				+ ", _Nacionalidad=" + _Nacionalidad + ", _FechaNacimiento=" + _FechaNacimiento + ", _Direccion="
-				+ _Direccion + ", _Localidad=" + _Localidad + ", _Provincia=" + _Provincia + ", _Email=" + _Email
+				+ _Direccion + ", _Email=" + _Email
 				+ ", _Telefono=" + _Telefono + ", _Admin=" + _Admin + "]";
 	}
 

@@ -52,8 +52,12 @@
 	                <input type="text" id="Nacionalidad" name="Nacionalidad" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">            
 	            </div>
 	            <div class="form-group">
-	                <label for="Direccion">Direccion:</label>
-	                <input type="text" id="Direccion" name="Direccion" class="form-control" required>
+	                <label for="Direccion">Calle:</label>
+	                <input type="text" id="Direccion" name="Direccion" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+	            </div>
+	            <div class="form-group">
+	                <label for="Direccion">Numero:</label>
+	                <input type="text" id="numeroDic" name="numeroDic" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 	            </div>
 	             <div class="form-group">
 	                <label for="Localidad">Localidad:</label>

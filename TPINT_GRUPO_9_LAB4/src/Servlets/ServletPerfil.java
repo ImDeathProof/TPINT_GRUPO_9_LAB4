@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
+import entidad.Direccion;
+import entidad.Localidad;
+import entidad.Provincia;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
 
@@ -66,9 +69,16 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_DNI(Long.parseLong(request.getParameter("txtDni")));
 					cliente.set_CUIL(Long.parseLong(request.getParameter("txtCuil")));
 					cliente.set_Nacionalidad(request.getParameter("txtNacionalidad"));
-					cliente.set_Direccion(request.getParameter("txtDireccion"));
-					cliente.set_Localidad(request.getParameter("txtLocalidad"));
-					cliente.set_Provincia(request.getParameter("txtProvincia"));
+					
+					
+					Direccion dic = new Direccion();				
+					dic.set_Localidad(new Localidad(request.getParameter("txtLocalidad")));
+					dic.set_Provincia(new Provincia(request.getParameter("txtProvincia")));
+					dic.setCalle(request.getParameter("txtDireccion"));
+					dic.setNumero(Integer.parseInt(request.getParameter("txtNum")));
+
+					cliente.set_Direccion(dic);					
+					
 					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
 					cliente.set_Email(request.getParameter("txtEmail"));
 					cliente.set_FechaNacimiento(LocalDate.parse(request.getParameter("txtFNacimiento")));
