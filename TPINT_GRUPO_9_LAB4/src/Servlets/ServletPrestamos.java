@@ -16,13 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
 import entidad.Cuenta;
+import entidad.Cuota;
 import entidad.Prestamo;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
+import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
+import negocioImpl.CuotaNegImpl;
 
 
 /**
@@ -84,6 +87,7 @@ public class ServletPrestamos extends HttpServlet {
 				}
 			}
 			
+			pr.setCantidadCuotas(cantCuotas);
 			pr.setCliente(cliente);
 			pr.setCuenta(cuenta);
 			pr.setEstado("Pendiente");
@@ -100,14 +104,24 @@ public class ServletPrestamos extends HttpServlet {
 			try {
 				int filas = negPr.Insertar(pr);		
 				if(filas > 0) {
-					int ultimo = negPr.obtenerUltimoID();
+					try {
+						int ultimo = negPr.obtenerUltimoID();
+						CuotaNeg negCt = new CuotaNegImpl();
+						for(int i = 0; i< cantCuotas ; i++) {
+							Cuota ct = negCt.generarCuota(pr, ultimo, i+1);	
+							negCt.Agregar(ct);
+						} 
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
 					
 					request.getSession().setAttribute("PrestamoExitoso", "El préstamo fue solicitado con exito!");	
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
-						dispatcher.forward(request, response);
 				}else {
 					request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
 				}
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+				dispatcher.forward(request, response);							
 					            
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -41,6 +41,7 @@
 								            <th scope="col">Fecha</th>
 								            <th scope="col">Monto Solicitado</th>
 								            <th scope="col">Monto Aprobado</th>
+								            <th scope="col">Pagar</th>
 								        </tr>
 								    </thead>
 								    <tbody>
@@ -50,6 +51,7 @@
 								                <td><%= pr.getFechaPedido() %></td>
 								                <td><%= pr.getMonto() %></td>
 								                <td><%= pr.getMontoAprobado() %></td>
+								                <td><input type="submit" name="PagarPrestamo" value="Pagar" class="btn btn-success"></td>
 								            </tr>
 								            <% } } %>
 								    </tbody>

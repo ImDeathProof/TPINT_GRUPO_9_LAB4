@@ -11,5 +11,5 @@ public interface CuotaNeg {
 	public int Agregar(Cuota cuota) throws SQLException;
 	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int idPrestamo) throws SQLException;
 	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws SQLException;
-	public Cuota generarCuota(Prestamo prestamo);
+	public Cuota generarCuota(Prestamo prestamo, int idPr, int nroCt);
 }

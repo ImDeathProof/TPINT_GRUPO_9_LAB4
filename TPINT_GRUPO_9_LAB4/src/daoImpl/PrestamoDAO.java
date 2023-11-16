@@ -312,16 +312,16 @@
 
 		@Override
 		public int obtenerUltimoID() {
-			String query = "SELECT IDPrestamo as UltimoID\r\n" + 
-					"FROM prestamos\r\n" + 
-					"ORDER BY IDPrestamo DESC\r\n" + 
+			String query = "SELECT IDPrestamo as UltimoID " + 
+					"FROM prestamos " + 
+					"ORDER BY IDPrestamo DESC " + 
 					"LIMIT 1;";
 			int ultimo = 0;
 			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 			         Statement st = cn.createStatement();
 			         ResultSet rs = st.executeQuery(query)) {
 			        if (rs.next()) {
-			        	ultimo = rs.getInt("paginas");
+			        	ultimo = rs.getInt("UltimoID");
 			        }
 			    } catch (SQLException e) {
 			        e.printStackTrace();

@@ -37,15 +37,16 @@ public class CuotaNegImpl implements CuotaNeg{
 	}
 
 	@Override
-	public Cuota generarCuota(Prestamo prestamo) {
+	public Cuota generarCuota(Prestamo prestamo, int idPr, int nroCt) {
 		Cuota ct = new Cuota();
 		ct.setCuotas_Totales(prestamo.getCantidadCuotas());
 		ct.setEstado("No Pagado");
 		ct.setFechaDePago(LocalDate.now());
 		ct.setIDCuenta(prestamo.getCuenta().getIdCuenta());
 		ct.setIDUsuario(prestamo.getCliente().get_IDCliente());
-		ct.setIDPrestamo(prestamo.getId_Prestamo());
+		ct.setIDPrestamo(idPr);
 		ct.setMontoAPagar(prestamo.getImporteCuota());
+		ct.setNro_Cuota(nroCt);
 		return ct;
 	}
 
