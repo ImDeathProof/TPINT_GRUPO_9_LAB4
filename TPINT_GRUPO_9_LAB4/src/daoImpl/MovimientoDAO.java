@@ -27,7 +27,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public MovimientoDAO() {
@@ -200,7 +200,64 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	        return movimientos;
 	    }
 
+	    public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) {
+	        String query = "SELECT COUNT(*) AS cantidadMovimientos " +
+	                       "FROM Movimiento m " +
+	                       "WHERE m.Fecha BETWEEN ? AND ?";
 
+	        int cantidadMovimientos = 0;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+
+	            java.sql.Date sqlFechaInicio = java.sql.Date.valueOf(fechaInicio);
+	            java.sql.Date sqlFechaFin = java.sql.Date.valueOf(fechaFin);
+
+	            preparedStatement.setDate(1, sqlFechaInicio);
+	            preparedStatement.setDate(2, sqlFechaFin);
+
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                cantidadMovimientos = resultSet.getInt("cantidadMovimientos");
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return cantidadMovimientos;
+	    }
+	    
+	    public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin) {
+	        String query = "SELECT AVG(Monto) AS promedio " +
+	                       "FROM Movimiento m " +
+	                       "WHERE m.Fecha BETWEEN ? AND ?";
+
+	        BigDecimal promedioMonto = BigDecimal.ZERO;
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+
+	            java.sql.Date sqlFechaInicio = java.sql.Date.valueOf(fechaInicio);
+	            java.sql.Date sqlFechaFin = java.sql.Date.valueOf(fechaFin);
+
+	            preparedStatement.setDate(1, sqlFechaInicio);
+	            preparedStatement.setDate(2, sqlFechaFin);
+
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                promedioMonto = resultSet.getBigDecimal("promedio");
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return promedioMonto;
+	    }
+	    
 		
 
 		@Override

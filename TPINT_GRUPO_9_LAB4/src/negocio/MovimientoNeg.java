@@ -15,6 +15,8 @@ public interface MovimientoNeg {
 	public int insertMovimiento(int idCuenta,BigDecimal monto, TipoMovimiento tp);
 	public int getUserFromCuenta(int idCuenta);
 	public ArrayList<Movimiento> generarInformeIngresosEgresos(LocalDate fechaInicio, LocalDate fechaFin);
-	 public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, LocalDate fechaInicio, LocalDate fechaFin,String orderBy);
-	 public int getCantPaginas();
+	public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, LocalDate fechaInicio, LocalDate fechaFin,String orderBy);
+	public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin);
+	public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin);
+	public int getCantPaginas();
 }
