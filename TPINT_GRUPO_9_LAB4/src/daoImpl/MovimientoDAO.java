@@ -199,6 +199,63 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        return movimientos;
 	    }
+	    
+	    public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, int idCuenta) {
+	        ArrayList<Movimiento> movimientos = new ArrayList<>();
+	        Connection cn = null;
+
+	        try {
+	            cn = DriverManager.getConnection(host + dbName, user, pass);
+	            Statement st = cn.createStatement();
+	            int offset = (pageNumber - 1) * pageSize;
+
+	            String query = "SELECT m.*, tm.Descripcion AS TipoMovimientoDescripcion " +
+	                           "FROM Movimiento m " +
+	                           "JOIN TiposMovimientos tm ON m.IDTipo = tm.IDTipo " +
+	                           "WHERE IdCuenta = ? " +
+	                           "LIMIT " + pageSize +
+	                           " OFFSET " + offset;
+
+	            try (PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+
+	                preparedStatement.setInt(1, idCuenta);
+
+	                ResultSet resultSet = preparedStatement.executeQuery();
+
+	                while (resultSet.next()) {
+	                    Movimiento movimiento = new Movimiento();
+	                    movimiento.setId_Movimiento(resultSet.getInt("IDMoviento"));
+	                    movimiento.setMonto(resultSet.getBigDecimal("Monto"));
+	                    movimiento.setFecha(resultSet.getDate("Fecha").toLocalDate());
+	                    movimiento.setDetalles(resultSet.getString("Detalles"));
+	                    movimiento.setIdCliente(resultSet.getInt("IDUsuario"));
+	                    movimiento.setIdCuenta(resultSet.getInt("IDCuenta"));
+
+	                    TipoMovimiento tipoMovimiento = new TipoMovimiento();
+	                    tipoMovimiento.setId_TipoMovimiento(resultSet.getInt("IDTipo"));
+	                    tipoMovimiento.setTipoMovimiento(resultSet.getString("TipoMovimientoDescripcion"));
+
+	                    movimiento.setTipoMov(tipoMovimiento);
+
+	                    movimientos.add(movimiento);
+	                }
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (cn != null) {
+	                    cn.close();
+	                }
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+
+	        return movimientos;
+	    }
+
 
 	    public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) {
 	        String query = "SELECT COUNT(*) AS cantidadMovimientos " +
@@ -279,6 +336,27 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 		    return cant;
 		}
-	
+		
+		public int getCantPaginas(int idCliente) {
+		    int cant = 0;
+
+		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IdCliente = ?;";
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+		        
+		        preparedStatement.setInt(1, idCliente);
+
+		        try (ResultSet rs = preparedStatement.executeQuery()) {
+		            if (rs.next()) {
+		                cant = rs.getInt("paginas");
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return cant;
+		}
 
 }

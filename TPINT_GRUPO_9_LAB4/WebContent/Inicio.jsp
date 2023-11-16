@@ -43,21 +43,21 @@
 				    <div class="carousel-item active" data-bs-interval="10000">
 				      <img src="https://concepto.de/wp-content/uploads/2020/09/dinero-e1599518998156.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>TEXTO DE PRUEBA</h5>
+				        <h5>BIENVENIDO</h5>
 				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item" data-bs-interval="2000">
 				      <img src="https://www.primeraedicion.com.ar/wp-content/uploads/2023/04/dolar-1-750x375.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>TEXTO DE PRUEBA</h5>
+				        <h5>BIENVENIDO</h5>
 				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item">
 				      <img src="https://www.teknei.com/wp-content/uploads/2021/09/los-procesos-mas-automatizados-de-los-bancos.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>TEXTO DE PRUEBA</h5>
+				        <h5>BIENVENIDO</h5>
 				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
@@ -77,7 +77,7 @@
 			      <div class="card-body">
 			        <h5 class="card-title">PRESTAMOS</h5>
 			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			        <a href="SolicitarPrestamo.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
 			  </div>
@@ -86,7 +86,7 @@
 			      <div class="card-body">
 			        <h5 class="card-title">CUENTAS</h5>
 			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			        <a href="MisCuentas.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
 			  </div>
@@ -95,7 +95,7 @@
 			      <div class="card-body">
 			        <h5 class="card-title">TARJETAS</h5>
 			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			        <a href="#" class="btn btn-primary">Proximamente...</a>
 			      </div>
 			    </div>
 			  </div>
@@ -104,7 +104,7 @@
 			      <div class="card-body">
 			        <h5 class="card-title">INVERSIONES</h5>
 			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			        <a href="#" class="btn btn-primary">Proximamente...</a>
 			      </div>
 			    </div>
 			  </div>

@@ -1,4 +1,5 @@
 <%@page import="entidad.Cliente"%>
+<%@page import="entidad.Movimiento"%>
 <%@ page import="java.util.ArrayList,entidad.Cuenta" %>
 <jsp:include page="Header.jsp" />
 <jsp:include page="NavbarClientes.jsp" />
@@ -37,8 +38,7 @@
             String filtroCuentas = request.getParameter("filtroCuentas");
             if (cuentas != null) {
             %>
-            
-            
+                
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -49,6 +49,7 @@
                         <th>Saldo</th>
                         <th>Fecha de creación</th>
                         <th>Estado</th>
+                        <th>Ver Movimientos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,12 @@
                         <td><%= cuenta.getSaldo() %></td>
                         <td><%= cuenta.getFechaCreacion() %></td>
                         <td><% if (!cuenta.isEstado()) { %>En proceso<% } %></td>
+                        <td>
+	                        <form action="ServletMisMovimientos" method="post">
+				             <input type="hidden" name="idCliente" value="<%= cuenta.getIdCuenta() %>" />
+				             <button type="submit" class="btn btn-primary mt-2" name="btnMisMovimientos">Ver Movimientos de la cuenta</button>
+				            </form>
+				        </td>
                     </tr>
                     <%
                         }
@@ -74,6 +81,52 @@
             <%
             }
             %>
+                <%
+            ArrayList<Movimiento> mov = (ArrayList<Movimiento>) request.getAttribute("misMovimientos");
+            if (mov != null) {
+            %>
+                
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Monto</th>
+					    <th scope="col">Fecha</th>
+						<th scope="col">Detalles/Tipo Movimiento</th>
+						<th scope="col">IdUsuario</th>
+						<th scope="col">IdCuenta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <% if (mov != null) {
+						for (Movimiento movi : mov) { %>
+						 <tr>
+							 <td><%= movi.getMonto() %></td>
+							 <td><%= movi.getFecha() %></td>
+							 <td><%= movi.getDetalles() %></td>
+							 <td><%= movi.getIdCliente() %></td>
+							 <td><%= movi.getIdCuenta() %></td>
+						 </tr>
+					  <% } } %>
+                </tbody>
+            </table>
+            <form method="get" action="ServletMisMovimientos">
+			 <%
+				 int cantPags = (int)request.getAttribute("cantPagsMisMovimientos");
+				 if (cantPags != 0) {
+					 for (int i = 1; i <= cantPags; i++) {
+					 %>
+					 <button class="btn btn-primary" type="submit" name="pagina" value="<%= i %>">
+						   Página <%= i %>
+					 </button>
+					 <%
+					     } 
+				   }
+			    %>
+			</form>
+            <%
+            }
+            %>
+            
         </div>
     <%
     }

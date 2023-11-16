@@ -24,7 +24,6 @@ public class ServletCuenta extends HttpServlet {
         Cliente usuarioActivo = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 
         if (usuarioActivo != null) {
-           
             
             ArrayList<Cuenta> cuentas = cuNeg.obtenerCuentasPorUsuario(usuarioActivo.get_IDCliente());
            
@@ -32,13 +31,15 @@ public class ServletCuenta extends HttpServlet {
            
             request.getRequestDispatcher("MisCuentas.jsp").forward(request, response);
         } else {
-            
+          
             response.sendRedirect("Inicio.jsp");
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+       
+    	
+    	
     }
 }
 

@@ -59,4 +59,14 @@ public class MovimientoNegImpl implements MovimientoNeg {
 		return movDao.getPromedioMonto(fechaInicio, fechaFin);
 	}
 
+	@Override
+	public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, int idCuenta) {
+		return movDao.obtenerInformePaginado(pageNumber, pageSize, idCuenta);
+	}
+
+	@Override
+	public int getCantPaginas(int idCliente) {
+		return movDao.getCantPaginas(idCliente);
+	}
+
 }

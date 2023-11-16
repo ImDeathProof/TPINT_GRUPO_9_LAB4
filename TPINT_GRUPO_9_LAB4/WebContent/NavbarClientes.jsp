@@ -32,7 +32,7 @@
 			            <li><a class="dropdown-item" href="PrestamosAprobados.jsp">Préstamos Aprobados</a></li>
 			            <li><a class="dropdown-item" href="PagoDePrestamos.jsp">Pagar Préstamos</a></li>
 			          </ul>
-			        </li>     
+			        </li> 
 	            </ul>
 	            </div>
 	           <div>
