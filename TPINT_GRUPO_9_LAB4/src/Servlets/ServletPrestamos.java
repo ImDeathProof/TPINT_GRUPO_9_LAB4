@@ -100,8 +100,13 @@ public class ServletPrestamos extends HttpServlet {
 			try {
 				int filas = negPr.Insertar(pr);		
 				if(filas > 0) {
-						RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+					int ultimo = negPr.obtenerUltimoID();
+					
+					request.getSession().setAttribute("PrestamoExitoso", "El préstamo fue solicitado con exito!");	
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
 						dispatcher.forward(request, response);
+				}else {
+					request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
 				}
 					            
 			} catch (Exception e) {

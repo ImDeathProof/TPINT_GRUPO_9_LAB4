@@ -37,6 +37,7 @@ CREATE TABLE Prestamos (
 IDPrestamo INT AUTO_INCREMENT PRIMARY KEY,
 MontoTotal DECIMAL(10, 2) NOT NULL,
 Importe_x_Cuota DECIMAL(10, 2) NOT NULL,
+Cant_Cuotas INT NOT NULL,
 Plazo_Pago INT,
 MontoAprobado DECIMAL(10, 2),
 TasaInteres DECIMAL(5, 2),

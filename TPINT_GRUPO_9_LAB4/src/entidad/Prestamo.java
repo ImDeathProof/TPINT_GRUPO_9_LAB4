@@ -16,7 +16,16 @@ public class Prestamo {
 	private String Estado;
 	private Cuenta Cuenta;
 	private Cliente Cliente;
+	private int CantidadCuotas;
 	
+	public int getCantidadCuotas() {
+		return CantidadCuotas;
+	}
+
+	public void setCantidadCuotas(int cantidadCuotas) {
+		CantidadCuotas = cantidadCuotas;
+	}
+
 	public Prestamo() {
 		this.MontoAprobado = new BigDecimal("0.0");
 	}

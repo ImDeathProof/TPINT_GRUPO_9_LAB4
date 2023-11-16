@@ -3,13 +3,16 @@ package negocioImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import daoImpl.CuotaDAO;
 import daoImpl.PrestamoDAO;
+import dao.CuotaDaoInterface;
 import dao.PrestamoDaoInterface;
 import entidad.Prestamo;
 import negocio.PrestamoNeg;
 
 public class PrestamoNegocioImpl implements PrestamoNeg {
 	private PrestamoDaoInterface pdao = new PrestamoDAO();
+	private CuotaDaoInterface cdao = new CuotaDAO();
 	
 	@Override
 	public List<Prestamo> ObtenerTodos() {
@@ -77,9 +80,8 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	}
 
 	@Override
-	public int generarcuotas(Prestamo prestamo) {
-		// TODO Auto-generated method stub
-		return pdao.generarcuotas(prestamo);
+	public int obtenerUltimoID() {
+		return pdao.obtenerUltimoID();
 	}
 
 }

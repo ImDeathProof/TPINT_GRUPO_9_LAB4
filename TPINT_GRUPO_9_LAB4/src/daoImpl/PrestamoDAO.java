@@ -27,7 +27,7 @@
 		
 		private String host = "jdbc:mysql://127.0.0.1:3306/";
 	    private String user = "root";
-	    private String pass = "tobias01032004";
+	    private String pass = "root";
 	    private String dbName = "bancodb";
 	    
 	    MovimientoNeg cuNeg = new MovimientoNegImpl();
@@ -78,6 +78,7 @@
 		            prestamo.setTasaInteres(rs.getFloat("TasaInteres"));
 		            prestamo.setEstado(rs.getString("EstadoPrestamo"));
 		            prestamo.setId_Prestamo(rs.getInt("IDPrestamo"));
+		            prestamo.setCantidadCuotas(rs.getInt("Cant_Cuotas"));
 		        }
 
 		        cn.close();
@@ -91,7 +92,7 @@
 		@Override
 		public int Insertar(Prestamo prestamo) {
 			int filas = 0;
-			String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario, Cant_Cuotas) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?)";
 			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 		            
@@ -105,6 +106,7 @@
 					preparedStatement.setString(6, prestamo.getEstado());
 					preparedStatement.setInt(7, prestamo.getCuenta().getIdCuenta());
 					preparedStatement.setInt(8, prestamo.getCliente().get_IDCliente());
+					preparedStatement.setInt(9, prestamo.getCantidadCuotas());
 				
 
 		            filas = preparedStatement.executeUpdate();
@@ -199,6 +201,7 @@
 	 	        	prestamo.setTasaInteres(rs.getFloat("TasaInteres"));
 	 	        	prestamo.setEstado(rs.getString("EstadoPrestamo"));
 	 	        	prestamo.setId_Prestamo(rs.getInt("IDPrestamo"));
+	 	        	prestamo.setCantidadCuotas(rs.getInt("Cant_Cuotas"));
 	 	        	
 	 	        	
 	 				 lista.add(prestamo);
@@ -252,6 +255,7 @@
 		                prestamo.setTasaInteres(prestamosResultSet.getFloat("TasaInteres"));
 		                prestamo.setFechaPedido(prestamosResultSet.getDate("Fecha_Pedido").toLocalDate());
 		                prestamo.setEstado(prestamosResultSet.getString("EstadoPrestamo"));
+		                prestamo.setCantidadCuotas(prestamosResultSet.getInt("Cant_Cuotas"));
 		                
 		                
 
@@ -289,6 +293,7 @@
 	                prestamo.setTasaInteres(prestamosResultSet.getFloat("TasaInteres"));
 	                prestamo.setFechaPedido(prestamosResultSet.getDate("Fecha_Pedido").toLocalDate());
 	                prestamo.setEstado(prestamosResultSet.getString("EstadoPrestamo"));
+	                prestamo.setCantidadCuotas(prestamosResultSet.getInt("Cant_Cuotas"));
 	                
 	                
 
@@ -306,9 +311,25 @@
 		}
 
 		@Override
-		public int generarcuotas(Prestamo prestamo) {
-			int filas = 0;
-			return filas;
+		public int obtenerUltimoID() {
+			String query = "SELECT IDPrestamo as UltimoID\r\n" + 
+					"FROM prestamos\r\n" + 
+					"ORDER BY IDPrestamo DESC\r\n" + 
+					"LIMIT 1;";
+			int ultimo = 0;
+			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+			         Statement st = cn.createStatement();
+			         ResultSet rs = st.executeQuery(query)) {
+			        if (rs.next()) {
+			        	ultimo = rs.getInt("paginas");
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    }
+
+			return ultimo;
 		}
+
+		
 	}
 	

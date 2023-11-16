@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entidad.Cuota;
+import entidad.Prestamo;
 
 public interface CuotaDaoInterface {
 	public int Pagar(int idCuota) throws SQLException;

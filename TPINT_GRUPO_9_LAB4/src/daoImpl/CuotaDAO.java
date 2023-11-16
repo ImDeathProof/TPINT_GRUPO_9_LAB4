@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import dao.CuotaDaoInterface;
 import entidad.Cuota;
+import entidad.Prestamo;
 
 public class CuotaDAO implements CuotaDaoInterface {
 
@@ -31,5 +32,6 @@ public class CuotaDAO implements CuotaDaoInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

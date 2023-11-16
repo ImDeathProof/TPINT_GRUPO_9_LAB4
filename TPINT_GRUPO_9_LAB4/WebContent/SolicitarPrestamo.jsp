@@ -64,12 +64,16 @@
 		                    <option value="corrientes">Cuenta corriente</option>
 	                	</select>
 						<input type="submit" name="btnSolicitar" value="Solicitar Préstamo" class="btn btn-success m-2">
-
-							<!-- 
-							 <div id="mensajeExito" class="alert alert-success">El préstamo se cargó con éxito.</div>
-							 -->
-						
-
+						<% if (session.getAttribute("errorAlSolicitar") != null) { %>
+							<div class="alert alert-danger">
+							<%= (String)session.getAttribute("errorAlSolicitar")%> 
+							</div>
+						<% } else if (session.getAttribute("PrestamoExitoso") != null)
+						{%>
+							<div class="alert alert-success">
+							<%= (String)session.getAttribute("PrestamoExitoso")%> 
+							</div>
+						<%} %>
 					</div>
 				</form>
 			</div>
