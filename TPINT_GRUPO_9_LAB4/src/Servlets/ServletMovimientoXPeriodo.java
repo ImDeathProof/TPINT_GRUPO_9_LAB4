@@ -58,6 +58,9 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 
         ArrayList<Movimiento> lista = movNeg.obtenerInformePaginado(numeroPagina, 5, fechaInicio, fechaFin, orderBy);
         request.setAttribute("listaMovimientosPeriodo", lista);
+        request.setAttribute("cantMovimientosRealizados", movNeg.getCantMovimientos(fechaInicio, fechaFin));
+		request.setAttribute("promedioMovimientos", movNeg.getPromedioMonto(fechaInicio, fechaFin));
+        
         
         request.setAttribute("cantPagsInforme", movNeg.getCantPaginas());
 
@@ -80,6 +83,9 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 		 session.setAttribute("orderByInforme", orderBy);
 		 
 		 request.setAttribute("cantPagsInforme", movNeg.getCantPaginas());
+		 
+		 request.setAttribute("cantMovimientosRealizados", movNeg.getCantMovimientos(fechaInicio, fechaFin));
+		 request.setAttribute("promedioMovimientos", movNeg.getPromedioMonto(fechaInicio, fechaFin));
 		 
 		 ArrayList<Movimiento> lista = movNeg.obtenerInformePaginado(1, 5, fechaInicio, fechaFin, orderBy);
 			

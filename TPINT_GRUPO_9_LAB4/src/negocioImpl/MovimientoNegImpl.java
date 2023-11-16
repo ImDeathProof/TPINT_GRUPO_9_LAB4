@@ -49,4 +49,14 @@ public class MovimientoNegImpl implements MovimientoNeg {
 		return movDao.getCantPaginas();
 	}
 
+	@Override
+	public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) {
+		return movDao.getCantMovimientos(fechaInicio, fechaFin);
+	}
+
+	@Override
+	public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin) {
+		return movDao.getPromedioMonto(fechaInicio, fechaFin);
+	}
+
 }
