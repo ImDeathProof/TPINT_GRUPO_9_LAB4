@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
+import entidad.DBException;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
@@ -102,9 +103,11 @@ public class ServletPerfil extends HttpServlet {
 				    		request.getSession().setAttribute("errorModificarUser", "El usuario ya existe.");
 				    	}
 				            
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					} catch (DBException e) {
+				        e.printStackTrace();
+				        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+				        response.sendRedirect("Login.jsp");
+				    }
 				    response.sendRedirect("PerfilUsuario.jsp");
 		}
 	}

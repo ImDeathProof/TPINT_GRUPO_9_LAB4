@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import daoImpl.ClienteDAO;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
+import entidad.DBException;
 
 /**
  * Servlet implementation class ServletBloquearUser
@@ -40,7 +41,9 @@ public class ServletBloquearUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int userID = Integer.parseInt(request.getParameter("userID"));
+		try{
+			int userID = Integer.parseInt(request.getParameter("userID"));
+		
 		String buttonValue = request.getParameter("submitValue");
 
 		if (buttonValue.equals("Bloquear")) {		
@@ -50,7 +53,12 @@ public class ServletBloquearUser extends HttpServlet {
 	    }
 		
 		response.sendRedirect("PanelDeControl.jsp");
-		
+		}
+		catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+	        response.sendRedirect("Login.jsp");
+	    }
 	}
 
 }

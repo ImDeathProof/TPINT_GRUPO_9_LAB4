@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.ClienteDAO;
+import entidad.DBException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
@@ -42,7 +43,9 @@ public class ServletCambiarPass extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pass = request.getParameter("txtContaseña");
+		try{
+			String pass = request.getParameter("txtContaseña");
+		
 		int userID = Integer.parseInt(request.getParameter("userID"));
 				
 		clNeg.CambiarPass(pass, userID);
@@ -50,5 +53,10 @@ public class ServletCambiarPass extends HttpServlet {
 		response.sendRedirect("PanelDeControl.jsp");
 		
 	}
-
+		catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+	        response.sendRedirect("Login.jsp");
+	    }
+	}
 }

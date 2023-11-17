@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
+import entidad.DBException;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
+import entidad.DBException;
 
 /**
  * Servlet implementation class ServletRegistro
@@ -31,7 +33,7 @@ public class ServletRegistro extends HttpServlet {
      */
     public ServletRegistro() {
         super();
-        // TODO Auto-generated constructor stub
+//         TODO Auto-generated constructor stub
     }
 
 	/**
@@ -67,12 +69,12 @@ public class ServletRegistro extends HttpServlet {
 			    
 			 String sexoValue = request.getParameter("sexo");
 		
-			 boolean sexo = true; // Variable para almacenar el valor de sexo
+			 boolean sexo = true;  //Variable para almacenar el valor de sexo
 		
 			 if (sexoValue.equals("Masculino")) {
-			     sexo = true; // Si se selecciona "Masculino", establece sexo en true
+			     sexo = true;  //Si se selecciona "Masculino", establece sexo en true
 		     } else if (sexoValue.equals("Femenino")) {
-		         sexo = false; // Si se selecciona "Femenino", establece sexo en false
+		         sexo = false;  //Si se selecciona "Femenino", establece sexo en false
 	         } 
 			    
 			    
@@ -100,8 +102,10 @@ public class ServletRegistro extends HttpServlet {
 					cargo=true;
 			   }
 				            
-		    } catch (SQLException e) {
-				e.printStackTrace();
+		    }  catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		        response.sendRedirect("Login.jsp");
 		    }
 		    if(cargo) {
 		    	response.sendRedirect("PerfilUsuario.jsp");

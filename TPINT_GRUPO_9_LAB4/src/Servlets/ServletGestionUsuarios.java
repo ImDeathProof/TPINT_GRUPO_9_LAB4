@@ -14,6 +14,7 @@ import daoImpl.ClienteDAO;
 import entidad.Cliente;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
+import entidad.DBException;
 
 /**
  * Servlet implementation class ServletGestionUsuarios
@@ -35,7 +36,7 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 String paginaElegida = request.getParameter("pagina");
+		 try{String paginaElegida = request.getParameter("pagina");
 	        int numeroPagina = 1;
 
 	        if (paginaElegida != null && !paginaElegida.isEmpty()) {
@@ -53,13 +54,20 @@ public class ServletGestionUsuarios extends HttpServlet {
 
 	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 	        rd.forward(request, response);
+	}catch (DBException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+        response.sendRedirect("Login.jsp");
 	}
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnUsuarios")!=null) {
+		try{
+			if(request.getParameter("btnUsuarios")!=null) {
+		
 			
 			request.setAttribute("cantPags", clNeg.getCantPaginas());
 			
@@ -70,6 +78,10 @@ public class ServletGestionUsuarios extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 			rd.forward(request, response);
 		}
+	}catch (DBException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+        response.sendRedirect("Login.jsp");
+    }
 	}
-
 }

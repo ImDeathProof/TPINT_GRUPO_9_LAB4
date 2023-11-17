@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.DBException;
 import entidad.Prestamo;
 import negocio.PrestamoNeg;
 import negocioImpl.PrestamoNegocioImpl;
@@ -51,9 +52,10 @@ public class ServletListarPrestamos extends HttpServlet {
 	        request.setAttribute("listaPrestamos", lista);
 	        
 	        request.setAttribute("cantPags", negPr.getCantPaginas());
-        }catch(SQLException e) {
- 	        e.printStackTrace();
-		}catch(Exception ex) {
+        }catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+	    }catch(Exception ex) {
  	        ex.printStackTrace();
 		}finally {
 	        RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
@@ -73,9 +75,10 @@ public class ServletListarPrestamos extends HttpServlet {
 				ArrayList<Prestamo> lista = (ArrayList<Prestamo>)negPr.obtenerPrestamosPaginados(1, 5);
 				
 				request.setAttribute("listaPrestamos", lista);
-			}catch(SQLException e) {
-	 	        e.printStackTrace();
-    		}catch(Exception ex) {
+			}catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		    }catch(Exception ex) {
 	 	        ex.printStackTrace();
     		}finally {
 				RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");

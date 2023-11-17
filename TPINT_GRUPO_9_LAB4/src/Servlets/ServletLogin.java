@@ -13,12 +13,14 @@ import daoImpl.ClienteDAO;
 import entidad.Cliente;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
+import entidad.DBException;
 
 /**
  * Servlet implementation class ServletLogin
  */
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 	ClienteNeg clNeg = new ClienteNegImpl();
        
@@ -41,7 +43,7 @@ public class ServletLogin extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		
 		    Cliente usuarioActivo = new Cliente();
 	
@@ -66,7 +68,7 @@ public class ServletLogin extends HttpServlet {
 
 		            response.sendRedirect("PerfilUsuario.jsp");
 		        }
-		    } catch (SQLException e) {
+		    } catch (DBException e) {
 		        e.printStackTrace();
 		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
 		        response.sendRedirect("Login.jsp");

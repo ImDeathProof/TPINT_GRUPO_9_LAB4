@@ -3,6 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import entidad.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
-
+import entidad.DBException;
 import entidad.Prestamo;
 
 import negocio.PrestamoNeg;
@@ -48,9 +49,10 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
 	    				request.setAttribute("errorCarga", true);
 	    			}
 	    		}
-    		}catch(SQLException e) {
-	 	        e.printStackTrace();
-    		}catch(Exception ex) {
+    		}catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		    }catch(Exception ex) {
 	 	        ex.printStackTrace();
     		}finally {
     			request.getRequestDispatcher("PrestamosAprobados.jsp").forward(request, response);    			

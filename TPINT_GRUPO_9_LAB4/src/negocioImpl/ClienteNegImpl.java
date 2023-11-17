@@ -7,64 +7,65 @@ import dao.ClienteDaoInterface;
 import negocio.ClienteNeg;
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
+import entidad.DBException;
 
 public class ClienteNegImpl implements ClienteNeg {
 	
 	private ClienteDaoInterface clDao = new ClienteDAO();
 
 	@Override
-	public Cliente agregarUsuario(Cliente cliente) throws SQLException {
+	public Cliente agregarUsuario(Cliente cliente) throws DBException {
 		return clDao.agregarUsuario(cliente);
 	}
 
 	@Override
-	public Cliente BuscarUsuario(Cliente cliente) throws SQLException {
+	public Cliente BuscarUsuario(Cliente cliente) throws DBException {
 		return clDao.BuscarUsuario(cliente);
 	}
 
 	@Override
-	public int modificarUsuario(Cliente cliente) throws SQLException {
+	public int modificarUsuario(Cliente cliente) throws DBException {
 		return clDao.modificarUsuario(cliente);
 	}
 
 	@Override
-	public ArrayList<Cliente> obtenerUsuarios() {
+	public ArrayList<Cliente> obtenerUsuarios() throws DBException{
 		return clDao.obtenerUsuarios();
 	}
 
 	@Override
-	public int BloquearCliente(int id) {
+	public int BloquearCliente(int id) throws DBException{
 		return clDao.BloquearCliente(id);
 	}
 
 	@Override
-	public int DesbloquearCliente(int id) {
+	public int DesbloquearCliente(int id) throws DBException{
 		return clDao.DesbloquearCliente(id);
 	}
 
 	@Override
-	public int CambiarPass(String password, int id) {
+	public int CambiarPass(String password, int id) throws DBException{
 		return clDao.CambiarPass(password, id);
 	}
 
 	@Override
-	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) {
+	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException{
 		return clDao.obtenerUsuariosPaginados(pageNumber, pageSize);
 	}
 
 	@Override
-	public int getCantPaginas() {
+	public int getCantPaginas() throws DBException{
 		return clDao.getCantPaginas();
 	}
 
 	@Override
-	public Cliente BuscarClientePorID(int idCliente) {
+	public Cliente BuscarClientePorID(int idCliente) throws DBException{
 		// TODO Auto-generated method stub
 		return clDao.BuscarClientePorID(idCliente);
 	}
 
 	@Override
-	public boolean usuarioExistente(String username, int idUsuario) throws SQLException {
+	public boolean usuarioExistente(String username, int idUsuario) throws DBException {
 		return clDao.usuarioExistente(username, idUsuario);
 	}
 	

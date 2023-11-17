@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
 import entidad.TipoMovimiento;
+import entidad.DBException;
 
 public class ClienteDAO implements ClienteDaoInterface {
 	
@@ -30,7 +32,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	      }
  }
 	
-	 public Cliente agregarUsuario(Cliente cliente) throws SQLException {
+	 public Cliente agregarUsuario(Cliente cliente) throws DBException {
 	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin,Bloqueado) " +
 	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
 
@@ -55,13 +57,13 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 	        return BuscarUsuario(cliente);
 	    }
 	 
-	 public Cliente BuscarUsuario(Cliente cliente) throws SQLException {
+	 public Cliente BuscarUsuario(Cliente cliente) throws DBException {
 
 		    String username = cliente.get_Usuario().trim();
 		    String password = cliente.get_Contrasena();
@@ -69,13 +71,13 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    String checkQuery = "SELECT * FROM Usuario WHERE BINARY Username = ? AND BINARY Pass = ?";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-		         PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
-		        checkStatement.setString(1, username);
-		        checkStatement.setString(2, password);
+		            PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
+		           checkStatement.setString(1, username);
+		           checkStatement.setString(2, password);
 
-		        ResultSet resultSet = checkStatement.executeQuery();
+		           ResultSet resultSet = checkStatement.executeQuery();
 
-		        if (resultSet.next()) {
+		           if (resultSet.next()) {
 		            Cliente usuarioEncontrado = new Cliente();
 		            usuarioEncontrado.set_IDCliente(resultSet.getInt("IDUsuario"));
 		            usuarioEncontrado.set_Usuario(resultSet.getString("Username"));
@@ -101,13 +103,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return null;
 		}
 	 
 	 
-		private Direccion obtenerDireccionPorID(int idDireccion) throws SQLException {
+		private Direccion obtenerDireccionPorID(int idDireccion) throws DBException {
 		    String queryDireccion = "SELECT * FROM Direccion WHERE IDDireccion = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementDireccion = cn.prepareStatement(queryDireccion)) {
@@ -132,11 +135,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		            return direccion;
 		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 		    return null;
 		}
 
-		private Localidad obtenerLocalidadPorID(int idLocalidad) throws SQLException {
+		private Localidad obtenerLocalidadPorID(int idLocalidad) throws DBException {
 		    String queryLocalidad = "SELECT * FROM Localidad WHERE IDLocalidad = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementLocalidad = cn.prepareStatement(queryLocalidad)) {
@@ -150,12 +156,15 @@ public class ClienteDAO implements ClienteDaoInterface {
 		            localidad.setDescripcion(resultSetLocalidad.getString("Descripcion"));
 		            return localidad;
 		        }
+		    }catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return null;
 		}
 
-		private Provincia obtenerProvinciaPorID(int idProvincia) throws SQLException {
+		private Provincia obtenerProvinciaPorID(int idProvincia) throws DBException {
 		    String queryProvincia = "SELECT * FROM Provincia WHERE IDProvincia = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementProvincia = cn.prepareStatement(queryProvincia)) {
@@ -169,13 +178,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		            provincia.setDescripcion(resultSetProvincia.getString("Descripcion"));
 		            return provincia;
 		        }
+		    }catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return null;
 		}
 
 	 
-		public int modificarUsuario(Cliente cliente) throws SQLException {
+		public int modificarUsuario(Cliente cliente) throws DBException {
 		    String query = "UPDATE Usuario SET Username = ?, Pass = ?, Nombre = ?, Apellido = ?, DNI = ?, CUIL = ?, Sexo = ?, Nacionalidad = ?, FechaNacimiento = ?, IDDireccion = ?, Mail = ?, Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?";
 		    int filas = 0;
 
@@ -204,13 +216,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        filas = preparedStatement.executeUpdate();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return filas;
 		}
 
 	 
-	 public boolean usuarioExistente(String username, int idUsuario) throws SQLException {
+	 public boolean usuarioExistente(String username, int idUsuario) throws DBException {
 		    String query = "SELECT COUNT(*) FROM Usuario WHERE Username = ? AND IDUsuario <> ?";
 		    int count = 0;
 
@@ -223,12 +236,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		            count = resultSet.getInt(1);
 		        }
 		    }
+		    catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 
 		    return count > 0;
 		}
 	 
 	 
-	 public ArrayList<Cliente> obtenerUsuarios() {
+	 public ArrayList<Cliente> obtenerUsuarios() throws DBException{
 		    ArrayList<Cliente> lista = new ArrayList<>();
 		    
 		    try {
@@ -270,13 +287,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return lista;
 		}
 
 	 
-	 public int BloquearCliente(int id)
+	 public int BloquearCliente(int id) throws DBException
 	 {
 		 String query = "UPDATE Usuario SET Bloqueado = 1 WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -287,13 +305,15 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
+
 
 	        return filas;
 	 }
 	 
-	 public int DesbloquearCliente(int id)
+	 public int DesbloquearCliente(int id) throws DBException
 	 {
 		 String query = "UPDATE Usuario SET Bloqueado = 0 WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -304,13 +324,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 
 	        return filas;
 	 }
 	 
-	 public int CambiarPass(String password, int id )
+	 public int CambiarPass(String password, int id ) throws DBException
 	 {
 		 String query = "UPDATE Usuario SET Pass = ? WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -322,13 +343,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 
 	        return filas;
 	 }
 	 
-	 public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) {
+	 public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException{
 		    try {
 		        Class.forName("com.mysql.cj.jdbc.Driver");
 		    } catch (ClassNotFoundException e) {
@@ -376,13 +398,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return lista;
 		}
 
 
-	 	public int getCantPaginas() {
+	 	public int getCantPaginas() throws DBException{
 		 
 		    int cant = 0;
 
@@ -396,13 +419,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return cant;
 		}
 
 		@Override
-		public Cliente BuscarClientePorID(int idCliente) {
+		public Cliente BuscarClientePorID(int idCliente) throws DBException{
 		    String checkQuery = "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado FROM Usuario WHERE IDUsuario = ?";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -437,7 +461,9 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
+
 
 		    return null;
 		}

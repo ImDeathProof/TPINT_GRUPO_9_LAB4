@@ -22,6 +22,7 @@
 	import negocioImpl.CuentaNegImpl;
 	import negocioImpl.MovimientoNegImpl;
 	import entidad.TipoMovimiento;
+	import entidad.DBException;
 
 	public class PrestamoDAO implements PrestamoDaoInterface{
 		
@@ -41,13 +42,13 @@
 		}
 		
 		@Override
-		public List<Prestamo> ObtenerTodos() throws SQLException{
+		public List<Prestamo> ObtenerTodos() throws DBException{
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public Prestamo ObtenerUno(int id) throws SQLException{
+		public Prestamo ObtenerUno(int id) throws DBException{
 			
 			Prestamo prestamo = null;
 			
@@ -84,13 +85,14 @@
 		        cn.close();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 		    return prestamo;
 
 		}
 
 		@Override
-		public int Insertar(Prestamo prestamo) throws SQLException{
+		public int Insertar(Prestamo prestamo) throws DBException{
 			int filas = 0;
 			String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario, Cant_Cuotas) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?)";
 			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -111,26 +113,27 @@
 
 		            filas = preparedStatement.executeUpdate();
 		       } catch (SQLException e) {
-		            e.printStackTrace();
-		       }
+			        e.printStackTrace();
+			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			    }
 
 		        return filas;
 		}
 
 		@Override
-		public int Editar(Prestamo prestamo) throws SQLException{
+		public int Editar(Prestamo prestamo) throws DBException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Borrar(int id) throws SQLException{
+		public int Borrar(int id) throws DBException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Aprobar(int id) throws SQLException{
+		public int Aprobar(int id) throws DBException{
 			Prestamo p = ObtenerUno(id);
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Aprobado', MontoAprobado = MontoTotal WHERE IDPrestamo = ?;";
 			 int filas = 0;
@@ -142,14 +145,15 @@
 		            filas = preparedStatement.executeUpdate();
 		            cuNeg.insertMovimiento(p.getCuenta().getIdCuenta(),p.getMonto(), new TipoMovimiento(2));
 		        } catch (SQLException e) {
-		            e.printStackTrace();
-		        }
+			        e.printStackTrace();
+			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			    }
 
 		        return filas;
 		}
 
 		@Override
-		public int Rechazar(int id) throws SQLException{
+		public int Rechazar(int id) throws DBException{
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Rechazado' WHERE IDPrestamo = ?;";
 			int filas = 0;
 
@@ -159,14 +163,15 @@
 		            
 		            filas = preparedStatement.executeUpdate();
 		        } catch (SQLException e) {
-		            e.printStackTrace();
-		        }
+			        e.printStackTrace();
+			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			    }
 
 		    return filas;
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws SQLException{
+		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws DBException{
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	 	    Connection cn = null;
@@ -209,14 +214,15 @@
 
 	 	        cn.close();
 	 	    } catch (SQLException e) {
-	 	        e.printStackTrace();
-	 	    }
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 	 	    return lista;
 	 	}
 		
 
 		@Override
-		public int getCantPaginas() throws SQLException{
+		public int getCantPaginas() throws DBException{
 			// TODO Auto-generated method stub
 			int cant = 0;
 
@@ -230,13 +236,14 @@
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 		    }
 
 		    return cant;
 		}
 		
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws SQLException{
+		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws DBException{
 			  	ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ?";
 
@@ -267,13 +274,14 @@
 		                lista.add(prestamoVacio);
 		            }
 		        } catch (SQLException e) {
-		            e.printStackTrace();
-		        }
+			        e.printStackTrace();
+			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			    }
 		        return lista;
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente)throws SQLException {
+		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente)throws DBException {
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ? AND EstadoPrestamo = 'Aprobado'";
@@ -305,13 +313,14 @@
 	                lista.add(prestamoVacio);
 	            }
 	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }
 	        return lista;
 		}
 
 		@Override
-		public int obtenerUltimoID() throws SQLException{
+		public int obtenerUltimoID() throws DBException{
 			String query = "SELECT IDPrestamo as UltimoID " + 
 					"FROM prestamos " + 
 					"ORDER BY IDPrestamo DESC " + 
@@ -325,6 +334,7 @@
 			        }
 			    } catch (SQLException e) {
 			        e.printStackTrace();
+			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
 			    }
 
 			return ultimo;
