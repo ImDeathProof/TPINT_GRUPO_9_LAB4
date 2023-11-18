@@ -1,5 +1,26 @@
 create database bancoDB;
 USE bancoDB;
+
+create table Localidad(
+	IDLocalidad INT AUTO_INCREMENT PRIMARY KEY,
+	Descripcion VARCHAR(100) NOT NULL
+);
+
+create table Provincia(
+	IDProvincia INT AUTO_INCREMENT PRIMARY KEY,
+	Descripcion VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Direccion(
+	IDDireccion INT AUTO_INCREMENT PRIMARY KEY,
+    Calle VARCHAR(50) NOT NULL,
+    NUMERO INT NOT NULL,
+    IDLocalidad INT NOT NULL,
+    foreign key (IDLocalidad) references Localidad(IDLocalidad),
+    IDProvincia INT NOT NULL,
+    foreign key (IDProvincia) references Provincia(IDProvincia)
+);
+
 CREATE TABLE Usuario (
 IDUsuario INT AUTO_INCREMENT PRIMARY KEY,
 Username VARCHAR(50) NOT NULL,
@@ -11,13 +32,13 @@ Apellido VARCHAR(50) NOT NULL,
 Sexo CHAR(1) NOT NULL,
 Nacionalidad VARCHAR(50) NOT NULL,
 FechaNacimiento DATE NOT NULL,
-Direccion VARCHAR(100) NOT NULL,
-Localidad VARCHAR(100) NOT NULL,
-Provincia VARCHAR(50) NOT NULL,
 Mail VARCHAR(100) NOT NULL,
 Telefono VARCHAR(20) NOT NULL,
 ADMIN boolean NOT NULL,
-Bloqueado boolean NOT NULL
+Bloqueado boolean NOT NULL,
+
+IDDireccion INT NOT NULL,
+FOREIGN KEY (IDDireccion) REFERENCES Direccion(IDDireccion)
 );
 
 CREATE TABLE Cuenta (
@@ -83,11 +104,3 @@ FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario),
 IDCuenta INT NOT NULL,
 foreign key (IDCuenta) references Cuenta(IDCuenta)
 );
-
-ALTER TABLE Prestamos
-DROP INDEX IDCuenta;
-ALTER TABLE cuotas_x_clientes
-ADD COLUMN Nro_Cuota INT NOT NULL,
-ADD COLUMN Cuotas_Totales INT NOT NULL,
-ADD COLUMN IDCuota INT AUTO_INCREMENT PRIMARY KEY,
-MODIFY COLUMN Monto_a_Pagar DECIMAL(10, 2) NOT NULL;
