@@ -1,6 +1,7 @@
 package negocioImpl;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dao.ClienteDaoInterface;
@@ -84,6 +85,17 @@ public class CuentaNegImpl implements CuentaNeg {
 	public Cuenta obtenerCuentaPorID(int idCuenta) {
 		// TODO Auto-generated method stub
 		return clDao.obtenerCuentaPorID(idCuenta);
+	}
+
+	@Override
+	public BigDecimal obtenerSaldo(int IDCuenta) throws SQLException {
+		// TODO Auto-generated method stub
+		return clDao.obtenerSaldo(IDCuenta);
+	}
+
+	@Override
+	public int Debitar(int IDCuenta, BigDecimal saldo) {
+		return clDao.Debitar(IDCuenta, saldo);
 	}
 	
 	

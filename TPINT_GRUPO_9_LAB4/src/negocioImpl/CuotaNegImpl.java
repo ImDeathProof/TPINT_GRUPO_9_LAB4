@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,14 +10,30 @@ import daoImpl.CuotaDAO;
 import entidad.Cuota;
 import entidad.DBException;
 import entidad.Prestamo;
+import negocio.CuentaNeg;
 import negocio.CuotaNeg;
 
 public class CuotaNegImpl implements CuotaNeg{
 	private CuotaDaoInterface cuotaDao= new CuotaDAO();
 
 	@Override
-	public int Pagar(int idCuota) throws SQLException {
-		return cuotaDao.Pagar(idCuota);
+	public int Pagar(Cuota cuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws SQLException{
+		CuentaNeg negCt = new CuentaNegImpl();
+		BigDecimal saldo = negCt.obtenerSaldo(IDCuenta);
+		int rs = 0;
+		
+		if(saldo.compareTo(cuota.getMontoAPagar()) >= 0) { //>= 0 : El saldo es igual o mayor - puede pagar
+			//Generar movimientos negativo PagoDePrestamo
+			//Se descuenta la plata de la cuenta
+			saldo = saldo.subtract(cuota.getMontoAPagar());
+			negCt.Debitar(IDCuenta, saldo);
+			rs = cuotaDao.Pagar(cuota.getIDCuota(), IDPrestamo, IDUsuario, IDCuenta);
+			//movimiento pago de cuota
+		}else if(saldo.compareTo(cuota.getMontoAPagar()) == 0) { //no puede pagar porque el saldo es menor
+			rs = -1;
+		}
+		
+		return rs;
 	}
 
 	@Override
@@ -26,9 +43,9 @@ public class CuotaNegImpl implements CuotaNeg{
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int idPrestamo) throws SQLException{
+	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int IDPrestamo) throws DBException{
 		// TODO Auto-generated method stub
-		return cuotaDao.obtenerCuotasPorPrestamo(idPrestamo);
+		return cuotaDao.obtenerCuotasPorPrestamo(IDPrestamo);
 	}
 
 	@Override
@@ -49,6 +66,12 @@ public class CuotaNegImpl implements CuotaNeg{
 		ct.setMontoAPagar(prestamo.getImporteCuota());
 		ct.setNro_Cuota(nroCt);
 		return ct;
+	}
+
+	@Override
+	public Cuota obtenerCuotaPorID(int IDCuota) throws DBException {
+		// TODO Auto-generated method stub
+		return cuotaDao.ObtenerCuotaPorID(IDCuota);
 	}
 
 }

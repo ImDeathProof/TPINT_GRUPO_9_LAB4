@@ -121,3 +121,16 @@ VALUES ('user10', 'password10', '12301234', '110345678901', 'Cecilia', 'Rios', 1
 
 INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
 VALUES ('user11', 'password11', '23401234', '120345678901', 'Hector', 'Luna', 0, 'Argentino', '1996-01-20', 'hector@example.com', '111000999', FALSE, FALSE, 1);
+
+-- Inserts movimientos
+
+INSERT INTO tiposmovimientos (Descripcion)
+VALUES ('Pago de cuota');
+INSERT INTO tiposmovimientos (Descripcion)
+VALUES ('Alta de cuenta');
+INSERT INTO tiposmovimientos (Descripcion)
+VALUES ('Alta de Prestamo');
+INSERT INTO tiposmovimientos (Descripcion)
+VALUES ('Extracción');
+INSERT INTO tiposmovimientos (Descripcion)
+VALUES ('Deposito');

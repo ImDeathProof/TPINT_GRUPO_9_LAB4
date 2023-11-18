@@ -59,7 +59,7 @@
 							                    <form action="ServletPagarCuota" method="post">
 							                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
 							                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
-							                            <input type="submit" name="submitValue" value="Pagar" class="btn btn-success">
+							                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
 
 							                        <% } %>
 							                        

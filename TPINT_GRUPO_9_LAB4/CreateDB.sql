@@ -87,7 +87,7 @@ foreign key (IDCuenta) references Cuenta(IDCuenta)
 );
 
 CREATE TABLE TiposMovimientos(
-IDTipo INT PRIMARY KEY,
+IDTipo INT AUTO_INCREMENT PRIMARY KEY,
 Descripcion VARCHAR(100) NOT NULL
 );
 

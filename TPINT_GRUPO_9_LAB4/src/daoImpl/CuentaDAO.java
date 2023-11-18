@@ -13,6 +13,7 @@ import java.util.Random;
 
 import dao.CuentaDaoInterface;
 import entidad.Cuenta;
+import entidad.DBException;
 import entidad.TipoMovimiento;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
@@ -604,5 +605,45 @@ public class CuentaDAO implements CuentaDaoInterface {
         }
         
 		return cuenta;
+	}
+
+	@Override
+	public BigDecimal obtenerSaldo(int IDCuenta) throws SQLException{
+		BigDecimal saldo = new BigDecimal(0);
+
+ 	    String query = "SELECT Saldo FROM Cuenta WHERE IDCuenta = ?;";
+
+ 	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+ 	         PreparedStatement ps = cn.prepareStatement(query)) {
+ 	         ps.setInt(1, IDCuenta);
+
+
+ 	        try (ResultSet rs = ps.executeQuery()) {
+ 	            if (rs.next()) {
+ 	                saldo = rs.getBigDecimal("Saldo");
+ 	            }
+ 	        }
+ 	    } catch (SQLException e) {
+ 	        e.printStackTrace();
+ 	    }
+
+ 	    return saldo;
+	}
+
+	@Override
+	public int Debitar(int IDCuenta, BigDecimal saldo) {
+		// TODO Auto-generated method stub
+		int filas = 0;
+		String query = "UPDATE cuenta SET Saldo = ? WHERE IDCuenta = ?";
+		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+			preparedStatement.setBigDecimal(1, saldo);
+			preparedStatement.setInt(2, IDCuenta);
+			filas = preparedStatement.executeUpdate();
+		}catch (SQLException e) {
+            e.printStackTrace();
+       }
+
+        return filas;
 	}
 }
