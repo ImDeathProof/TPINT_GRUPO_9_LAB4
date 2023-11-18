@@ -80,10 +80,10 @@ public class ServletListarPrestamos extends HttpServlet {
 		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
 		    }catch(Exception ex) {
 	 	        ex.printStackTrace();
-    		}finally {
+    		}
 				RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
 				rd.forward(request, response);
-    		}
+    		
 		}
 	}
 

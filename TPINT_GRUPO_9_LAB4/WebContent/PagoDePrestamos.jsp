@@ -31,60 +31,45 @@
 							<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver Cuotas">
 					</form>
 					<%
-				     		ArrayList<Prestamo> listaPrestamos = null;
-				      		if(request.getAttribute("listaPrestamos")!=null){
-				      			listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");%>
+				     		 ArrayList<Cuota> listaCuotas = null;
+				      		if(request.getAttribute("listaCuotas")!=null){
+				      			listaCuotas = (ArrayList<Cuota>) request.getAttribute("listaCuotas");%>
 				      			
 						   <table class="table">
 							    <thead>
 							        <tr>
-							            <th scope="col">Fecha</th>
-							            <th scope="col">Usuario</th>
-							            <th scope="col">Monto Solicitado</th>
-							            <th scope="col">Monto Aprobado</th>
-							            <th scope="col">Estado</th>
-							            <th scope="col">Acción</th>
+							             <th scope="col">Fecha de pago</th>	
+							            <th scope="col">Monto a pagar</th>
+							            <th scope="col">N° de cuota</th>
+							            <th scope="col">Cuotas totales</th>
+							            <th scope="col">Pagar</th>
 							        </tr>
 							    </thead>
 							    <tbody>
-							        <% if (listaPrestamos != null) {
-							            for (Prestamo pr : listaPrestamos) { %>
+							        <% if (listaCuotas != null) {
+							            for (Cuota cta : listaCuotas) { %>
 							            <tr>
-							                <td><%= pr.getFechaPedido() %></td>
-							                <td><%= pr.getCliente().get_Usuario() %></td>
-							                <td><%= pr.getMonto() %></td>
-							                <td><%= pr.getMontoAprobado() %></td>
+							                
+							                 <td><%= cta.getFechaDePago() %></td>							                
+							                <td><%= cta.getMontoAPagar() %></td>
+							                <td><%= cta.getNro_Cuota() %></td>
+							                <td><%= cta.getCuotas_Totales() %></td>
 
-							                <td><%= pr.getEstado() %></td>
 							                <td>
-							                    <form action="ServletGestionarPrestamos" method="post">
-							                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
-							                        <% if (pr.getEstado().equalsIgnoreCase("Pendiente")) { %>
-							                            <input type="submit" name="submitValue" value="Aprobar" class="btn btn-success">
-							                            <input type="submit" name="submitValue" value="Rechazar" class="btn btn-danger">
-							                        <% } else { %>
-							                        	<label>Sin Acciones</label>
+							                    <form action="ServletPagarCuota" method="post">
+							                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
+							                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
+							                            <input type="submit" name="submitValue" value="Pagar" class="btn btn-success">
+
 							                        <% } %>
+							                        
 							                    </form>
 							                </td>
 							            </tr>
-							            <% } } %>
+							            <% } }%>
 							    </tbody>
 							</table>
-							<form method="get" action="ServletListarPrestamos">
-						    <%
-						    int cantPags = (int)request.getAttribute("cantPags");
-						    if (cantPags != 0) {
-						        for (int i = 1; i <= cantPags; i++) {
-						    %>
-						        <button class="btn btn-primary" type="submit" name="pagina" value="<%= i %>">
-						            Página <%= i %>
-						        </button>
-						    <%
-						        } 
-						    }
-						    %>
-						</form>
+							
 						<% } %>
 				</div>
 				<div class="col-1"></div>

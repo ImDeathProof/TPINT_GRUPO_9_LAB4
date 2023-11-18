@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import dao.CuotaDaoInterface;
 import daoImpl.CuotaDAO;
 import entidad.Cuota;
+import entidad.DBException;
 import entidad.Prestamo;
 import negocio.CuotaNeg;
 
@@ -31,7 +32,7 @@ public class CuotaNegImpl implements CuotaNeg{
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws SQLException{
+	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente)  throws DBException {
 		// TODO Auto-generated method stub
 		return cuotaDao.obtenerCuotasPorCliente(idCliente);
 	}

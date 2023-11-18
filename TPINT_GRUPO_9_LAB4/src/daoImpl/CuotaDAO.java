@@ -3,12 +3,14 @@ package daoImpl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import dao.CuotaDaoInterface;
 import entidad.Cuota;
+import entidad.DBException;
 import entidad.Prestamo;
 
 public class CuotaDAO implements CuotaDaoInterface {
@@ -16,6 +18,14 @@ public class CuotaDAO implements CuotaDaoInterface {
     private String user = "root";
     private String pass = "root";
     private String dbName = "bancodb";
+    
+    public CuotaDAO() {
+    	try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     
 	@Override
 	public int Pagar(int idCuota) throws SQLException {
@@ -56,9 +66,37 @@ public class CuotaDAO implements CuotaDaoInterface {
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws DBException {
+		ArrayList<Cuota> lista = new ArrayList<Cuota>();
+        String cuotaQuery = "SELECT * FROM cuotas_x_clientes WHERE IdUsuario = ?";
+
+        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+             PreparedStatement cuotaStatement = cn.prepareStatement(cuotaQuery)) {
+        	cuotaStatement.setInt(1, idCliente);
+            ResultSet cuotaResultSet = cuotaStatement.executeQuery();
+
+            while (cuotaResultSet.next()) {
+            	Cuota cuota = new Cuota();
+            	cuota.setIDCuota(cuotaResultSet.getInt("IDCuota"));
+            	cuota.setCuotas_Totales(cuotaResultSet.getInt("Cuotas_Totales"));
+            	cuota.setEstado(cuotaResultSet.getString("Estado"));
+                cuota.setFechaDePago(cuotaResultSet.getTimestamp("Fecha_Pago").toLocalDateTime().toLocalDate());
+                cuota.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
+                cuota.setIDPrestamo(cuotaResultSet.getInt("IDPrestamo"));
+                cuota.setIDUsuario(cuotaResultSet.getInt("IDUsuario"));
+                cuota.setIDCuenta(cuotaResultSet.getInt("IDCuenta"));
+                cuota.setMontoAPagar(cuotaResultSet.getBigDecimal("Monto_a_Pagar"));
+                
+                
+
+                lista.add(cuota);
+            }
+            
+        } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+	    }
+        return lista;
 	}
 
 
