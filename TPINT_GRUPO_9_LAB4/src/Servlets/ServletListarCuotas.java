@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
+import entidad.Cuenta;
 import entidad.Cuota;
 import entidad.DBException;
 import entidad.Prestamo;
+import negocio.CuentaNeg;
 import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
+import negocioImpl.CuentaNegImpl;
 import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 
@@ -26,6 +29,7 @@ import negocioImpl.PrestamoNegocioImpl;
 public class ServletListarCuotas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CuotaNeg ctaNeg = new CuotaNegImpl(); 
+	CuentaNeg ctNeg = new CuentaNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,9 +56,16 @@ public class ServletListarCuotas extends HttpServlet {
 			
 				Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 				try {
-					ArrayList<Cuota> lista = (ArrayList<Cuota>)ctaNeg.obtenerCuotasPorCliente(cl.get_IDCliente());
+					ArrayList<Cuota> lista = ctaNeg.obtenerCuotasPorCliente(cl.get_IDCliente());
 					
 					request.setAttribute("listaCuotas", lista);
+					try {
+						ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
+						request.setAttribute("listaCuentas", listaCt);
+					}catch(Exception e) {
+						e.printStackTrace();
+						request.getSession().setAttribute("error", "Error al buscar cuentas del usuario");
+					}
 					RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
 					rd.forward(request, response);
 				}catch (DBException e) {

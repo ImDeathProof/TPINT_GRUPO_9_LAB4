@@ -46,10 +46,21 @@ public class ServletPagarCuota extends HttpServlet {
 		if(request.getParameter("PagarCuota")!= null) {
 			try {
 				Cuota ct = negCt.obtenerCuotaPorID(Integer.parseInt(request.getParameter("IDCuota")));
-				negCt.Pagar(ct, ct.getIDPrestamo(), ct.getIDUsuario(), ct.getIDCuenta());
+				
+				if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {
+					try {
+				        int nroCuenta = Integer.parseInt(request.getParameter("SelectCuentas"));
+				        negCt.Pagar(ct, ct.getIDPrestamo(), ct.getIDUsuario(), nroCuenta);
+				    } catch (NumberFormatException e) {
+				        e.printStackTrace();
+				        request.getSession().setAttribute("error", "Error al intentar pagar la cuota.");
+				    }
+				}else {
+					request.getSession().setAttribute("error", "Seleccione una cuenta.");
+				}
 			} catch (SQLException | NumberFormatException | DBException e) {
 				e.printStackTrace();
-				request.setAttribute("error", "Error al procesar el pago de la cuota.");
+				request.getSession().setAttribute("error", "Error al procesar el pago de la cuota.");
 			}finally {
 		        RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
 		        rd.forward(request, response);

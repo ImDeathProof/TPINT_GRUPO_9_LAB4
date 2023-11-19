@@ -11,9 +11,9 @@ public class TipoMovimiento {
 	public TipoMovimiento(int idTipo)
 	{
 		this.Id_TipoMovimiento = idTipo;
+		
 		if (idTipo == 1) {
 			this.TipoMovimiento = "Alta de cuenta";
-			
 		} 
 		else if(idTipo == 2)
 		{
@@ -29,6 +29,29 @@ public class TipoMovimiento {
 		}
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((TipoMovimiento == null) ? 0 : TipoMovimiento.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TipoMovimiento other = (TipoMovimiento) obj;
+		if (TipoMovimiento == null) {
+			if (other.TipoMovimiento != null)
+				return false;
+		} else if (!TipoMovimiento.equals(other.TipoMovimiento))
+			return false;
+		return true;
+	}
 	public int getId_TipoMovimiento() {
 		return Id_TipoMovimiento;
 	}

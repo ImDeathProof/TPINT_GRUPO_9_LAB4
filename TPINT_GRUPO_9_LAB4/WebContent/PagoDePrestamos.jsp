@@ -32,8 +32,12 @@
 					</form>
 					<%
 				     		 ArrayList<Cuota> listaCuotas = null;
-				      		if(request.getAttribute("listaCuotas")!=null){
-				      			listaCuotas = (ArrayList<Cuota>) request.getAttribute("listaCuotas");%>
+				     		 ArrayList<Cuenta> listaCuentas = null;
+				      		if(request.getAttribute("listaCuotas")!= null){
+				      			listaCuotas = (ArrayList<Cuota>) request.getAttribute("listaCuotas");
+				      		if(request.getAttribute("listaCuentas")!= null){
+				      			listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas");
+				      		}%>
 				      			
 						   <table class="table">
 							    <thead>
@@ -42,6 +46,7 @@
 							            <th scope="col">Monto a pagar</th>
 							            <th scope="col">N° de cuota</th>
 							            <th scope="col">Cuotas totales</th>
+							            <th scope="col">Cuenta</th>
 							            <th scope="col">Pagar</th>
 							        </tr>
 							    </thead>
@@ -54,7 +59,17 @@
 							                <td><%= cta.getMontoAPagar() %></td>
 							                <td><%= cta.getNro_Cuota() %></td>
 							                <td><%= cta.getCuotas_Totales() %></td>
-
+											<td>
+												<form action="ServletPagarCuota" method="post">
+													<select name="SelectCuentas" id="SelectCuentas" required class="form-control p-2">
+									                   <option value="Seleccionar">Seleccionar</option>
+									                    <%if(listaCuentas != null){
+									                    for(Cuenta ct : listaCuentas){%>
+									                    	<option value="<%= ct.getIdCuenta() %>"><%= ct.getNumeroCuenta() %></option>
+									                    <%}} %>
+						    	            		</select>
+					    	            		</form>
+					    	            	</td>
 							                <td>
 							                    <form action="ServletPagarCuota" method="post">
 							                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
@@ -70,7 +85,11 @@
 							    </tbody>
 							</table>
 							
-						<% } %>
+						<% }if(session.getAttribute("error") != null) {%>
+							<div class="alert alert-danger">
+					             <%= (String)session.getAttribute("error")%> 
+					        </div>
+						<%}%>
 				</div>
 				<div class="col-1"></div>
 		</div>
