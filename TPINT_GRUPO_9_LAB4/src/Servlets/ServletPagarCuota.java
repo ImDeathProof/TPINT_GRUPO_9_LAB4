@@ -46,7 +46,6 @@ public class ServletPagarCuota extends HttpServlet {
 		if(request.getParameter("PagarCuota")!= null) {
 			try {
 				Cuota ct = negCt.obtenerCuotaPorID(Integer.parseInt(request.getParameter("IDCuota")));
-				
 				if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {
 					try {
 				        int nroCuenta = Integer.parseInt(request.getParameter("SelectCuentas"));

@@ -46,41 +46,38 @@
 							            <th scope="col">Monto a pagar</th>
 							            <th scope="col">N° de cuota</th>
 							            <th scope="col">Cuotas totales</th>
-							            <th scope="col">Cuenta</th>
 							            <th scope="col">Pagar</th>
 							        </tr>
 							    </thead>
 							    <tbody>
-							        <% if (listaCuotas != null) {
+							        <% if (listaCuotas != null && !listaCuotas.isEmpty()) {
 							            for (Cuota cta : listaCuotas) { %>
-							            <tr>
-							                
-							                 <td><%= cta.getFechaDePago() %></td>							                
-							                <td><%= cta.getMontoAPagar() %></td>
-							                <td><%= cta.getNro_Cuota() %></td>
-							                <td><%= cta.getCuotas_Totales() %></td>
-											<td>
-												<form action="ServletPagarCuota" method="post">
-													<select name="SelectCuentas" id="SelectCuentas" required class="form-control p-2">
-									                   <option value="Seleccionar">Seleccionar</option>
-									                    <%if(listaCuentas != null){
-									                    for(Cuenta ct : listaCuentas){%>
-									                    	<option value="<%= ct.getIdCuenta() %>"><%= ct.getNumeroCuenta() %></option>
-									                    <%}} %>
-						    	            		</select>
-					    	            		</form>
-					    	            	</td>
-							                <td>
-							                    <form action="ServletPagarCuota" method="post">
-							                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
-							                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
-							                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
-
-							                        <% } %>
-							                        
-							                    </form>
-							                </td>
-							            </tr>
+							            
+								            <tr>
+								                
+								                 <td><%= cta.getFechaDePago() %></td>							                
+								                <td><%= cta.getMontoAPagar() %></td>
+								                <td><%= cta.getNro_Cuota() %></td>
+								                <td><%= cta.getCuotas_Totales() %></td>
+								                <td>
+								                   <form action="ServletPagarCuota" method="post">
+								                        <select name="SelectCuentas" class="form-control p-2">
+										                   <option value="Seleccionar">Seleccionar cuenta</option>
+										                    <%if(listaCuentas != null && !listaCuentas.isEmpty()){
+										                    for(Cuenta ct : listaCuentas){%>
+										                    	<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
+										                    <%}} %>
+							    	            		</select>
+								                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
+								                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
+								                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
+	
+								                        <% } %>
+								                        
+								                   </form>
+								                </td>
+								            </tr>
+							            
 							            <% } }%>
 							    </tbody>
 							</table>
