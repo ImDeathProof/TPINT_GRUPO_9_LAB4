@@ -37,7 +37,6 @@
 			      </ul>
 				<div>
 					<a class="btn" type="submit" href="Login.jsp">Iniciar sesión</a>
-					<a class="btn" type="submit" href="Registro.jsp">Registrarse</a>
 		    	</div>		
 	    	</div>
 		</div>
