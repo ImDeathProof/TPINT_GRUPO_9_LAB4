@@ -64,7 +64,7 @@
                         <td><%= cuenta.getCBU() %></td>
                         <td><%= cuenta.getSaldo() %></td>
                         <td><%= cuenta.getFechaCreacion() %></td>
-                        <td><% if (!cuenta.isEstado()) { %>En proceso<% } %></td>
+                        <td><% if (!cuenta.getEstado()) { %>En proceso<% } %></td>
                         <td>
 	                        <form action="ServletMisMovimientos" method="post">
 				             <input type="hidden" name="idCliente" value="<%= cuenta.getIdCuenta() %>" />

@@ -390,7 +390,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 		public int getCantPaginas(int idCliente) throws DBException, GenericException {
 		    int cant = 0;
 
-		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IdCliente = ?;";
+		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IDUsuario = ?;";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
