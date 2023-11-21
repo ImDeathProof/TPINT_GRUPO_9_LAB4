@@ -28,7 +28,7 @@
                     <a class="nav-link active" aria-current="page" href="MovimientosBanco.jsp">Movimientos en el Banco</a>
                 </li>
                   <li class="nav-item">
-                    <a class="btn" type="submit" href="Registro.jsp">Dar usuario de alta</a>
+                    <a class="nav-link active" type="submit" href="Registro.jsp">Alta de clientes</a>
                 </li>         					
             </ul>
             </div>

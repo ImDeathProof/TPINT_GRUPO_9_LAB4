@@ -86,88 +86,86 @@ public class ServletPrestamos extends HttpServlet {
 		
 		try{
 			if(request.getParameter("btnSolicitar")!=null) {
-			Prestamo pr = new Prestamo();
-			CuentaNegImpl cn = new CuentaNegImpl();
-			Cuenta cuenta = new Cuenta();
-			Cliente cliente = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-			if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {
-				cuenta = cn.obtenerCuentaPorID(Integer.parseInt(request.getParameter("SelectCuentas")));
-			}else {
-				request.getSession().setAttribute("errorAlSolicitar", "Seleccione una cuenta.");
-			}
-			String cuotas;
-			int cantCuotas = 0;
-			if(request.getParameter("inlineRadioOptions") != null) {
-				cuotas = request.getParameter("inlineRadioOptions");
-				if(cuotas.equals("1cuota")) {
-					cantCuotas = 1;
-				}else if(cuotas.equals("3Cuotas")) {
-					cantCuotas = 3;
-				}else if(cuotas.equals("6Cuotas")) {
-					cantCuotas = 6;
-				}else if(cuotas.equals("12Cuotas")) {
-					cantCuotas = 12;
-				}else if(cuotas.equals("24Cuotas")) {
-					cantCuotas = 24;
-				}else if(cuotas.equals("36Cuotas")) {
-					cantCuotas = 36;
-				}
-			}
-			
-			
-			
-			pr.setCantidadCuotas(cantCuotas);
-			pr.setCliente(cliente);
-			pr.setCuenta(cuenta);
-			pr.setEstado("Pendiente");
-			pr.setFechaPedido(LocalDate.now());
-			BigDecimal monto = new BigDecimal(request.getParameter("txtMonto"));
-			pr.setMonto(monto);
-			if (cantCuotas != 0) {
-	            BigDecimal importeCuota = monto.divide(new BigDecimal(cantCuotas), RoundingMode.HALF_UP);
-	            pr.setImporteCuota(importeCuota);
-	        }
-			pr.setPlazoPago(30); //Por ahora es 30(dias) para testear y despues se peude cambiar
-			pr.setTasaInteres(0);//Por ahora es 0% para testear y despues se puede cambiar
-			
-			try {
-				int filas = negPr.Insertar(pr);		
-				if(filas > 0) {
-					
-					/*try { //ESTO ES PARA CARGAR LAS CUOTAS
-						int ultimo = negPr.obtenerUltimoID();
-						CuotaNeg negCt = new CuotaNegImpl();
-						for(int i = 0; i< cantCuotas ; i++) {
-							Cuota ct = negCt.generarCuota(pr, ultimo, i+1);	
-							negCt.Agregar(ct);
-						} 
-					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}*/
-					
-					request.getSession().setAttribute("PrestamoExitoso", "El préstamo fue solicitado con exito!");	
+				Prestamo pr = new Prestamo();
+				CuentaNegImpl cn = new CuentaNegImpl();
+				Cuenta cuenta = new Cuenta();
+				Cliente cliente = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+				if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {
+					try {
+				        cuenta = cn.obtenerCuentaPorID(Integer.parseInt(request.getParameter("SelectCuentas")));
+				    } catch (NumberFormatException e) {
+				        request.getSession().setAttribute("errorAlSolicitar", "Seleccione una cuenta válida.");
+				        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
+				        return;
+				    }
 				}else {
-					request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
+					request.getSession().setAttribute("errorAlSolicitar", "Seleccione una cuenta.");
+					response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
+					return;
 				}
-				RequestDispatcher dispatcher = request.getRequestDispatcher("SolicitarPrestamo.jsp");
-				dispatcher.forward(request, response);	
+				String cuotas;
+				int cantCuotas = 0;
+				if(request.getParameter("inlineRadioOptions") != null) {
+					cuotas = request.getParameter("inlineRadioOptions");
+					if(cuotas.equals("1cuota")) {
+						cantCuotas = 1;
+					}else if(cuotas.equals("3Cuotas")) {
+						cantCuotas = 3;
+					}else if(cuotas.equals("6Cuotas")) {
+						cantCuotas = 6;
+					}else if(cuotas.equals("12Cuotas")) {
+						cantCuotas = 12;
+					}else if(cuotas.equals("24Cuotas")) {
+						cantCuotas = 24;
+					}else if(cuotas.equals("36Cuotas")) {
+						cantCuotas = 36;
+					}
+				}else{
+					request.getSession().setAttribute("errorAlSolicitar", "Seleccione la cantidad de cuotas.");
+					response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
+					return;
+				}
 				
-					            
-			} catch (GenericException e) {
-		        e.printStackTrace();
-		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
-		        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
-		    }
-		}}catch (DBException e) {
+				
+				
+				pr.setCantidadCuotas(cantCuotas);
+				pr.setCliente(cliente);
+				pr.setCuenta(cuenta);
+				pr.setEstado("Pendiente");
+				pr.setFechaPedido(LocalDate.now());
+				BigDecimal monto = new BigDecimal(request.getParameter("txtMonto"));
+				pr.setMonto(monto);
+				if (cantCuotas != 0) {
+		            BigDecimal importeCuota = monto.divide(new BigDecimal(cantCuotas), RoundingMode.HALF_UP);
+		            pr.setImporteCuota(importeCuota);
+		        }
+				pr.setPlazoPago(30); //Por ahora es 30(dias) para testear y despues se peude cambiar
+				pr.setTasaInteres(0);//Por ahora es 0% para testear y despues se puede cambiar
+				
+				try {
+					int filas = negPr.Insertar(pr);		
+					if(filas > 0) {
+						request.getSession().setAttribute("PrestamoExitoso", "El préstamo fue solicitado con exito!");	
+					}else {
+						request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
+					}
+					RequestDispatcher dispatcher = request.getRequestDispatcher("SolicitarPrestamo.jsp");
+					dispatcher.forward(request, response);		            
+				}catch (GenericException e) {
+			        e.printStackTrace();
+			        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+			        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
+			    }
+			}
+		}catch (DBException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
 	        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
-	    }catch (GenericException e) {
+		}catch (GenericException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	       
 	        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
-	    }
+		}
 	}
 
 	

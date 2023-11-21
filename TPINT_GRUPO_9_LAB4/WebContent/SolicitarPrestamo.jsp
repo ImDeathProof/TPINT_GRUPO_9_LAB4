@@ -66,7 +66,7 @@
 								ArrayList<Cuenta> listaCuentas = null;
 				  				listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas"); %>
 							<select name="SelectCuentas" class="form-control p-2">
-								<option value="Seleccionar">Seleccionar cuenta</option>
+								<option value="Seleccionar">Seleccionar</option>
 									<%
 									if(listaCuentas != null && !listaCuentas.isEmpty()){
 									for(Cuenta ct : listaCuentas){%>
