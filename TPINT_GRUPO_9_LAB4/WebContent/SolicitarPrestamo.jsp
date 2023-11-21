@@ -18,10 +18,7 @@
 		<% }else{ %>
 			<jsp:include page="NavbarClientes.jsp" />
 
-		<% }}
-		ArrayList<Cuenta> listaCuentas = null;
-		if(request.getAttribute("listaCuentas")!= null){
-  			listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas");%>
+		<% }%>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
 	<div class="row">
 		<div class="col-1"></div>
@@ -65,14 +62,22 @@
 							</div>
 						</div>
 						<label for="text" id="lbl_monto">Cuenta:</label>
-						<select name="SelectCuentas" class="form-control p-2">
-							<option value="Seleccionar">Seleccionar cuenta</option>
-								<%
-								if(listaCuentas != null && !listaCuentas.isEmpty()){
-								for(Cuenta ct : listaCuentas){%>
-									<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
-								<%}} %>
-						</select>
+						<%if(request.getAttribute("listaCuentas")!= null){
+								ArrayList<Cuenta> listaCuentas = null;
+				  				listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas"); %>
+							<select name="SelectCuentas" class="form-control p-2">
+								<option value="Seleccionar">Seleccionar cuenta</option>
+									<%
+									if(listaCuentas != null && !listaCuentas.isEmpty()){
+									for(Cuenta ct : listaCuentas){%>
+										<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
+									<%}} %>
+							</select>
+						<%}else if (session.getAttribute("errorCuenta") != null){%>
+						<div class="alert alert-danger">
+							<%= (String)session.getAttribute("errorCuenta")%>
+						</div>
+						<%} %>
 						<input type="submit" name="btnSolicitar" value="Solicitar Préstamo" class="btn btn-success m-2">
 						<% if (session.getAttribute("errorAlSolicitar") != null) { %>
 							<div class="alert alert-danger">

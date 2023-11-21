@@ -56,17 +56,21 @@ public class ServletPrestamos extends HttpServlet {
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			try {
 				ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
-				request.setAttribute("listaCuentas", listaCt);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+				if(!listaCt.isEmpty() && listaCt != null) {
+					request.setAttribute("listaCuentas", listaCt);
+				}else {
+					request.getSession().setAttribute("errorCuenta", "Usted no posee cuentas, por favor solicite una e intente mas tarde.");
+				}
+				RequestDispatcher dispatcher = request.getRequestDispatcher("SolicitarPrestamo.jsp");
 				dispatcher.forward(request, response);	
 			}catch (GenericException e) {
 		        e.printStackTrace();
-		        request.getSession().setAttribute("error", "Hubo un error al listar las cuentas \n"+ e.getMessage());	        
-		        response.sendRedirect("Inicio.jsp");
+		        request.getSession().setAttribute("errorCuenta", "Hubo un error al listar las cuentas \n"+ e.getMessage());	        
+		        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 		    } catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				response.sendRedirect("Inicio.jsp");
+		    	 e.printStackTrace();
+		    	 request.getSession().setAttribute("errorCuenta", "Hubo un error de base de datos al listar las cuentas \n" + e.getMessage());
+		    	 response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 			}
 		}
 		
@@ -146,24 +150,23 @@ public class ServletPrestamos extends HttpServlet {
 				}else {
 					request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
 				}
-				//RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
-				//dispatcher.forward(request, response);	
-				response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-				response.setHeader("Location", "/SolicitarPrestamo.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("SolicitarPrestamo.jsp");
+				dispatcher.forward(request, response);	
+				
 					            
 			} catch (GenericException e) {
 		        e.printStackTrace();
 		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
-		        response.sendRedirect("/SolicitarPrestamo.jsp");
+		        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 		    }
 		}}catch (DBException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
-	        response.sendRedirect("/SolicitarPrestamo.jsp");
+	        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 	    }catch (GenericException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	       
-	        response.sendRedirect("SolicitarPrestamo.jsp");
+	        response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 	    }
 	}
 

@@ -51,9 +51,7 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 
 	@Override
 	public int Aprobar(Prestamo pr) throws DBException, GenericException{
-		BigDecimal saldo = pr.getCuenta().getSaldo();
-		saldo.add(pr.getMonto());
-		ctNeg.CambiarSaldo(saldo, pr.getCuenta().getCBU());
+		ctNeg.CambiarSaldo(pr.getMonto(), pr.getCuenta().getCBU());
 		return pdao.Aprobar(pr.getId_Prestamo());
 	}
 
