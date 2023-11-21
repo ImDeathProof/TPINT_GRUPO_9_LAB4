@@ -45,28 +45,28 @@ public class ServletCambiarSaldo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("btnSetear")!= null) {
+			String saldo = request.getParameter("txtSaldo");
+			BigDecimal saldoDecimal = new BigDecimal(saldo);
+			int userID = Integer.parseInt(request.getParameter("userID"));
+			String TipoCuenta = request.getParameter("ddlTipoCuenta");
 		
-		String saldo = request.getParameter("txtSaldo");
-		BigDecimal saldoDecimal = new BigDecimal(saldo);
-		int userID = Integer.parseInt(request.getParameter("userID"));
-		String TipoCuenta = request.getParameter("ddlTipoCuenta");
-	
-		try {
-		
-		cuNeg.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
-		
-		response.sendRedirect("PanelDeControl.jsp");
-		
-		}catch (DBException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }catch (GenericException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());     
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }
-		
+			try {
+			
+			cuNeg.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
+			
+			response.sendRedirect("PanelDeControl.jsp");
+			
+			}catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+		        response.sendRedirect("PanelDeControl.jsp");
+		    }catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());     
+		        response.sendRedirect("PanelDeControl.jsp");
+		    }
+		}
 		
 		
 	}

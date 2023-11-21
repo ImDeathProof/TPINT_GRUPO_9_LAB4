@@ -72,7 +72,7 @@ public class Cuenta {
         this.FechaCreacion = fechaCreacion;
     }
 
-    public boolean isEstado() {
+    public boolean getEstado() {
 		return Estado;
 	}
 

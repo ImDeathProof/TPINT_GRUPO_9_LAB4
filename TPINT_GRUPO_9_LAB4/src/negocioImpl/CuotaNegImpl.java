@@ -12,11 +12,14 @@ import entidad.DBException;
 import entidad.Prestamo;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
+import negocio.MovimientoNeg;
 import entidad.DBException;
 import entidad.GenericException;
+import entidad.Movimiento;
 
 public class CuotaNegImpl implements CuotaNeg{
 	private CuotaDaoInterface cuotaDao= new CuotaDAO();
+	private MovimientoNeg negMov = new MovimientoNegImpl();
 
 	@Override
 	public int Pagar(Cuota cuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException{
@@ -25,7 +28,6 @@ public class CuotaNegImpl implements CuotaNeg{
 		int rs = 0;
 		
 		if(saldo.compareTo(cuota.getMontoAPagar()) >= 0) { //>= 0 : El saldo es igual o mayor - puede pagar
-			//Generar movimientos negativo PagoDePrestamo
 			//Se descuenta la plata de la cuenta
 			saldo = saldo.subtract(cuota.getMontoAPagar());
 			negCt.Debitar(IDCuenta, saldo);

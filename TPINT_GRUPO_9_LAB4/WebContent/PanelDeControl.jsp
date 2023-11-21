@@ -139,7 +139,7 @@
 										                </select>
 										            </td>
 										            <td>
-										                <input type="submit" name="submitValue" value="Setear Cambios" class="btn btn-success mx-1">
+										                <input type="submit" name="btnSetear" value="Setear Cambios" class="btn btn-success mx-1">
 										            </td>
 										        </tr>
 										    </table>
@@ -149,9 +149,9 @@
 							                <td><%= cuenta.getFechaCreacion() %></td>
 							                <td><%= cuenta.getNombre() %></td>
 							               <td>
-								                <form action="ServletAprovarCuenta" method="post">
+								                <form action="ServletAprobarCuenta" method="post">
 								                <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
-			 				                        <% if (cuenta.isEstado()) { %>
+			 				                        <% if (cuenta.getEstado()) { %>
 			 				                        	<input type="submit" name="submitValueEstado" value="Bloquear" class="btn btn-success">
 							                        <% } else { %>
 							                           <input type="submit" name="submitValueEstado" value="Validar" class="btn btn-success">

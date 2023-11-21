@@ -56,16 +56,15 @@ public class ServletAprobarCuenta extends HttpServlet {
 
 
 		try {
-		
-		if (buttonValueEstado.equals("Validar")) {		
-			cuNeg.ValidarCuenta(cuentaID);
-	    } else if (buttonValueEstado.equals("Bloquear")) {
-	    	cuNeg.BloquearCuenta(cuentaID);
-	    }
-		
-		response.sendRedirect("PanelDeControl.jsp");
-		
-		}
+				if (buttonValueEstado.equals("Validar")) {		
+					cuNeg.ValidarCuenta(cuentaID);
+			    } else if (buttonValueEstado.equals("Bloquear")) {
+			    	cuNeg.BloquearCuenta(cuentaID);
+			    }
+				
+				response.sendRedirect("PanelDeControl.jsp");
+			
+			}
 		
 		catch (ValidateException e) {
 	        e.printStackTrace();

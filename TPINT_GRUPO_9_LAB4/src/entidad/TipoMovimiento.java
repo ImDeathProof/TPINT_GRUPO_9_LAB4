@@ -13,19 +13,23 @@ public class TipoMovimiento {
 		this.Id_TipoMovimiento = idTipo;
 		
 		if (idTipo == 1) {
-			this.TipoMovimiento = "Alta de cuenta";
+			this.TipoMovimiento = "Pago de cuota";
 		} 
 		else if(idTipo == 2)
 		{
-			this.TipoMovimiento = "Alta préstamo";
+			this.TipoMovimiento = "Alta de cuenta";
 		} 
 		else if(idTipo == 3)
 		{
-			this.TipoMovimiento = "Pago de préstamo";
+			this.TipoMovimiento = "Alta de Prestamo";
 		} 
 		else if(idTipo == 4)
 		{
-			this.TipoMovimiento = "Transferencia";
+			this.TipoMovimiento = "Extracción";
+		}
+		else if(idTipo == 5)
+		{
+			this.TipoMovimiento = "Deposito";
 		}
 	}
 	

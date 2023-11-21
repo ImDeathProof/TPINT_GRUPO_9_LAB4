@@ -150,7 +150,9 @@
 		            preparedStatement.setInt(1, id);
 		            
 		            filas = preparedStatement.executeUpdate();
-		            cuNeg.insertMovimiento(p.getCuenta().getIdCuenta(),p.getMonto(), new TipoMovimiento(2));
+		            if(filas > 0) {
+		            	cuNeg.insertMovimiento(p.getCuenta().getIdCuenta(),p.getMonto(), new TipoMovimiento(3));		            	
+		            }
 		        } catch (SQLException e) {
 			        e.printStackTrace();
 			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");

@@ -12,6 +12,9 @@ import dao.CuotaDaoInterface;
 import entidad.Cuota;
 import entidad.DBException;
 import entidad.Prestamo;
+import entidad.TipoMovimiento;
+import negocio.MovimientoNeg;
+import negocioImpl.MovimientoNegImpl;
 import entidad.GenericException;
 
 public class CuotaDAO implements CuotaDaoInterface {
@@ -19,6 +22,8 @@ public class CuotaDAO implements CuotaDaoInterface {
     private String user = "root";
     private String pass = "root";
     private String dbName = "bancodb";
+    
+    MovimientoNeg cuNeg = new MovimientoNegImpl();
     
     public CuotaDAO() {
     	try {
@@ -39,6 +44,10 @@ public class CuotaDAO implements CuotaDaoInterface {
 			preparedStatement.setInt(3, IDCuota);
 			preparedStatement.setInt(4, IDCuenta);
 			filas = preparedStatement.executeUpdate();
+			if(filas > 0) {
+				Cuota ct = ObtenerCuotaPorID(IDCuota);
+            	cuNeg.insertMovimiento(IDCuota,ct.getMontoAPagar(), new TipoMovimiento(1));		            	
+            }
 		}catch (SQLException e) {
 	        e.printStackTrace();
 	        throw new DBException("Hubo un problema de conexión con la DB de Cuota");

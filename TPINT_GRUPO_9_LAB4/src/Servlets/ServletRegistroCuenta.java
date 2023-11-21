@@ -46,44 +46,44 @@ public class ServletRegistroCuenta extends HttpServlet {
 		
 		
 		try {
-		if(request.getSession().getAttribute("errorRegistroCuenta") != null)
-		{
-			request.getSession().removeAttribute("errorRegistroCuenta");     		
-		}
-		if(request.getSession().getAttribute("noErrorRegistroCuenta") != null)
-		{
-	         request.getSession().removeAttribute("noErrorRegistroCuenta");   
-		}
+			if(request.getSession().getAttribute("errorRegistroCuenta") != null)
+			{
+				request.getSession().removeAttribute("errorRegistroCuenta");     		
+			}
+			if(request.getSession().getAttribute("noErrorRegistroCuenta") != null)
+			{
+		         request.getSession().removeAttribute("noErrorRegistroCuenta");   
+			}
+			
+			 String tipoValue = request.getParameter("tipoCuenta");
+			 Cliente usuarioAutenticado = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+			 
+	//		 if(cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
+			 if(cuNeg.cantidadCuentasPorUsuario(usuarioAutenticado.get_IDCliente()) < 3){
+				 request.getSession().setAttribute("noErrorRegistroCuenta", "Cuenta pedida con exito.");
+				 cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente());
+			 }
+			 else
+			 {
+				 request.getSession().setAttribute("errorRegistroCuenta", "La cuenta no fue pedida, ya que excede el límite por cliente (3).");
+			 }
+			 
+			 response.sendRedirect("RegistroCuenta.jsp");
 		
-		 String tipoValue = request.getParameter("tipoCuenta");
-		 Cliente usuarioAutenticado = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-		 
-//		 if(cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente()) != 0){
-		 if(cuNeg.cantidadCuentasPorUsuario(usuarioAutenticado.get_IDCliente()) < 3){
-			 request.getSession().setAttribute("noErrorRegistroCuenta", "Cuenta pedida con exito.");
-			 cuNeg.pedirCuenta(tipoValue, usuarioAutenticado.get_IDCliente());
-		 }
-		 else
-		 {
-			 request.getSession().setAttribute("errorRegistroCuenta", "La cuenta no fue pedida, ya que excede el límite por cliente (3).");
-		 }
-		 
-		 response.sendRedirect("RegistroCuenta.jsp");
-	
-	}catch (DBException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
-        response.sendRedirect("RegistroCuenta.jsp");
-    }catch (ValidateException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Error al validar datos en la DB");	 
-        response.sendRedirect("RegistroCuenta.jsp");
-    }
-		catch (GenericException e) {
+		}catch (DBException e) {
 	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
+	        response.sendRedirect("RegistroCuenta.jsp");
+	    }catch (ValidateException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error al validar datos en la DB");	 
 	        response.sendRedirect("RegistroCuenta.jsp");
 	    }
-
-}
+			catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
+		        response.sendRedirect("RegistroCuenta.jsp");
+		    }
+	
+	}
 }

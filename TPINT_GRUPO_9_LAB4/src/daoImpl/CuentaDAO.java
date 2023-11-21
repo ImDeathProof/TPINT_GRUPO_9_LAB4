@@ -296,8 +296,15 @@ public class CuentaDAO implements CuentaDaoInterface {
   	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
   	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
   	             preparedStatement.setInt(1, id);
-  	            
-  	            filas = preparedStatement.executeUpdate();
+  	            Cuenta ct = obtenerCuentaPorID(id);
+  	            if(!ct.getEstado()) {
+  	            	filas = preparedStatement.executeUpdate();
+  	            	if(filas > 0) {
+		            	cuNeg.insertMovimiento(ct.getIdCuenta(),new BigDecimal(10000), new TipoMovimiento(2));		            	
+		            }
+  	            }else {
+  	            	filas = preparedStatement.executeUpdate();
+  	            }
   	            
   	            cuNeg.insertMovimiento(tMovNeg.getTipoxDescripcion("Alta de cuenta").getId_TipoMovimiento(), id);
   	            
