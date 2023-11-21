@@ -1,4 +1,6 @@
 <%@page import="entidad.Cliente"%>
+<%@page import="entidad.Cuenta"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <jsp:include page="Header.jsp" />
@@ -10,12 +12,16 @@
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") != null) { 
-		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado");
 		if(cliente.is_Admin()){%>
 			<jsp:include page="NavbarAdmin.jsp"/>
 		<% }else{ %>
 			<jsp:include page="NavbarClientes.jsp" />
-		<% } %>
+
+		<% }}
+		ArrayList<Cuenta> listaCuentas = null;
+		if(request.getAttribute("listaCuentas")!= null){
+  			listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas");%>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
 	<div class="row">
 		<div class="col-1"></div>
@@ -59,10 +65,14 @@
 							</div>
 						</div>
 						<label for="text" id="lbl_monto">Cuenta:</label>
-						<select name=SelectCuentas id="filtroCuentas" required class="form-control p-2">
-		                    <option value="ahorros">Caja de ahorro</option>
-		                    <option value="corrientes">Cuenta corriente</option>
-	                	</select>
+						<select name="SelectCuentas" class="form-control p-2">
+							<option value="Seleccionar">Seleccionar cuenta</option>
+								<%
+								if(listaCuentas != null && !listaCuentas.isEmpty()){
+								for(Cuenta ct : listaCuentas){%>
+									<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
+								<%}} %>
+						</select>
 						<input type="submit" name="btnSolicitar" value="Solicitar Préstamo" class="btn btn-success m-2">
 						<% if (session.getAttribute("errorAlSolicitar") != null) { %>
 							<div class="alert alert-danger">

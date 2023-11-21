@@ -37,6 +37,7 @@ import entidad.GenericException;
 public class ServletPrestamos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     PrestamoNeg negPr = new PrestamoNegocioImpl();  
+    CuentaNeg ctNeg = new CuentaNegImpl();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,6 +52,24 @@ public class ServletPrestamos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(request.getParameter("Param")!=null) {
+			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+			try {
+				ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
+				request.setAttribute("listaCuentas", listaCt);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+				dispatcher.forward(request, response);	
+			}catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error al listar las cuentas \n"+ e.getMessage());	        
+		        response.sendRedirect("Inicio.jsp");
+		    } catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				response.sendRedirect("Inicio.jsp");
+			}
+		}
+		
 	}
 
 	/**
@@ -67,11 +86,10 @@ public class ServletPrestamos extends HttpServlet {
 			CuentaNegImpl cn = new CuentaNegImpl();
 			Cuenta cuenta = new Cuenta();
 			Cliente cliente = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-			
-			if ("ahorros".equals(request.getParameter("SelectCuentas")) && request.getParameter("SelectCuentas") != null) {
-				cuenta = cn.obtenerCuentaAhorroPorUsuario(cliente.get_IDCliente());
-			}else if(request.getParameter("SelectCuentas") != null){
-				cuenta = cn.obtenerCuentaCorrientePorUsuario(cliente.get_IDCliente());
+			if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {
+				cuenta = cn.obtenerCuentaPorID(Integer.parseInt(request.getParameter("SelectCuentas")));
+			}else {
+				request.getSession().setAttribute("errorAlSolicitar", "Seleccione una cuenta.");
 			}
 			String cuotas;
 			int cantCuotas = 0;
@@ -128,8 +146,10 @@ public class ServletPrestamos extends HttpServlet {
 				}else {
 					request.getSession().setAttribute("errorAlSolicitar", "Hubo un error al intentar solicitar el prestamo, intente de nuevo mas tarde!");
 				}
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
-				dispatcher.forward(request, response);							
+				//RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
+				//dispatcher.forward(request, response);	
+				response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+				response.setHeader("Location", "/SolicitarPrestamo.jsp");
 					            
 			} catch (GenericException e) {
 		        e.printStackTrace();

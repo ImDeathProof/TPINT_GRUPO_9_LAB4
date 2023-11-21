@@ -19,11 +19,12 @@ public interface CuentaDaoInterface {
 	public int ValidarCuenta(int id) throws ValidateException, DBException, GenericException;
     public int BloquearCuenta(int id) throws DBException, GenericException;
     public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta) throws DBException, GenericException;
-    public int CambiarSaldo(BigDecimal saldo, long CBU) throws DBException, GenericException;
+    public int CambiarSaldo(BigDecimal saldo, String CBU) throws DBException, GenericException;
     public BigDecimal obtenerSaldo(int IDCuenta) throws DBException, GenericException;
     public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) throws DBException, GenericException;
     public int getCantPaginas() throws DBException, GenericException;
-    public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException;
+    public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException;
 	public int Debitar(int IDCuenta, BigDecimal saldo) throws DBException, GenericException;
 	public String generarCBU() throws ValidateException, GenericException;
+	BigDecimal getDineroxCuenta(String cBU) throws DBException, GenericException;
 }

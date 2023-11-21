@@ -36,8 +36,8 @@
 							            <th scope="col">Usuario</th>
 							            <th scope="col">Monto Solicitado</th>
 							            <th scope="col">Monto Aprobado</th>
-							            <th scope="col">Estado</th>
 							            <th scope="col">Cantidad de cuotas</th>
+							            <th scope="col">Estado</th>
 							            <th scope="col">Acción</th>
 							        </tr>
 							    </thead>

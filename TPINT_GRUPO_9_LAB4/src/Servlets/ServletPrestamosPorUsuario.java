@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
+import entidad.Cuenta;
 import entidad.DBException;
 import entidad.Prestamo;
-
+import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
-
+import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 import entidad.GenericException;
 
@@ -27,6 +28,7 @@ import entidad.GenericException;
 public class ServletPrestamosPorUsuario extends HttpServlet {
     private static final long serialVersionUID = 1L;
     PrestamoNeg prestamoNeg = new PrestamoNegocioImpl(); 
+    CuentaNeg ctNeg = new CuentaNegImpl();
 
 
 

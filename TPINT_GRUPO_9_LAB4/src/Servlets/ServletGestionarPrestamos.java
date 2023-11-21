@@ -53,13 +53,13 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	        if (request.getParameter("submitValue") != null) {
 	            int prID = Integer.parseInt(request.getParameter("Id_Prestamo"));
 	            String buttonValue = request.getParameter("submitValue");
+	            Prestamo pr = negPr.ObtenerUno(prID);
 
 	            if (buttonValue.equals("Aprobar")) {
 	                try {
-	                    negPr.Aprobar(prID);
 
 	                    CuotaNeg negCt = new CuotaNegImpl();
-	                    Prestamo pr = negPr.ObtenerUno(prID);
+	                    negPr.Aprobar(pr);
 	                    for (int i = 0; i < pr.getCantidadCuotas(); i++) {
 	                        Cuota ct = negCt.generarCuota(pr, prID, i + 1);
 	                        negCt.Agregar(ct);
@@ -74,7 +74,7 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	                negPr.Rechazar(prID);
 	            }
 	        }
-	    } catch (DBException e) {
+	    }catch (DBException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
 	        response.sendRedirect("PanelDeControl.jsp");

@@ -190,7 +190,7 @@ public class CuentaDAO implements CuentaDaoInterface {
     	    
     	    return nuevoNumeroCuenta;
     }
-    
+    @Override
     public String generarCBU() throws ValidateException, GenericException{
         int minCBU = 1000;
         int maxCBU = 9999;
@@ -310,12 +310,12 @@ public class CuentaDAO implements CuentaDaoInterface {
   	        return filas;
   	 } 
     
-    public int getCuentaFromCBU(long CBU) throws DBException, GenericException{
+    public int getCuentaFromCBU(String CBU) throws DBException, GenericException{
         String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE CBU = ?;";
 
         try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
              PreparedStatement preparedStatement = cn.prepareStatement(query)) {
-            preparedStatement.setLong(1, CBU);
+            preparedStatement.setString(1, CBU);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -425,7 +425,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	        return filas;
 	 }
 	 
- 	 public int CambiarSaldo(BigDecimal saldo, long CBU) throws DBException, GenericException
+ 	 public int CambiarSaldo(BigDecimal saldo, String CBU) throws DBException, GenericException
  	 {
  	    BigDecimal saldoActual = getDineroxCuenta(CBU);
 
@@ -438,7 +438,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	        	 preparedStatement.setBigDecimal(1, nuevoSaldo);
-	             preparedStatement.setLong(2,CBU);
+	             preparedStatement.setString(2,CBU);
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
@@ -522,7 +522,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 }
 	 	 
 	 	
-	 public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException{	   
+	 public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException{	   
 
 	 		try {int filasEmisora = -1;
 	 		int filasDestinataria = -1;
@@ -550,7 +550,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 		    }
 	 	}
 	 	
-	 public long getCBU(int userID, String tipoCuenta) throws DBException, GenericException{
+	 public String getCBU(int userID, String tipoCuenta) throws DBException, GenericException{
 	 	    Long saldo = 0L;
 
 	 	    String query = "SELECT CBU FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
@@ -573,17 +573,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
-	 	    return saldo;
+	 	    return saldo.toString();
 	 }
-	 	
-	 public BigDecimal getDineroxCuenta(long CBU) throws DBException, GenericException{
+	 @Override
+	 public BigDecimal getDineroxCuenta(String cBU) throws DBException, GenericException{
 	 	    BigDecimal saldo = BigDecimal.ZERO;
 
 	 	    String query = "SELECT saldo FROM Cuenta WHERE CBU = ?;";
 
 	 	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	 	         PreparedStatement ps = cn.prepareStatement(query)) {
-	 	        ps.setLong(1, CBU);
+	 	        ps.setString(1, cBU);
 
 	 	        try (ResultSet rs = ps.executeQuery()) {
 	 	            if (rs.next()) {

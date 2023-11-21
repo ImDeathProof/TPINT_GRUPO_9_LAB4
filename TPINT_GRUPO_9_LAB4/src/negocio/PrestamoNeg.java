@@ -14,7 +14,7 @@ public interface PrestamoNeg {
 	public int Insertar(Prestamo prestamo)throws DBException, GenericException;
 	public int Editar(Prestamo prestamo)throws DBException, GenericException;
 	public int Borrar(int id)throws DBException, GenericException;
-	public int Aprobar(int id)throws DBException, GenericException;
+	public int Aprobar(Prestamo pr)throws DBException, GenericException;
 	public int Rechazar(int id)throws DBException, GenericException;
 	public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize)throws DBException, GenericException;
 	public int getCantPaginas()throws DBException, GenericException;

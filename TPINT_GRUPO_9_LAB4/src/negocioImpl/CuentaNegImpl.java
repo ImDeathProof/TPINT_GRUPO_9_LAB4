@@ -53,7 +53,7 @@ public class CuentaNegImpl implements CuentaNeg {
 	}
 
 	@Override
-	public int CambiarSaldo(BigDecimal saldo, long CBU) throws DBException, GenericException {
+	public int CambiarSaldo(BigDecimal saldo, String CBU) throws DBException, GenericException {
 		return clDao.CambiarSaldo(saldo, CBU);
 	}
 
@@ -68,7 +68,7 @@ public class CuentaNegImpl implements CuentaNeg {
 	}
 
 	@Override
-	public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta)  throws DBException, GenericException{
+	public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta)  throws DBException, GenericException{
 		return clDao.transferirDinero(monto, userID, CBUCuentaDestinataria, tipoCuenta);
 	}
 

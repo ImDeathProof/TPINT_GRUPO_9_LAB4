@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,14 @@ import daoImpl.PrestamoDAO;
 import dao.CuotaDaoInterface;
 import dao.PrestamoDaoInterface;
 import entidad.Prestamo;
+import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
 import entidad.DBException;
 import entidad.GenericException;
 
 public class PrestamoNegocioImpl implements PrestamoNeg {
 	private PrestamoDaoInterface pdao = new PrestamoDAO();
-	private CuotaDaoInterface cdao = new CuotaDAO();
+	private CuentaNeg ctNeg = new CuentaNegImpl();
 	
 	@Override
 	public List<Prestamo> ObtenerTodos()  throws DBException, GenericException{
@@ -48,9 +50,11 @@ public class PrestamoNegocioImpl implements PrestamoNeg {
 	}
 
 	@Override
-	public int Aprobar(int id) throws DBException, GenericException{
-		// TODO Auto-generated method stub
-		return pdao.Aprobar(id);
+	public int Aprobar(Prestamo pr) throws DBException, GenericException{
+		BigDecimal saldo = pr.getCuenta().getSaldo();
+		saldo.add(pr.getMonto());
+		ctNeg.CambiarSaldo(saldo, pr.getCuenta().getCBU());
+		return pdao.Aprobar(pr.getId_Prestamo());
 	}
 
 	@Override
