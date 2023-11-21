@@ -48,8 +48,8 @@ public class CuentaNegImpl implements CuentaNeg {
 	}
 
 	@Override
-	public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta)  throws DBException, GenericException{
-		return clDao.CambiarSaldo(saldo, id, TipoCuenta);
+	public int CambiarSaldo(BigDecimal saldo, int id, int IDCuenta )  throws DBException, GenericException{
+		return clDao.CambiarSaldo(saldo, id, IDCuenta);
 	}
 
 	@Override

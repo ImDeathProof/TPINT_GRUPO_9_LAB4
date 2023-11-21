@@ -49,11 +49,11 @@ public class ServletCambiarSaldo extends HttpServlet {
 			String saldo = request.getParameter("txtSaldo");
 			BigDecimal saldoDecimal = new BigDecimal(saldo);
 			int userID = Integer.parseInt(request.getParameter("userID"));
-			String TipoCuenta = request.getParameter("ddlTipoCuenta");
+			int idCuenta = Integer.parseInt(request.getParameter("cuentaID"));
 		
 			try {
 			
-			cuNeg.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
+			cuNeg.CambiarSaldo(saldoDecimal, userID ,idCuenta);
 			
 			response.sendRedirect("PanelDeControl.jsp");
 			

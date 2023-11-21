@@ -18,7 +18,7 @@ public interface CuentaNeg {
 	public int pedirCuenta (String tipoCuenta, int idCliente) throws DBException, GenericException, ValidateException;
 	public int ValidarCuenta(int id) throws ValidateException, DBException, GenericException;
     public int BloquearCuenta(int id) throws DBException, GenericException;
-    public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta) throws DBException, GenericException;
+    public int CambiarSaldo(BigDecimal saldo, int id, int IDCuenta ) throws DBException, GenericException;
     public int CambiarSaldo(BigDecimal saldo, String CBU) throws DBException, GenericException;
     public BigDecimal obtenerSaldo(int IDCuenta) throws DBException, GenericException;
     public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) throws DBException, GenericException;

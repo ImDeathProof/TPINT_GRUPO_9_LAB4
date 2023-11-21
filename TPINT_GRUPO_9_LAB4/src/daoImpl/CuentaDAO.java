@@ -412,16 +412,16 @@ public class CuentaDAO implements CuentaDaoInterface {
     	}
 
      
-	 public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta ) throws DBException, GenericException
+	 public int CambiarSaldo(BigDecimal saldo, int id, int IDCuenta ) throws DBException, GenericException
 	 {
-		 String query = "UPDATE Cuenta SET Saldo = ? WHERE IDUsuario = ? AND TipoCuenta = ?";
+		 String query = "UPDATE Cuenta SET Saldo = ? WHERE IDUsuario = ? AND IDCuenta = ?";
 		 int filas = 0;
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	        	 preparedStatement.setBigDecimal(1, saldo);
 	             preparedStatement.setInt(2, id);
-	             preparedStatement.setString(3, TipoCuenta);
+	             preparedStatement.setInt(3, IDCuenta);
 	            
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {

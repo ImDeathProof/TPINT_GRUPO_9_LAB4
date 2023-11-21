@@ -126,17 +126,11 @@
 							                <td>
 										<form action="ServletCambiarSaldo" method="post">
 										    <input type="hidden" name="userID" value="<%= cuenta.getIdUsuario() %>">
+										    <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta()%>">
 										    <table>
 										        <tr>
 										            <td>
 														<input type="text" name="txtSaldo" class="form-control" value="<%= cuenta.getSaldo() %>" required>
-
-										            </td>
-										            <td>
-										                <select name="ddlTipoCuenta" class="form-control" style="margin-right: 6rem;">
-										                    <option value="Ahorros" <%= cuenta.getTipoCuenta().equals("Ahorros") ? "selected" : "" %>>Ahorros</option>
-										                    <option value="Corriente" <%= cuenta.getTipoCuenta().equals("Corriente") ? "selected" : "" %>>Corriente</option>
-										                </select>
 										            </td>
 										            <td>
 										                <input type="submit" name="btnSetear" value="Setear Cambios" class="btn btn-success mx-1">
