@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entidad.DBException;
 import entidad.Movimiento;
 import entidad.Prestamo;
 import negocio.MovimientoNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.MovimientoNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletMovimientoXPeriodo
@@ -43,6 +45,8 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 		String paginaElegida = request.getParameter("pagina");
         int numeroPagina = 1;
 
+       try {
+        
         if (paginaElegida != null && !paginaElegida.isEmpty()) {
             try {
                 numeroPagina = Integer.parseInt(paginaElegida);
@@ -66,6 +70,15 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 
         RequestDispatcher rd = request.getRequestDispatcher("MovimientosBanco.jsp");
         rd.forward(request, response);
+       }catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("MovimientosBanco.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
+	        response.sendRedirect("MovimientosBanco.jsp");
+	    }
 	}
 
 	/**
@@ -82,6 +95,7 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 		 session.setAttribute("fechaFinInforme", fechaFin);
 		 session.setAttribute("orderByInforme", orderBy);
 		 
+		 try {
 		 request.setAttribute("cantPagsInforme", movNeg.getCantPaginas());
 		 
 		 request.setAttribute("cantMovimientosRealizados", movNeg.getCantMovimientos(fechaInicio, fechaFin));
@@ -93,6 +107,16 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 		
 		 RequestDispatcher rd = request.getRequestDispatcher("/MovimientosBanco.jsp");
 		 rd.forward(request, response);
+		 
+		 }catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+		        response.sendRedirect("MovimientosBanco.jsp");
+		    }catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        response.sendRedirect("MovimientosBanco.jsp");
+		    }
 		 
 	}
 

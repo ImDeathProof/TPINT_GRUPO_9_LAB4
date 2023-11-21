@@ -15,6 +15,7 @@ import entidad.DBException;
 import entidad.Prestamo;
 import negocio.PrestamoNeg;
 import negocioImpl.PrestamoNegocioImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletListarPrestamos
@@ -55,9 +56,11 @@ public class ServletListarPrestamos extends HttpServlet {
         }catch (DBException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-	    }catch(Exception ex) {
- 	        ex.printStackTrace();
-		}finally {
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+	        response.sendRedirect("GestionPrestamos.jsp");
+	    }finally {
 	        RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
 	        rd.forward(request, response);
 		}
@@ -77,10 +80,12 @@ public class ServletListarPrestamos extends HttpServlet {
 				request.setAttribute("listaPrestamos", lista);
 			}catch (DBException e) {
 		        e.printStackTrace();
-		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-		    }catch(Exception ex) {
-	 	        ex.printStackTrace();
-    		}
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde."+ e.getMessage());	
+		    }catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        response.sendRedirect("GestionPrestamos.jsp");
+		    }
 				RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
 				rd.forward(request, response);
     		

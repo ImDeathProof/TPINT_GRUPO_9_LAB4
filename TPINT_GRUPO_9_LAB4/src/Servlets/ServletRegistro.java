@@ -19,6 +19,7 @@ import entidad.Provincia;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
 import entidad.DBException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletRegistro
@@ -104,7 +105,12 @@ public class ServletRegistro extends HttpServlet {
 				            
 		    }  catch (DBException e) {
 		        e.printStackTrace();
-		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());		        
+		        response.sendRedirect("Login.jsp");
+		    }
+		    catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
 		        response.sendRedirect("Login.jsp");
 		    }
 		    if(cargo) {

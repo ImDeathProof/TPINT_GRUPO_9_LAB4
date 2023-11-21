@@ -22,6 +22,8 @@ import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
+import entidad.DBException;
+import entidad.GenericException;
 
 public class MovimientoDAO implements MovimientoDaoInterface {
 	
@@ -38,7 +40,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	      }
 	 }
 	
-	 public int insertMovimiento(int idTipo, int idCuenta)
+	 public int insertMovimiento(int idTipo, int idCuenta) throws DBException, GenericException
 	    {
 	    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (10000, NOW(), 'Alta de cuenta', 1, ?, ?)";
 	  		 int filas = 0;
@@ -51,12 +53,16 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	  	            filas = preparedStatement.executeUpdate();
 	  	        } catch (SQLException e) {
 	  	            e.printStackTrace();
-	  	        }
+	  	          throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	  	        }catch (Exception e){
+	  		    	 e.printStackTrace();
+	  		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	  		    }
 	  	        
 	  	        return filas;
 	    }
 	    
-	    public int insertMovimiento(int idCuenta,BigDecimal monto, TipoMovimiento tp)
+	    public int insertMovimiento(int idCuenta,BigDecimal monto, TipoMovimiento tp) throws DBException, GenericException
 	    {
 	    	String query = "INSERT INTO Movimiento (Monto, Fecha, Detalles, IDTipo, IDUsuario, IDCuenta) VALUES (?, NOW(), ?, ?, ?, ?)";
 	  		 int filas = 0;
@@ -72,12 +78,16 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	  	            filas = preparedStatement.executeUpdate();
 	  	        } catch (SQLException e) {
 	  	            e.printStackTrace();
-	  	        }
+	  	          throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	  	        }catch (Exception e){
+	  		    	 e.printStackTrace();
+	  		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	  		    }
 	  	        
 	  	        return filas;
 	    }
 	    
-	    public int getUserFromCuenta(int idCuenta) {
+	    public int getUserFromCuenta(int idCuenta) throws DBException, GenericException{ 
 	        String query = "SELECT IDUsuario AS user FROM Cuenta WHERE IDCuenta = ?;";
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -90,12 +100,16 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return -1;
 	    }
 	    
-	    public ArrayList<Movimiento> generarInformeIngresosEgresos(LocalDate fechaInicio, LocalDate fechaFin) {
+	    public ArrayList<Movimiento> generarInformeIngresosEgresos(LocalDate fechaInicio, LocalDate fechaFin) throws DBException, GenericException {
 	        String query = "SELECT m.*, tm.Descripcion AS TipoMovimientoDescripcion " +
 	                       "FROM Movimiento m " +
 	                       "JOIN TiposMovimientos tm ON m.IDTipo = tm.IDTipo " +
@@ -134,13 +148,17 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return movimientos;
 	    }
 	    
 	    @Override
-	    public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, LocalDate fechaInicio, LocalDate fechaFin, String orderBy) {
+	    public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, LocalDate fechaInicio, LocalDate fechaFin, String orderBy) throws DBException, GenericException {
 	        ArrayList<Movimiento> movimientos = new ArrayList<>();
 	        Connection cn = null;
 
@@ -187,20 +205,29 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        } finally {
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	            
+	        } 
+	        catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
+	        
+	        finally {
 	            try {
 	                if (cn != null) {
 	                    cn.close();
 	                }
 	            } catch (SQLException e) {
 	                e.printStackTrace();
+	                throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
 	            }
 	        }
 
 	        return movimientos;
 	    }
 	    
-	    public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, int idCuenta) {
+	    public ArrayList<Movimiento> obtenerInformePaginado(int pageNumber, int pageSize, int idCuenta) throws DBException, GenericException{
 	        ArrayList<Movimiento> movimientos = new ArrayList<>();
 	        Connection cn = null;
 
@@ -243,13 +270,23 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        } finally {
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	            
+	        } 
+	        
+	        catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
+	        
+	        finally {
 	            try {
 	                if (cn != null) {
 	                    cn.close();
 	                }
 	            } catch (SQLException e) {
 	                e.printStackTrace();
+	                throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
 	            }
 	        }
 
@@ -257,7 +294,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	    }
 
 
-	    public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) {
+	    public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) throws DBException, GenericException{
 	        String query = "SELECT COUNT(*) AS cantidadMovimientos " +
 	                       "FROM Movimiento m " +
 	                       "WHERE m.Fecha BETWEEN ? AND ?";
@@ -281,12 +318,17 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return cantidadMovimientos;
 	    }
 	    
-	    public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin) {
+	    
+	    public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin) throws DBException, GenericException{
 	        String query = "SELECT AVG(Monto) AS promedio " +
 	                       "FROM Movimiento m " +
 	                       "WHERE m.Fecha BETWEEN ? AND ?";
@@ -310,7 +352,11 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return promedioMonto;
 	    }
@@ -318,7 +364,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 		
 
 		@Override
-		public int getCantPaginas() {
+		public int getCantPaginas() throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			int cant = 0;
 
@@ -332,12 +378,16 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return cant;
 		}
 		
-		public int getCantPaginas(int idCliente) {
+		public int getCantPaginas(int idCliente) throws DBException, GenericException {
 		    int cant = 0;
 
 		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IdCliente = ?;";
@@ -354,6 +404,10 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Movimientos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return cant;

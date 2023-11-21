@@ -20,6 +20,8 @@ import entidad.Localidad;
 import entidad.Provincia;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
+import entidad.ValidateException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPerfil
@@ -92,7 +94,8 @@ public class ServletPerfil extends HttpServlet {
 					}
 			
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
-				    try {
+				    					
+					try {
 				    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
 				    	{
 				    		clNeg.modificarUsuario(cliente);			
@@ -105,8 +108,18 @@ public class ServletPerfil extends HttpServlet {
 				            
 					} catch (DBException e) {
 				        e.printStackTrace();
-				        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+				        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
 				        response.sendRedirect("Login.jsp");
+				    }
+					catch (ValidateException e) {
+				        e.printStackTrace();
+				        request.getSession().setAttribute("error", "Error al validar datos de la DB");
+				        response.sendRedirect("Inicio.jsp");
+				    }
+					catch (GenericException e) {
+				        e.printStackTrace();
+				        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+				        response.sendRedirect("Inicio.jsp");
 				    }
 				    response.sendRedirect("PerfilUsuario.jsp");
 		}

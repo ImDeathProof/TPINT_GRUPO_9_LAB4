@@ -14,6 +14,8 @@ import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
+import entidad.DBException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletCambiarPass
@@ -49,9 +51,23 @@ public class ServletCambiarSaldo extends HttpServlet {
 		int userID = Integer.parseInt(request.getParameter("userID"));
 		String TipoCuenta = request.getParameter("ddlTipoCuenta");
 	
+		try {
+		
 		cuNeg.CambiarSaldo(saldoDecimal, userID,TipoCuenta);
 		
 		response.sendRedirect("PanelDeControl.jsp");
+		
+		}catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());     
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }
+		
+		
 		
 	}
 

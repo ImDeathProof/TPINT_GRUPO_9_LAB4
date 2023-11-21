@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import daoImpl.CuentaDAO;
 import entidad.Cliente;
 import entidad.Cuenta;
+import entidad.DBException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
+import entidad.GenericException;
 
 @WebServlet("/ServletCuenta")
 public class ServletCuenta extends HttpServlet {
@@ -23,6 +25,9 @@ public class ServletCuenta extends HttpServlet {
        
         Cliente usuarioActivo = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 
+        
+        try {
+        
         if (usuarioActivo != null) {
             
             ArrayList<Cuenta> cuentas = cuNeg.obtenerCuentasPorUsuario(usuarioActivo.get_IDCliente());
@@ -34,6 +39,18 @@ public class ServletCuenta extends HttpServlet {
           
             response.sendRedirect("Inicio.jsp");
         }
+        
+        }catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("Inicio.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());        
+	        response.sendRedirect("Inicio.jsp");
+	    }
+        
+       
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

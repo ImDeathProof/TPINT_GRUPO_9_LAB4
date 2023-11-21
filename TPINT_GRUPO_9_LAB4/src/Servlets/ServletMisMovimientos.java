@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entidad.DBException;
 import entidad.Movimiento;
 import negocio.MovimientoNeg;
 import negocioImpl.MovimientoNegImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletMisMovimientos
@@ -38,6 +40,8 @@ public class ServletMisMovimientos extends HttpServlet {
 		String paginaElegida = request.getParameter("pagina");
         int numeroPagina = 1;
 
+       try {
+        
         if (paginaElegida != null && !paginaElegida.isEmpty()) {
             try {
                 numeroPagina = Integer.parseInt(paginaElegida);
@@ -55,6 +59,18 @@ public class ServletMisMovimientos extends HttpServlet {
 
         RequestDispatcher rd = request.getRequestDispatcher("MisCuentas.jsp");
         rd.forward(request, response);      
+	}catch (DBException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+        response.sendRedirect("Inicio.jsp");
+    }catch (GenericException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
+        response.sendRedirect("PanelDeControl.jsp");
+    }
+       
+       
+       
 	}
 
 	/**
@@ -62,7 +78,9 @@ public class ServletMisMovimientos extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		 int idCuenta = Integer.parseInt(request.getParameter("idCliente"));
+		try { 
+		
+		int idCuenta = Integer.parseInt(request.getParameter("idCliente"));
 		 request.setAttribute("cantPagsMisMovimientos", movNeg.getCantPaginas(idCuenta));	
 		 
 		 HttpSession session = request.getSession();
@@ -76,7 +94,15 @@ public class ServletMisMovimientos extends HttpServlet {
 		
 		 RequestDispatcher rd = request.getRequestDispatcher("/MisCuentas.jsp");
 		 rd.forward(request, response);
-		 
+		}catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("Inicio.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
+	        response.sendRedirect("Inicio.jsp");
+	    }
 	}
 
 }

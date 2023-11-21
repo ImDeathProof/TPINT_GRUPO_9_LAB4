@@ -8,64 +8,66 @@ import negocio.ClienteNeg;
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
 import entidad.DBException;
+import entidad.ValidateException;
+import entidad.GenericException;
 
 public class ClienteNegImpl implements ClienteNeg {
 	
 	private ClienteDaoInterface clDao = new ClienteDAO();
 
 	@Override
-	public Cliente agregarUsuario(Cliente cliente) throws DBException {
+	public Cliente agregarUsuario(Cliente cliente) throws DBException, GenericException {
 		return clDao.agregarUsuario(cliente);
 	}
 
 	@Override
-	public Cliente BuscarUsuario(Cliente cliente) throws DBException {
+	public Cliente BuscarUsuario(Cliente cliente) throws DBException, GenericException {
 		return clDao.BuscarUsuario(cliente);
 	}
 
 	@Override
-	public int modificarUsuario(Cliente cliente) throws DBException {
+	public int modificarUsuario(Cliente cliente) throws DBException, GenericException {
 		return clDao.modificarUsuario(cliente);
 	}
 
 	@Override
-	public ArrayList<Cliente> obtenerUsuarios() throws DBException{
+	public ArrayList<Cliente> obtenerUsuarios() throws DBException, GenericException{
 		return clDao.obtenerUsuarios();
 	}
 
 	@Override
-	public int BloquearCliente(int id) throws DBException{
+	public int BloquearCliente(int id) throws DBException, GenericException{
 		return clDao.BloquearCliente(id);
 	}
 
 	@Override
-	public int DesbloquearCliente(int id) throws DBException{
+	public int DesbloquearCliente(int id) throws DBException, GenericException{
 		return clDao.DesbloquearCliente(id);
 	}
 
 	@Override
-	public int CambiarPass(String password, int id) throws DBException{
+	public int CambiarPass(String password, int id) throws DBException, GenericException{
 		return clDao.CambiarPass(password, id);
 	}
 
 	@Override
-	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException{
+	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException, GenericException{
 		return clDao.obtenerUsuariosPaginados(pageNumber, pageSize);
 	}
 
 	@Override
-	public int getCantPaginas() throws DBException{
+	public int getCantPaginas() throws DBException, GenericException{
 		return clDao.getCantPaginas();
 	}
 
 	@Override
-	public Cliente BuscarClientePorID(int idCliente) throws DBException{
+	public Cliente BuscarClientePorID(int idCliente) throws DBException, GenericException{
 		// TODO Auto-generated method stub
 		return clDao.BuscarClientePorID(idCliente);
 	}
 
 	@Override
-	public boolean usuarioExistente(String username, int idUsuario) throws DBException {
+	public boolean usuarioExistente(String username, int idUsuario) throws ValidateException, GenericException {
 		return clDao.usuarioExistente(username, idUsuario);
 	}
 	

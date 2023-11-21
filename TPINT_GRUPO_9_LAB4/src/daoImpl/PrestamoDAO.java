@@ -23,6 +23,7 @@
 	import negocioImpl.MovimientoNegImpl;
 	import entidad.TipoMovimiento;
 	import entidad.DBException;
+	import entidad.GenericException;
 
 	public class PrestamoDAO implements PrestamoDaoInterface{
 		
@@ -42,13 +43,13 @@
 		}
 		
 		@Override
-		public List<Prestamo> ObtenerTodos() throws DBException{
+		public List<Prestamo> ObtenerTodos() throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public Prestamo ObtenerUno(int id) throws DBException{
+		public Prestamo ObtenerUno(int id) throws DBException, GenericException{
 			
 			Prestamo prestamo = null;
 			
@@ -85,14 +86,17 @@
 		        cn.close();
 		    } catch (SQLException e) {
 		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 		    return prestamo;
 
 		}
 
 		@Override
-		public int Insertar(Prestamo prestamo) throws DBException{
+		public int Insertar(Prestamo prestamo) throws DBException, GenericException{
 			int filas = 0;
 			String query = "INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo, IDCuenta, IDUsuario, Cant_Cuotas) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?)";
 			try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -114,26 +118,29 @@
 		            filas = preparedStatement.executeUpdate();
 		       } catch (SQLException e) {
 			        e.printStackTrace();
-			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+			    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 			    }
 
 		        return filas;
 		}
 
 		@Override
-		public int Editar(Prestamo prestamo) throws DBException{
+		public int Editar(Prestamo prestamo) throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Borrar(int id) throws DBException{
+		public int Borrar(int id) throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
-		public int Aprobar(int id) throws DBException{
+		public int Aprobar(int id) throws DBException, GenericException{
 			Prestamo p = ObtenerUno(id);
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Aprobado', MontoAprobado = MontoTotal WHERE IDPrestamo = ?;";
 			 int filas = 0;
@@ -146,14 +153,17 @@
 		            cuNeg.insertMovimiento(p.getCuenta().getIdCuenta(),p.getMonto(), new TipoMovimiento(2));
 		        } catch (SQLException e) {
 			        e.printStackTrace();
-			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+			    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 			    }
 
 		        return filas;
 		}
 
 		@Override
-		public int Rechazar(int id) throws DBException{
+		public int Rechazar(int id) throws DBException, GenericException{
 			String query = "UPDATE Prestamos SET EstadoPrestamo = 'Rechazado' WHERE IDPrestamo = ?;";
 			int filas = 0;
 
@@ -164,14 +174,17 @@
 		            filas = preparedStatement.executeUpdate();
 		        } catch (SQLException e) {
 			        e.printStackTrace();
-			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+			    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 			    }
 
 		    return filas;
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws DBException{
+		public ArrayList<Prestamo> obtenerPrestamosPaginados(int pageNumber, int pageSize) throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	 	    Connection cn = null;
@@ -215,14 +228,17 @@
 	 	        cn.close();
 	 	    } catch (SQLException e) {
 		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 	 	    return lista;
 	 	}
 		
 
 		@Override
-		public int getCantPaginas() throws DBException{
+		public int getCantPaginas() throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			int cant = 0;
 
@@ -236,14 +252,17 @@
 		        }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return cant;
 		}
 		
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws DBException{
+		public ArrayList<Prestamo> obtenerPrestamosPorUsuario(int IDCliente)throws DBException, GenericException{
 			  	ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 		        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ?";
 
@@ -275,13 +294,16 @@
 		            }
 		        } catch (SQLException e) {
 			        e.printStackTrace();
-			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+			    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 			    }
 		        return lista;
 		}
 
 		@Override
-		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente)throws DBException {
+		public ArrayList<Prestamo> obtenerPrestamosAprobadosPorUsuario(int IDCliente)throws DBException, GenericException {
 			// TODO Auto-generated method stub
 			ArrayList<Prestamo> lista = new ArrayList<Prestamo>();
 	        String prestamoQuery = "SELECT * FROM prestamos WHERE IdUsuario = ? AND EstadoPrestamo = 'Aprobado'";
@@ -314,13 +336,16 @@
 	            }
 	        } catch (SQLException e) {
 		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 	        return lista;
 		}
 
 		@Override
-		public int obtenerUltimoID() throws DBException{
+		public int obtenerUltimoID() throws DBException, GenericException{
 			String query = "SELECT IDPrestamo as UltimoID " + 
 					"FROM prestamos " + 
 					"ORDER BY IDPrestamo DESC " + 
@@ -334,7 +359,10 @@
 			        }
 			    } catch (SQLException e) {
 			        e.printStackTrace();
-			        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+			        throw new DBException("Hubo un problema de conexión con la DB de Préstamos");
+			    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 			    }
 
 			return ultimo;
