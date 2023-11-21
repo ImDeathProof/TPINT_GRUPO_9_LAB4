@@ -18,6 +18,9 @@ import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
+import entidad.DBException;
+import entidad.ValidateException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletAprovarCuenta
@@ -51,6 +54,9 @@ public class ServletAprobarCuenta extends HttpServlet {
 		int cuentaID = Integer.parseInt(request.getParameter("cuentaID"));
 		String buttonValueEstado = request.getParameter("submitValueEstado");
 
+
+		try {
+		
 		if (buttonValueEstado.equals("Validar")) {		
 			cuNeg.ValidarCuenta(cuentaID);
 	    } else if (buttonValueEstado.equals("Bloquear")) {
@@ -58,6 +64,27 @@ public class ServletAprobarCuenta extends HttpServlet {
 	    }
 		
 		response.sendRedirect("PanelDeControl.jsp");
+		
+		}
+		
+		catch (ValidateException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error al validar datos en la DB \n");	        
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }
+		
+		catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }
+		catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde.\n " + e.getMessage());	          
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }
+		
+		
 	}
 
 }

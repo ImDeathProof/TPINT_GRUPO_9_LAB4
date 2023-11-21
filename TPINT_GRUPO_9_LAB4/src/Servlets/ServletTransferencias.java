@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.CuentaDAO;
+import entidad.DBException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletTransferencias
@@ -48,6 +50,8 @@ public class ServletTransferencias extends HttpServlet {
 	    BigDecimal saldoDecimal = new BigDecimal(monto);
 	    String tipoCuenta = request.getParameter("tipoCuenta");
 	    
+	    try {
+	    
 	    if (cuNeg.transferirDinero(saldoDecimal, idUser, CBU, tipoCuenta) == 1) {
 	        // Si hay un error en la transferencia
 	        request.getSession().setAttribute("errorTransfer", "No se pudo transferir el dinero. Verifica tu saldo o el estado de tu cuenta");
@@ -57,7 +61,17 @@ public class ServletTransferencias extends HttpServlet {
 	        request.getSession().setAttribute("successTransfer", "Transferencia realizada exitósamente");
 	        response.sendRedirect("Transferencias.jsp");
 	    }
-	}
+	
+	}catch (DBException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
+        response.sendRedirect("Transferencias.jsp");
+    }catch (GenericException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
+        response.sendRedirect("Transferencias.jsp");
+    }
 
 
+}
 }

@@ -12,12 +12,14 @@ import entidad.DBException;
 import entidad.Prestamo;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
+import entidad.DBException;
+import entidad.GenericException;
 
 public class CuotaNegImpl implements CuotaNeg{
 	private CuotaDaoInterface cuotaDao= new CuotaDAO();
 
 	@Override
-	public int Pagar(Cuota cuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws SQLException{
+	public int Pagar(Cuota cuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException{
 		CuentaNeg negCt = new CuentaNegImpl();
 		BigDecimal saldo = negCt.obtenerSaldo(IDCuenta);
 		int rs = 0;
@@ -37,19 +39,19 @@ public class CuotaNegImpl implements CuotaNeg{
 	}
 
 	@Override
-	public int Agregar(Cuota cuota) throws SQLException{
+	public int Agregar(Cuota cuota) throws DBException, GenericException{
 		// TODO Auto-generated method stub
 		return cuotaDao.Agregar(cuota);
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int IDPrestamo) throws DBException{
+	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int IDPrestamo) throws DBException, GenericException{
 		// TODO Auto-generated method stub
 		return cuotaDao.obtenerCuotasPorPrestamo(IDPrestamo);
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente)  throws DBException {
+	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente)  throws DBException, GenericException {
 		// TODO Auto-generated method stub
 		return cuotaDao.obtenerCuotasPorCliente(idCliente);
 	}
@@ -69,7 +71,7 @@ public class CuotaNegImpl implements CuotaNeg{
 	}
 
 	@Override
-	public Cuota obtenerCuotaPorID(int IDCuota) throws DBException {
+	public Cuota obtenerCuotaPorID(int IDCuota) throws DBException, GenericException {
 		// TODO Auto-generated method stub
 		return cuotaDao.ObtenerCuotaPorID(IDCuota);
 	}

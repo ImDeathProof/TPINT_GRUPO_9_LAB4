@@ -19,6 +19,8 @@ import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.MovimientoNegImpl;
+import entidad.ValidateException;
+import entidad.GenericException;
 
 
 public class CuentaDAO implements CuentaDaoInterface {
@@ -37,7 +39,7 @@ public class CuentaDAO implements CuentaDaoInterface {
         }
     }
 
-    public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario) {
+    public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario) throws DBException, GenericException{
         ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
         String cuentasQuery = "SELECT * FROM Cuenta WHERE IdUsuario = ?";
 
@@ -61,11 +63,15 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
         return lista;
     }
     
-    public int cantidadCuentasPorUsuario(int idUsuario) {
+    public int cantidadCuentasPorUsuario(int idUsuario) throws DBException, GenericException{
     	String cuentasQuery = "SELECT COUNT(*) as cuenta_count from Cuenta where IdUsuario = ?";
         int cantidadDeCuentas = 0;
 
@@ -79,13 +85,17 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
         return cantidadDeCuentas;
     }
 
     
     
-    public ArrayList<Cuenta> obtenerTodasLasCuentas() {
+    public ArrayList<Cuenta> obtenerTodasLasCuentas() throws DBException, GenericException{
         ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
         String cuentasQuery = "SELECT * FROM Cuenta";
 
@@ -108,11 +118,15 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
         return lista;
     }
     
-    public int pedirCuenta (String tipoCuenta, int idCliente)
+    public int pedirCuenta (String tipoCuenta, int idCliente) throws DBException, ValidateException, GenericException
     {		
 //    		if ("Ahorros".equals(tipoCuenta) && tieneCuentaAhorros(idCliente))
 //	        {
@@ -142,12 +156,16 @@ public class CuentaDAO implements CuentaDaoInterface {
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return filas;
     }
     
-    public int getNumCuenta()
+    public int getNumCuenta() throws DBException, GenericException
     {
     	 String query = "SELECT MAX(NumeroCuenta) FROM Cuenta";
 
@@ -162,21 +180,25 @@ public class CuentaDAO implements CuentaDaoInterface {
     	        }
     	    } catch (SQLException e) {
     	        e.printStackTrace();
-    	    }
+    	        throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+    	    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
     	    nuevoNumeroCuenta += 10;
     	    
     	    return nuevoNumeroCuenta;
     }
     
-    public String generarCBU() {
+    public String generarCBU() throws ValidateException, GenericException{
         int minCBU = 1000;
         int maxCBU = 9999;
 
         Random random = new Random();
         int numeroCBU;
 
-        while (true) {
+       try { while (true) {
             numeroCBU = minCBU + random.nextInt(maxCBU - minCBU + 1);
             
             if (!existeCBU(numeroCBU)) {
@@ -185,9 +207,13 @@ public class CuentaDAO implements CuentaDaoInterface {
         }
 
         return String.valueOf(numeroCBU);
+    }catch (Exception e){
+   	 e.printStackTrace();
+   	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+   }
     }
 
-    public boolean existeCBU(int numeroCBU) {
+    public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException{
         String query = "SELECT COUNT(*) FROM Cuenta WHERE CBU = ?";
 
         try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -201,12 +227,16 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new ValidateException("Hubo un problema al validar datos en la DB");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         return false; 
     }
     
-    public boolean tieneCuentaAhorros(int idCliente) {
+    public boolean tieneCuentaAhorros(int idCliente) throws ValidateException, GenericException{
         String query = "SELECT COUNT(*) FROM Cuenta WHERE IDUsuario = ? AND TipoCuenta = 'Ahorros'";
         int cuentaAhorros = 0;
 
@@ -220,14 +250,18 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new ValidateException("Hubo un problema al validar datos en la DB");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         if(cuentaAhorros == 0)return false;
         else return true;
         
     }
 
-    public boolean tieneCuentaCorriente(int idCliente) {
+    public boolean tieneCuentaCorriente(int idCliente) throws ValidateException, GenericException{
         String query = "SELECT COUNT(*) FROM Cuenta WHERE IDUsuario = ? AND TipoCuenta = 'Corriente'";
         int cuentaCorriente = 0;
 
@@ -241,13 +275,17 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new ValidateException("Hubo un problema al validar datos en la DB");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         if(cuentaCorriente == 0)return false;
         else return true;
     }
     
-    public int ValidarCuenta(int id)
+    public int ValidarCuenta(int id) throws ValidateException, DBException, GenericException
   	 {
       	 String query = "UPDATE Cuenta SET Estado = 1, saldo = CASE WHEN saldo = 0 THEN (saldo + 10000) ELSE saldo END WHERE IDCuenta = ?;";
   		 int filas = 0;
@@ -262,13 +300,17 @@ public class CuentaDAO implements CuentaDaoInterface {
   	            
   	        } catch (SQLException e) {
   	            e.printStackTrace();
-  	        }
+  	          throw new ValidateException("Hubo un problema al validar datos en la DB");
+  	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
   	        
   	        return filas;
   	 } 
     
-    public int getCuentaFromCBU(long CBU) {
+    public int getCuentaFromCBU(long CBU) throws DBException, GenericException{
         String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE CBU = ?;";
 
         try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -281,12 +323,16 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         return -1;
     }
     
-    public int getCuentaFromUserID(int userID, String tipoCuenta) {
+    public int getCuentaFromUserID(int userID, String tipoCuenta) throws DBException, GenericException{
         String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE IDUsuario = ? and TipoCuenta = ?;";
 
         try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -300,13 +346,17 @@ public class CuentaDAO implements CuentaDaoInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         return -1;
     }
 
 
-     public int BloquearCuenta(int id)
+     public int BloquearCuenta(int id) throws DBException, GenericException
 	 {
 		 String query = "UPDATE Cuenta SET Estado = 0 WHERE IDCuenta = ?;";
 		 int filas = 0;
@@ -318,12 +368,16 @@ public class CuentaDAO implements CuentaDaoInterface {
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return filas;
 	 }
      
-     public String GetNombreCliente(int idUsuario) {
+     public String GetNombreCliente(int idUsuario) throws DBException, GenericException{
     	    String query = "SELECT Username FROM Usuario WHERE IDUsuario = ?;";
     	    String nombre = null;
 
@@ -338,13 +392,17 @@ public class CuentaDAO implements CuentaDaoInterface {
     	        }
     	    } catch (SQLException e) {
     	        e.printStackTrace();
-    	    }
+    	        throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+    	    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
     	    return nombre;
     	}
 
      
-	 public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta )
+	 public int CambiarSaldo(BigDecimal saldo, int id, String TipoCuenta ) throws DBException, GenericException
 	 {
 		 String query = "UPDATE Cuenta SET Saldo = ? WHERE IDUsuario = ? AND TipoCuenta = ?";
 		 int filas = 0;
@@ -358,12 +416,16 @@ public class CuentaDAO implements CuentaDaoInterface {
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return filas;
 	 }
 	 
- 	 public int CambiarSaldo(BigDecimal saldo, long CBU)
+ 	 public int CambiarSaldo(BigDecimal saldo, long CBU) throws DBException, GenericException
  	 {
  	    BigDecimal saldoActual = getDineroxCuenta(CBU);
 
@@ -381,13 +443,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 	            filas = preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return filas;
  	 }
 	 
 
-	 public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) {
+	 public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) throws DBException, GenericException{
 	 	    try {
 	 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	 	    } catch (ClassNotFoundException e) {
@@ -424,11 +490,15 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	        cn.close();
 	 	    } catch (SQLException e) {
 	 	        e.printStackTrace();
-	 	    }
+	 	       throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	 	    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 	 	    return lista;
 	 	}
 	  
-	 public int getCantPaginas() {
+	 public int getCantPaginas() throws DBException, GenericException{
 	 		 
 	 		    int cant = 0;
 
@@ -442,15 +512,19 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 		        }
 	 		    } catch (SQLException e) {
 	 		        e.printStackTrace();
-	 		    }
+	 		       throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	 		    }catch (Exception e){
+			    	 e.printStackTrace();
+			    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+			    }
 
 	 		    return cant;
 	 }
 	 	 
 	 	
-	 public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) {	   
+	 public int transferirDinero(BigDecimal monto, int userID, long CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException{	   
 
-	 		int filasEmisora = -1;
+	 		try {int filasEmisora = -1;
 	 		int filasDestinataria = -1;
 	 		
 	 		if (getDineroxCuenta(getCBU(userID,tipoCuenta)).compareTo(monto) >= 0)
@@ -467,9 +541,16 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	    } else {
 	 	        return -1;
 	 	    }
+	 		}catch (DBException e) {
+ 		        e.printStackTrace();
+ 		       throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+ 		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 	 	}
 	 	
-	 public long getCBU(int userID, String tipoCuenta) {
+	 public long getCBU(int userID, String tipoCuenta) throws DBException, GenericException{
 	 	    Long saldo = 0L;
 
 	 	    String query = "SELECT CBU FROM Cuenta WHERE IdUsuario = ? and TipoCuenta = ?;";
@@ -486,12 +567,16 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	        }
 	 	    } catch (SQLException e) {
 	 	        e.printStackTrace();
-	 	    }
+	 	       throw new DBException("Hubo un problema de conexión con la DB de Cuentas"); 	        	 	        
+	 	    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	 	    return saldo;
 	 }
 	 	
-	 public BigDecimal getDineroxCuenta(long CBU) {
+	 public BigDecimal getDineroxCuenta(long CBU) throws DBException, GenericException{
 	 	    BigDecimal saldo = BigDecimal.ZERO;
 
 	 	    String query = "SELECT saldo FROM Cuenta WHERE CBU = ?;";
@@ -507,13 +592,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	        }
 	 	    } catch (SQLException e) {
 	 	        e.printStackTrace();
-	 	    }
+	 	       throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	 	    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	 	    return saldo;
 	 	}
 
 	@Override
-	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) {
+	public Cuenta obtenerCuentaCorrientePorUsuario(int idUsuario) throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			Cuenta cuenta = new Cuenta();
 			
@@ -537,13 +626,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 	        
 			return cuenta;
 		}
 
 	@Override
-	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) {
+	public Cuenta obtenerCuentaAhorroPorUsuario(int idUsuario) throws DBException, GenericException{
 			// TODO Auto-generated method stub
 			Cuenta cuenta = new Cuenta();
 			
@@ -570,13 +663,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 
 			    } catch (SQLException e) {
 	            e.printStackTrace();
-	        }
+	            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	        }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 	        
 			return cuenta;
 	}
 
 	@Override
-	public Cuenta obtenerCuentaPorID(int idCuenta) {
+	public Cuenta obtenerCuentaPorID(int idCuenta) throws DBException, GenericException{
 		// TODO Auto-generated method stub
 		Cuenta cuenta = new Cuenta();
 		
@@ -602,13 +699,17 @@ public class CuentaDAO implements CuentaDaoInterface {
 
 		    } catch (SQLException e) {
             e.printStackTrace();
-        }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+        }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
         
 		return cuenta;
 	}
 
 	@Override
-	public BigDecimal obtenerSaldo(int IDCuenta) throws SQLException{
+	public BigDecimal obtenerSaldo(int IDCuenta) throws DBException, GenericException{
 		BigDecimal saldo = new BigDecimal(0);
 
  	    String query = "SELECT Saldo FROM Cuenta WHERE IDCuenta = ?;";
@@ -624,14 +725,18 @@ public class CuentaDAO implements CuentaDaoInterface {
  	            }
  	        }
  	    } catch (SQLException e) {
- 	        e.printStackTrace();
- 	    }
+	        e.printStackTrace();
+	        throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+	    }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
  	    return saldo;
 	}
 
 	@Override
-	public int Debitar(int IDCuenta, BigDecimal saldo) {
+	public int Debitar(int IDCuenta, BigDecimal saldo) throws DBException, GenericException{
 		// TODO Auto-generated method stub
 		int filas = 0;
 		String query = "UPDATE cuenta SET Saldo = ? WHERE IDCuenta = ?";
@@ -642,7 +747,11 @@ public class CuentaDAO implements CuentaDaoInterface {
 			filas = preparedStatement.executeUpdate();
 		}catch (SQLException e) {
             e.printStackTrace();
-       }
+            throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+       }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         return filas;
 	}

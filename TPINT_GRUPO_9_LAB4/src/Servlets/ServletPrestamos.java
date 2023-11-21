@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import entidad.Cliente;
 import entidad.Cuenta;
 import entidad.Cuota;
+import entidad.DBException;
 import entidad.Prestamo;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
@@ -26,6 +27,7 @@ import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 import negocioImpl.CuotaNegImpl;
+import entidad.GenericException;
 
 
 /**
@@ -57,7 +59,10 @@ public class ServletPrestamos extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		if(request.getParameter("btnSolicitar")!=null) {
+		
+		
+		try{
+			if(request.getParameter("btnSolicitar")!=null) {
 			Prestamo pr = new Prestamo();
 			CuentaNegImpl cn = new CuentaNegImpl();
 			Cuenta cuenta = new Cuenta();
@@ -86,6 +91,8 @@ public class ServletPrestamos extends HttpServlet {
 					cantCuotas = 36;
 				}
 			}
+			
+			
 			
 			pr.setCantidadCuotas(cantCuotas);
 			pr.setCliente(cliente);
@@ -124,10 +131,23 @@ public class ServletPrestamos extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/SolicitarPrestamo.jsp");
 				dispatcher.forward(request, response);							
 					            
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+			} catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        response.sendRedirect("/SolicitarPrestamo.jsp");
+		    }
+		}}catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
+	        response.sendRedirect("/SolicitarPrestamo.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	       
+	        response.sendRedirect("SolicitarPrestamo.jsp");
+	    }
 	}
 
+	
+	
+	
 }

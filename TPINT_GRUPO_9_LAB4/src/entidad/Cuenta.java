@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import daoImpl.CuentaDAO;
 
 import java.math.BigDecimal;
+import entidad.DBException;
 
 public class Cuenta {
     private int IdCuenta;
@@ -79,7 +80,7 @@ public class Cuenta {
 		Estado = estado;
 	}
 	
-	public String getNombre()
+	public String getNombre() throws DBException, GenericException
 	{
 		CuentaDAO cu = new CuentaDAO();
 		

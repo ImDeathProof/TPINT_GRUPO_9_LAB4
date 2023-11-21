@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cuota;
+import entidad.DBException;
 import entidad.Prestamo;
 import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletGestionarPrestamos
@@ -44,39 +46,50 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-		//APROBAR O RECHAZAR PRESTAMOS
-				if(request.getParameter("submitValue") != null) {
-					try {
-						int prID = Integer.parseInt(request.getParameter("Id_Prestamo"));
-						String buttonValue = request.getParameter("submitValue");
+	    // TODO Auto-generated method stub
+	    doGet(request, response);
+	    // APROBAR O RECHAZAR PRESTAMOS
+	    try {
+	        if (request.getParameter("submitValue") != null) {
+	            int prID = Integer.parseInt(request.getParameter("Id_Prestamo"));
+	            String buttonValue = request.getParameter("submitValue");
 
-						if (buttonValue.equals("Aprobar")) {		
-							negPr.Aprobar(prID);
-							try { //ESTO ES PARA CARGAR LAS CUOTAS
-								CuotaNeg negCt = new CuotaNegImpl();
-								Prestamo pr = negPr.ObtenerUno(prID);
-								for(int i = 0; i< pr.getCantidadCuotas() ; i++) {
-									Cuota ct = negCt.generarCuota(pr, prID, i+1);	
-									negCt.Agregar(ct);
-								} 
-							}
-							catch (Exception e) {
-								e.printStackTrace();
-							}
-					    } else if (buttonValue.equals("Rechazar")) {
-					    	negPr.Rechazar(prID);
-					    }
-						
-					}catch (Exception e) {
-						e.printStackTrace();
-					}
-					RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
-					rd.forward(request, response);
-					
-					
-				}
+	            if (buttonValue.equals("Aprobar")) {
+	                try {
+	                    negPr.Aprobar(prID);
+
+	                    CuotaNeg negCt = new CuotaNegImpl();
+	                    Prestamo pr = negPr.ObtenerUno(prID);
+	                    for (int i = 0; i < pr.getCantidadCuotas(); i++) {
+	                        Cuota ct = negCt.generarCuota(pr, prID, i + 1);
+	                        negCt.Agregar(ct);
+	                    }
+	                } catch (GenericException e) {
+	                    e.printStackTrace();
+	                    request.getSession().setAttribute("error", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde");
+	                    response.sendRedirect("PanelDeControl.jsp");
+	                    return; 
+	                }
+	            } else if (buttonValue.equals("Rechazar")) {
+	                negPr.Rechazar(prID);
+	            }
+	        }
+	    } catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
+	        response.sendRedirect("PanelDeControl.jsp");
+	        return; 
+	    }catch (GenericException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("error", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde"+ e.getMessage());	
+            response.sendRedirect("PanelDeControl.jsp");
+            return; 
+        }
+
+	    RequestDispatcher rd = request.getRequestDispatcher("GestionPrestamos.jsp");
+	    rd.forward(request, response);
 	}
-
 }
+
+
+

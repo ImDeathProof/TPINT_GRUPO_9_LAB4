@@ -1,14 +1,9 @@
 package entidad;
 
-public class DBException extends Exception {
+public class GenericException extends Exception {
 	public static final long serialVersionUID = 700L;
 	
-    public DBException(String mensaje) {
+    public GenericException(String mensaje) {
         super(mensaje);
     }
 }
-
-
-
-
-

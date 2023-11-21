@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.CuentaDAO;
 import entidad.Cliente;
+import entidad.DBException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
+import entidad.ValidateException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletRegistroCuenta
@@ -41,6 +44,8 @@ public class ServletRegistroCuenta extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		try {
 		if(request.getSession().getAttribute("errorRegistroCuenta") != null)
 		{
 			request.getSession().removeAttribute("errorRegistroCuenta");     		
@@ -64,6 +69,21 @@ public class ServletRegistroCuenta extends HttpServlet {
 		 }
 		 
 		 response.sendRedirect("RegistroCuenta.jsp");
-	}
+	
+	}catch (DBException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
+        response.sendRedirect("RegistroCuenta.jsp");
+    }catch (ValidateException e) {
+        e.printStackTrace();
+        request.getSession().setAttribute("error", "Error al validar datos en la DB");	 
+        response.sendRedirect("RegistroCuenta.jsp");
+    }
+		catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
+	        response.sendRedirect("RegistroCuenta.jsp");
+	    }
 
+}
 }

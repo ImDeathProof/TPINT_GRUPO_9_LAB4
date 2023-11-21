@@ -21,6 +21,7 @@ import negocio.PrestamoNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletListarCuotas
@@ -62,18 +63,21 @@ public class ServletListarCuotas extends HttpServlet {
 					try {
 						ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
 						request.setAttribute("listaCuentas", listaCt);
-					}catch(Exception e) {
-						e.printStackTrace();
-						request.getSession().setAttribute("error", "Error al buscar cuentas del usuario");
-					}
+					}catch (GenericException e) {
+				        e.printStackTrace();
+				        request.getSession().setAttribute("error", "Hubo un error al listar las cuotas \n"+ e.getMessage());	        
+				        response.sendRedirect("Inicio.jsp");
+				    }
 					RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
 					rd.forward(request, response);
 				}catch (DBException e) {
 			        e.printStackTrace();
-			        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-			    }catch(Exception ex) {
-		 	        ex.printStackTrace();
-	    		}finally {
+			        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde."+ e.getMessage());	
+			    }catch (GenericException e) {
+			        e.printStackTrace();
+			        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+			        response.sendRedirect("Inicio.jsp");
+			    }finally {
 					
 	    		}
 			

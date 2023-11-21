@@ -12,6 +12,7 @@ import dao.CuotaDaoInterface;
 import entidad.Cuota;
 import entidad.DBException;
 import entidad.Prestamo;
+import entidad.GenericException;
 
 public class CuotaDAO implements CuotaDaoInterface {
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
@@ -28,7 +29,7 @@ public class CuotaDAO implements CuotaDaoInterface {
     }
     
 	@Override
-	public int Pagar(int IDCuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws SQLException {
+	public int Pagar(int IDCuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException {
 		int filas = 0;
 		String query = "UPDATE cuotas_x_clientes SET Estado = 'Pagado' WHERE IDUsuario = ? AND IDPrestamo = ? AND IDCuota = ? AND IDCuenta = ?";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -39,14 +40,18 @@ public class CuotaDAO implements CuotaDaoInterface {
 			preparedStatement.setInt(4, IDCuenta);
 			filas = preparedStatement.executeUpdate();
 		}catch (SQLException e) {
-            e.printStackTrace();
-       }
+	        e.printStackTrace();
+	        throw new DBException("Hubo un problema de conexión con la DB de Cuota");
+	    }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	    }
 
         return filas;
 	}
 
 	@Override
-	public int Agregar(Cuota cuota) throws SQLException {
+	public int Agregar(Cuota cuota) throws DBException, GenericException {
 		int filas = 0;
 		String query = "INSERT INTO cuotas_x_clientes (Monto_a_Pagar, Estado, Fecha_Pago, IDPrestamo, IDUsuario, IDCuenta, Nro_Cuota, Cuotas_Totales) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -66,13 +71,16 @@ public class CuotaDAO implements CuotaDaoInterface {
 	            filas = preparedStatement.executeUpdate();
 	       } catch (SQLException e) {
 	            e.printStackTrace();
-	       }
+	       }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
 
 	        return filas;
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int IDPrestamo) throws DBException {
+	public ArrayList<Cuota> obtenerCuotasPorPrestamo(int IDPrestamo) throws DBException, GenericException {
 		ArrayList<Cuota> lista = new ArrayList<Cuota>();
         String cuotaQuery = "SELECT * FROM cuotas_x_clientes WHERE IDPrestamo = ?";
 
@@ -101,12 +109,15 @@ public class CuotaDAO implements CuotaDaoInterface {
         } catch (SQLException e) {
 	        e.printStackTrace();
 	        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+	    }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 	    }
         return lista;
 	}
 
 	@Override
-	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws DBException {
+	public ArrayList<Cuota> obtenerCuotasPorCliente(int idCliente) throws DBException, GenericException {
 		ArrayList<Cuota> lista = new ArrayList<Cuota>();
         String cuotaQuery = "SELECT * FROM cuotas_x_clientes WHERE IdUsuario = ?";
 
@@ -135,12 +146,15 @@ public class CuotaDAO implements CuotaDaoInterface {
         } catch (SQLException e) {
 	        e.printStackTrace();
 	        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+	    }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 	    }
         return lista;
 	}
 
 	@Override
-	public Cuota ObtenerCuotaPorID(int iDCuota) throws DBException {
+	public Cuota ObtenerCuotaPorID(int iDCuota) throws DBException, GenericException {
 		Cuota ct = new Cuota();
         String cuotaQuery = "SELECT * FROM cuotas_x_clientes WHERE IDCuota = ?";
 
@@ -168,6 +182,9 @@ public class CuotaDAO implements CuotaDaoInterface {
         } catch (SQLException e) {
 	        e.printStackTrace();
 	        throw new DBException("Hubo un problema de conexión con la DB de Cuotas");
+	    }catch (Exception e){
+	    	 e.printStackTrace();
+	    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 	    }
         return ct;
 	}

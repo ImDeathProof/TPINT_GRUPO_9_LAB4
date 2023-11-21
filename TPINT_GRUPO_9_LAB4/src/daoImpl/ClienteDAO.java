@@ -12,10 +12,14 @@ import java.util.ArrayList;
 import dao.ClienteDaoInterface;
 import entidad.Cliente;
 import entidad.Direccion;
+import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
 import entidad.TipoMovimiento;
 import entidad.DBException;
+import entidad.ValidateException;
+import entidad.GenericException;
+
 
 public class ClienteDAO implements ClienteDaoInterface {
 	
@@ -32,7 +36,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	      }
  }
 	
-	 public Cliente agregarUsuario(Cliente cliente) throws DBException {
+	 public Cliente agregarUsuario(Cliente cliente) throws DBException, GenericException {
 	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin,Bloqueado) " +
 	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
 
@@ -59,11 +63,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 	        } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
-		    }
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }	 
 	        return BuscarUsuario(cliente);
 	    }
 	 
-	 public Cliente BuscarUsuario(Cliente cliente) throws DBException {
+	 public Cliente BuscarUsuario(Cliente cliente) throws DBException, GenericException {
 
 		    String username = cliente.get_Usuario().trim();
 		    String password = cliente.get_Contrasena();
@@ -104,13 +111,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return null;
 		}
 	 
 	 
-		private Direccion obtenerDireccionPorID(int idDireccion) throws DBException {
+		private Direccion obtenerDireccionPorID(int idDireccion) throws DBException, GenericException {
 		    String queryDireccion = "SELECT * FROM Direccion WHERE IDDireccion = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementDireccion = cn.prepareStatement(queryDireccion)) {
@@ -138,11 +148,14 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 		    return null;
 		}
 
-		private Localidad obtenerLocalidadPorID(int idLocalidad) throws DBException {
+		private Localidad obtenerLocalidadPorID(int idLocalidad) throws DBException, GenericException {
 		    String queryLocalidad = "SELECT * FROM Localidad WHERE IDLocalidad = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementLocalidad = cn.prepareStatement(queryLocalidad)) {
@@ -159,12 +172,15 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    }catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return null;
 		}
 
-		private Provincia obtenerProvinciaPorID(int idProvincia) throws DBException {
+		private Provincia obtenerProvinciaPorID(int idProvincia) throws DBException, GenericException {
 		    String queryProvincia = "SELECT * FROM Provincia WHERE IDProvincia = ?";
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatementProvincia = cn.prepareStatement(queryProvincia)) {
@@ -181,13 +197,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    }catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return null;
 		}
 
 	 
-		public int modificarUsuario(Cliente cliente) throws DBException {
+		public int modificarUsuario(Cliente cliente) throws DBException, GenericException {
 		    String query = "UPDATE Usuario SET Username = ?, Pass = ?, Nombre = ?, Apellido = ?, DNI = ?, CUIL = ?, Sexo = ?, Nacionalidad = ?, FechaNacimiento = ?, IDDireccion = ?, Mail = ?, Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?";
 		    int filas = 0;
 
@@ -217,13 +236,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return filas;
 		}
 
 	 
-	 public boolean usuarioExistente(String username, int idUsuario) throws DBException {
+		public boolean usuarioExistente(String username, int idUsuario) throws ValidateException, GenericException {
 		    String query = "SELECT COUNT(*) FROM Usuario WHERE Username = ? AND IDUsuario <> ?";
 		    int count = 0;
 
@@ -235,17 +257,19 @@ public class ClienteDAO implements ClienteDaoInterface {
 		        if (resultSet.next()) {
 		            count = resultSet.getInt(1);
 		        }
-		    }
-		    catch (SQLException e) {
+		    }catch (SQLException e) {
 		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		        throw new ValidateException("Hubo un problema al validar datos de la DB");
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return count > 0;
 		}
+
 	 
-	 
-	 public ArrayList<Cliente> obtenerUsuarios() throws DBException{
+	 public ArrayList<Cliente> obtenerUsuarios() throws DBException, GenericException{
 		    ArrayList<Cliente> lista = new ArrayList<>();
 		    
 		    try {
@@ -288,13 +312,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return lista;
 		}
 
 	 
-	 public int BloquearCliente(int id) throws DBException
+	 public int BloquearCliente(int id) throws DBException, GenericException
 	 {
 		 String query = "UPDATE Usuario SET Bloqueado = 1 WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -307,13 +334,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 	        } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 
 	        return filas;
 	 }
 	 
-	 public int DesbloquearCliente(int id) throws DBException
+	 public int DesbloquearCliente(int id) throws DBException, GenericException
 	 {
 		 String query = "UPDATE Usuario SET Bloqueado = 0 WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -326,12 +356,15 @@ public class ClienteDAO implements ClienteDaoInterface {
 	        } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 	        return filas;
 	 }
 	 
-	 public int CambiarPass(String password, int id ) throws DBException
+	 public int CambiarPass(String password, int id ) throws DBException, GenericException
 	 {
 		 String query = "UPDATE Usuario SET Pass = ? WHERE IDUsuario = ? AND ADMIN = 0;";
 		 int filas = 0;
@@ -345,12 +378,15 @@ public class ClienteDAO implements ClienteDaoInterface {
 	        } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 	        return filas;
 	 }
 	 
-	 public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException{
+	 public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException, GenericException{
 		    try {
 		        Class.forName("com.mysql.cj.jdbc.Driver");
 		    } catch (ClassNotFoundException e) {
@@ -399,13 +435,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return lista;
 		}
 
 
-	 	public int getCantPaginas() throws DBException{
+	 	public int getCantPaginas() throws DBException, GenericException{
 		 
 		    int cant = 0;
 
@@ -420,13 +459,16 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 		    return cant;
 		}
 
 		@Override
-		public Cliente BuscarClientePorID(int idCliente) throws DBException{
+		public Cliente BuscarClientePorID(int idCliente) throws DBException, GenericException{
 		    String checkQuery = "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado FROM Usuario WHERE IDUsuario = ?";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
@@ -462,6 +504,9 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
 

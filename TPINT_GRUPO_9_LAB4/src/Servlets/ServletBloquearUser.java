@@ -11,6 +11,7 @@ import daoImpl.ClienteDAO;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
 import entidad.DBException;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletBloquearUser
@@ -56,8 +57,12 @@ public class ServletBloquearUser extends HttpServlet {
 		}
 		catch (DBException e) {
 	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-	        response.sendRedirect("Login.jsp");
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde." + e.getMessage());
+	        response.sendRedirect("PanelDeControl.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());    
+	        response.sendRedirect("PanelDeControl.jsp");
 	    }
 	}
 

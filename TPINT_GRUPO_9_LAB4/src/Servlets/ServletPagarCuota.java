@@ -14,6 +14,7 @@ import entidad.Cuota;
 import entidad.DBException;
 import negocio.CuotaNeg;
 import negocioImpl.CuotaNegImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPagarCuota
@@ -57,10 +58,17 @@ public class ServletPagarCuota extends HttpServlet {
 				}else {
 					request.getSession().setAttribute("error", "Seleccione una cuenta.");
 				}
-			} catch (SQLException | NumberFormatException | DBException e) {
+			} catch (NumberFormatException | DBException e) {
 				e.printStackTrace();
-				request.getSession().setAttribute("error", "Error al procesar el pago de la cuota.");
-			}finally {
+				request.getSession().setAttribute("error", "Error al procesar el pago de la cuota."+ e.getMessage());	
+				response.sendRedirect("PagoDePrestamos.jsp");
+			}catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        response.sendRedirect("PagoDePrestamos.jsp");
+		    }
+			
+			finally {
 		        RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
 		        rd.forward(request, response);
 			}

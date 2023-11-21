@@ -18,6 +18,7 @@ import entidad.Prestamo;
 import negocio.PrestamoNeg;
 
 import negocioImpl.PrestamoNegocioImpl;
+import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPrestamosPorUsuario
@@ -51,10 +52,13 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
 	    		}
     		}catch (DBException e) {
 		        e.printStackTrace();
-		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-		    }catch(Exception ex) {
-	 	        ex.printStackTrace();
-    		}finally {
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde."+ e.getMessage());	
+		    }catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        response.sendRedirect("PrestamosAprobados.jsp");
+		    }
+    		finally {
     			request.getRequestDispatcher("PrestamosAprobados.jsp").forward(request, response);    			
     		}
     	}
