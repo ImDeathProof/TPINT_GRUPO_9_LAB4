@@ -17,8 +17,10 @@ import entidad.DBException;
 import entidad.TipoMovimiento;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
+import negocio.TipoMovimientoNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.MovimientoNegImpl;
+import negocioImpl.TipoMovimientoNegImpl;
 import entidad.ValidateException;
 import entidad.GenericException;
 
@@ -26,10 +28,11 @@ import entidad.GenericException;
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
+    TipoMovimientoNeg tMovNeg = new TipoMovimientoNegImpl();
 
     public CuentaDAO() {
         try {
@@ -296,7 +299,7 @@ public class CuentaDAO implements CuentaDaoInterface {
   	            
   	            filas = preparedStatement.executeUpdate();
   	            
-  	            cuNeg.insertMovimiento(1, id);
+  	            cuNeg.insertMovimiento(tMovNeg.getTipoxDescripcion("Alta de cuenta").getId_TipoMovimiento(), id);
   	            
   	        } catch (SQLException e) {
   	            e.printStackTrace();
@@ -532,8 +535,8 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 			filasEmisora = CambiarSaldo(monto.negate(), getCBU(userID,tipoCuenta));
 	 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
 	 	        
-	 	       cuNeg.insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate(), new TipoMovimiento(4));
-	 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, new TipoMovimiento(4));
+	 	       cuNeg.insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate(), tMovNeg.getTipoxDescripcion("Deposito"));
+	 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, tMovNeg.getTipoxDescripcion("Deposito"));
 	 		}
 	 		
 	 	    if (filasEmisora > 0 && filasDestinataria > 0) {
