@@ -18,6 +18,8 @@ import entidad.Provincia;
 import entidad.TipoMovimiento;
 import entidad.DBException;
 import entidad.ValidateException;
+import negocio.DireccionNeg;
+import negocioImpl.DireccionNegImpl;
 import entidad.GenericException;
 
 
@@ -25,8 +27,10 @@ public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
+	 
+	 DireccionNeg dNeg = new DireccionNegImpl();
 
 	 public ClienteDAO() {
 	     try {
@@ -98,7 +102,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 		            usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
 
 		            int idDireccion = resultSet.getInt("IDDireccion");
-		            Direccion direc = obtenerDireccionPorID(idDireccion); 
+		            Direccion direc = dNeg.obtenerDireccionPorID(idDireccion); 
 		            usuarioEncontrado.set_Direccion(direc);
 
 		            usuarioEncontrado.set_Email(resultSet.getString("Mail"));
@@ -119,94 +123,9 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    return null;
 		}
 	 
-	 
-		private Direccion obtenerDireccionPorID(int idDireccion) throws DBException, GenericException {
-		    String queryDireccion = "SELECT * FROM Direccion WHERE IDDireccion = ?";
-		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-		         PreparedStatement preparedStatementDireccion = cn.prepareStatement(queryDireccion)) {
-		        preparedStatementDireccion.setInt(1, idDireccion);
-
-		        ResultSet resultSetDireccion = preparedStatementDireccion.executeQuery();
-
-		        if (resultSetDireccion.next()) {
-		            Direccion direccion = new Direccion();
-		            direccion.setId(resultSetDireccion.getInt("IDDireccion"));
-		            direccion.setCalle(resultSetDireccion.getString("Calle"));
-		            direccion.setNumero(resultSetDireccion.getInt("Numero"));
-
-		            int idLocalidad = resultSetDireccion.getInt("IDLocalidad");
-		            int idProvincia = resultSetDireccion.getInt("IDProvincia");
-
-		            Localidad localidad = obtenerLocalidadPorID(idLocalidad); 
-		            Provincia provincia = obtenerProvinciaPorID(idProvincia); 
-
-		            direccion.set_Localidad(localidad);
-		            direccion.set_Provincia(provincia);
-
-		            return direccion;
-		        }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
-		    }catch (Exception e){
-		    	 e.printStackTrace();
-		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
-		    }
-		    return null;
-		}
-
-		private Localidad obtenerLocalidadPorID(int idLocalidad) throws DBException, GenericException {
-		    String queryLocalidad = "SELECT * FROM Localidad WHERE IDLocalidad = ?";
-		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-		         PreparedStatement preparedStatementLocalidad = cn.prepareStatement(queryLocalidad)) {
-		        preparedStatementLocalidad.setInt(1, idLocalidad);
-
-		        ResultSet resultSetLocalidad = preparedStatementLocalidad.executeQuery();
-
-		        if (resultSetLocalidad.next()) {
-		            Localidad localidad = new Localidad();
-		            localidad.setIdLocalidad(idLocalidad);
-		            localidad.setDescripcion(resultSetLocalidad.getString("Descripcion"));
-		            return localidad;
-		        }
-		    }catch (SQLException e) {
-		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
-		    }catch (Exception e){
-		    	 e.printStackTrace();
-		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
-		    }
-
-		    return null;
-		}
-
-		private Provincia obtenerProvinciaPorID(int idProvincia) throws DBException, GenericException {
-		    String queryProvincia = "SELECT * FROM Provincia WHERE IDProvincia = ?";
-		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
-		         PreparedStatement preparedStatementProvincia = cn.prepareStatement(queryProvincia)) {
-		        preparedStatementProvincia.setInt(1, idProvincia);
-
-		        ResultSet resultSetProvincia = preparedStatementProvincia.executeQuery();
-
-		        if (resultSetProvincia.next()) {
-		            Provincia provincia = new Provincia();
-		            provincia.setIdProvincia(idProvincia);
-		            provincia.setDescripcion(resultSetProvincia.getString("Descripcion"));
-		            return provincia;
-		        }
-		    }catch (SQLException e) {
-		        e.printStackTrace();
-		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
-		    }catch (Exception e){
-		    	 e.printStackTrace();
-		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
-		    }
-
-		    return null;
-		}
-
-	 
 		public int modificarUsuario(Cliente cliente) throws DBException, GenericException {
+			
+			
 		    String query = "UPDATE Usuario SET Username = ?, Pass = ?, Nombre = ?, Apellido = ?, DNI = ?, CUIL = ?, Sexo = ?, Nacionalidad = ?, FechaNacimiento = ?, IDDireccion = ?, Mail = ?, Telefono = ?, Admin = ?, Bloqueado = ? WHERE IDUsuario = ?";
 		    int filas = 0;
 
@@ -297,7 +216,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 		                clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
 	              
 		                int idDireccion = rs.getInt("IDDireccion");
-		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                Direccion direccion = dNeg.obtenerDireccionPorID(idDireccion);
 		                clienteRs.set_Direccion(direccion);
 
 		                clienteRs.set_Email(rs.getString("Mail"));
@@ -420,7 +339,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 		                clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
 
 		                int idDireccion = rs.getInt("IDDireccion");
-		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                Direccion direccion = dNeg.obtenerDireccionPorID(idDireccion);
 		                clienteRs.set_Direccion(direccion);
 
 		                clienteRs.set_Email(rs.getString("Mail"));
@@ -490,7 +409,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 		                usuarioEncontrado.set_FechaNacimiento(resultSet.getDate("FechaNacimiento").toLocalDate());
 
 		                int idDireccion = resultSet.getInt("IDDireccion");
-		                Direccion direccion = obtenerDireccionPorID(idDireccion);
+		                Direccion direccion = dNeg.obtenerDireccionPorID(idDireccion);
 		                usuarioEncontrado.set_Direccion(direccion);
 
 		                usuarioEncontrado.set_Email(resultSet.getString("Mail"));

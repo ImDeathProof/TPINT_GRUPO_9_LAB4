@@ -124,7 +124,7 @@
 			    </div>
 	            </div>
 	            <br>
-	            <button type="submit" class="btn btn-success">Registrarse</button>
+	            <button type="submit" class="btn btn-success">Registrar</button>
 	            <button type="button" class="btn btn-danger">Cancelar</button>
 	             <% if (session.getAttribute("errorRegistro") != null) { %>
 		         <div class="alert alert-danger">

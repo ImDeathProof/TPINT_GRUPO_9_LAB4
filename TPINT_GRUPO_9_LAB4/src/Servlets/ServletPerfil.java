@@ -19,7 +19,9 @@ import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
 import negocio.ClienteNeg;
+import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
+import negocioImpl.DireccionNegImpl;
 import entidad.ValidateException;
 import entidad.GenericException;
 
@@ -30,6 +32,7 @@ import entidad.GenericException;
 public class ServletPerfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ClienteNeg clNeg = new ClienteNegImpl();
+	DireccionNeg dNeg = new DireccionNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -72,11 +75,29 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_DNI(Long.parseLong(request.getParameter("txtDni")));
 					cliente.set_CUIL(Long.parseLong(request.getParameter("txtCuil")));
 					cliente.set_Nacionalidad(request.getParameter("txtNacionalidad"));
+
+					String loc = request.getParameter("Localidad");
+					String pro = request.getParameter("Provincia");
+	
+					Direccion dic = new Direccion();					
+					dic.setId(clienteviejo.get_Direccion().getId());
 					
+					try {
+						dic.set_Localidad(dNeg.obtenerLocalidadPorDesc(loc));
+					} catch (DBException e1) {
+						e1.printStackTrace();
+					} catch (GenericException e1) {
+						e1.printStackTrace();
+					}
 					
-					Direccion dic = new Direccion();				
-					dic.set_Localidad(new Localidad(request.getParameter("txtLocalidad")));
-					dic.set_Provincia(new Provincia(request.getParameter("txtProvincia")));
+					try {
+						dic.set_Provincia(dNeg.obtenerProvinciaPorDesc(pro));
+					} catch (DBException e1) {
+						e1.printStackTrace();
+					} catch (GenericException e1) {
+						e1.printStackTrace();
+					}
+					
 					dic.setCalle(request.getParameter("txtDireccion"));
 					dic.setNumero(Integer.parseInt(request.getParameter("txtNum")));
 
@@ -98,6 +119,7 @@ public class ServletPerfil extends HttpServlet {
 					try {
 				    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
 				    	{
+				    		dNeg.modificarDireccion(cliente.get_Direccion());
 				    		clNeg.modificarUsuario(cliente);			
 				    		request.getSession().setAttribute("usuarioModificado", "El usuario fue modificado correctamente!");
 				    	}

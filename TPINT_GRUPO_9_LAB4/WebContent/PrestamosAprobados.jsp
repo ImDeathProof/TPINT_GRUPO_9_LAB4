@@ -51,7 +51,11 @@
 								                <td><%= pr.getFechaPedido() %></td>
 								                <td><%= pr.getMonto() %></td>
 								                <td><%= pr.getMontoAprobado() %></td>
-								                <td><input type="submit" name="PagarPrestamo" value="Pagar" class="btn btn-success"></td>
+								                <td>
+									                <a href="PagoDePrestamos.jsp">
+													    <input type="submit" name="PagarPrestamo" value="Pagar" class="btn btn-success">
+													</a>
+												</td>
 								            </tr>
 								            <% } } %>
 								    </tbody>

@@ -1,7 +1,17 @@
 <%@page import="entidad.Cliente"%>
+<%@page import="entidad.Localidad"%>
+<%@page import="entidad.Provincia"%>
+<%@page import="entidad.Cliente"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <jsp:include page="Header.jsp" />
+    
+    <%
+    ArrayList<Localidad> localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+    ArrayList<Provincia> provincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,17 +58,29 @@
 						    </div>
 						</div>
 						<label for="nacionalidad" id="lbl_nacionalidad">Nacionalidad:</label>
-						<input type="text" id="Nacionalidad" name="txtNacionalidad" class="form-control" value="<%=cliente.get_Nacionalidad()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">				
-						<label for="direccion" id="lbl_direccion">Calle:</label>
+						<input type="text" id="Nacionalidad" name="txtNacionalidad" class="form-control" value="<%=cliente.get_Nacionalidad()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">									
+					 <label for="direccion" id="lbl_direccion">Calle:</label>
 						<input type="text" name="txtDireccion" class="form-control" value="<%=cliente.get_Direccion().getCalle()%>" required>
 						<label for="numDic" id="lbl_numDic">Numero:</label>
 						<input type="text" name="txtNum" class="form-control" value="<%=cliente.get_Direccion().getNumero()%>" required>
 					</div>
-					<div class="col-6 border p-2">
-						<label for="localidad" id="lbl_localidad">Localidad:</label>
-						<input type="text" name="txtLocalidad" class="form-control" value="<%=cliente.get_Direccion().get_Localidad().getDescripcion()%>" required>
-						<label for="provincia" id="lbl_provincia">Provincia:</label>
-						<input type="text" id="Provincia" name=txtProvincia class="form-control" value="<%=cliente.get_Direccion().get_Provincia().getDescripcion()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">								
+					<div class="col-6 border p-2">	
+													 
+					    <label for="localidad">Localidad:</label>
+						    <select name="Localidad" id="localidad">
+						    <option value="<%=cliente.get_Direccion().get_Localidad().getDescripcion()%>"><%=cliente.get_Direccion().get_Localidad().getDescripcion()%></option>
+									<c:forEach var="localidad" items="${localidades}">
+									    <option value="${localidad.descripcion}">${localidad.descripcion}</option>
+									</c:forEach>
+						    </select><br>	
+			                <label for="provincia">Provincia:</label>
+							    <select name="Provincia" id="provincia">
+							    <option value="<%=cliente.get_Direccion().get_Provincia().getDescripcion()%>"><%=cliente.get_Direccion().get_Provincia().getDescripcion()%></option>
+							        <c:forEach var="provincia" items="${provincias}">
+							            <option value="${provincia.descripcion}">${provincia.descripcion}</option>
+							        </c:forEach>
+							    </select><br>					
+								
 						<label for="Nacimiento" id="lbl_FNacimiento">Fecha de Nacimiento:</label>
 						<input type="date" id="fechaNacimiento" name="txtFNacimiento" class="form-control" value="<%=cliente.get_FechaNacimiento()%>" required>
 						<label for="email" id="lbl_email">E-mail:</label>

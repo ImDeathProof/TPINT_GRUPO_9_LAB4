@@ -42,7 +42,7 @@
             </div>
             <br>
             <button type="submit" class="btn btn-success">Pedir Cuenta</button>
-            <button type="button" class="btn btn-danger">Cancelar</button>
+            <a href="MisCuentas.jsp" class="btn btn-danger">Cancelar</a>
            <% if (session.getAttribute("errorRegistroCuenta") != null) { %>
 			<div class="alert alert-danger">
 			    <%= (String)session.getAttribute("errorRegistroCuenta")%> 

@@ -28,7 +28,7 @@ import entidad.GenericException;
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
@@ -300,14 +300,13 @@ public class CuentaDAO implements CuentaDaoInterface {
   	            if(!ct.getEstado()) {
   	            	filas = preparedStatement.executeUpdate();
   	            	if(filas > 0) {
-		            	cuNeg.insertMovimiento(ct.getIdCuenta(),new BigDecimal(10000), new TipoMovimiento(2));		            	
+		            	cuNeg.insertMovimiento(ct.getIdCuenta(),new BigDecimal(10000), tMovNeg.getTipoxDescripcion("Alta de cuenta"));		            	
 		            }
   	            }else {
   	            	filas = preparedStatement.executeUpdate();
+  	            	cuNeg.insertMovimiento(tMovNeg.getTipoxDescripcion("Alta de cuenta").getId_TipoMovimiento(), id);
   	            }
-  	            
-  	            cuNeg.insertMovimiento(tMovNeg.getTipoxDescripcion("Alta de cuenta").getId_TipoMovimiento(), id);
-  	            
+  	                        
   	        } catch (SQLException e) {
   	            e.printStackTrace();
   	          throw new ValidateException("Hubo un problema al validar datos en la DB");
@@ -315,7 +314,6 @@ public class CuentaDAO implements CuentaDaoInterface {
 		    	 e.printStackTrace();
 		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
-
   	        
   	        return filas;
   	 } 

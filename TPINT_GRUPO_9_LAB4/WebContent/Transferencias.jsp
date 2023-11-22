@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Trasferencias</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
@@ -19,7 +19,7 @@
 			<jsp:include page="NavbarClientes.jsp" />
 		<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-	<h1>Ver transferencias realizadas</h1>
+	<h1>Trasferir</h1>
 	 <% if (session.getAttribute("errorTransfer") != null) { %>
         <div class="alert alert-danger">
              <%= (String)session.getAttribute("errorTransfer")%> 
