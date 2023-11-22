@@ -18,7 +18,7 @@ public class TipoMovimientoDAO implements TipoMovimientoDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 
 	 public TipoMovimientoDAO() {
@@ -29,22 +29,19 @@ public class TipoMovimientoDAO implements TipoMovimientoDaoInterface {
 	      }
 	 }
 	
-	 public ArrayList<TipoMovimiento> getTipoMovimiento(int idTipo, int idCuenta) throws DBException, GenericException
+	 public TipoMovimiento getTipoMovimiento(int idTipo, int idCuenta) throws DBException, GenericException
 	    {
 		    String checkQuery = "SELECT * FROM tiposmovimientos";
-		    ArrayList<TipoMovimiento> lista = new ArrayList<>();
+		    TipoMovimiento tp = new TipoMovimiento();
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		            PreparedStatement checkStatement = cn.prepareStatement(checkQuery)) {
 		            ResultSet resultSet = checkStatement.executeQuery();
 
 		           if (resultSet.next()) {
-		           TipoMovimiento tp = new TipoMovimiento();
 		            tp.setId_TipoMovimiento(resultSet.getInt("IDTipo"));
 		            tp.setTipoMovimiento(resultSet.getString("Descripcion"));
-
-		            lista.add(tp);
-		        }
+		           }
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
@@ -53,7 +50,7 @@ public class TipoMovimientoDAO implements TipoMovimientoDaoInterface {
 		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }
 
-		    return lista;
+		    return tp;
 	    }
 	 
 	 public TipoMovimiento getTipoxDescripcion(String tipo) throws DBException, GenericException {

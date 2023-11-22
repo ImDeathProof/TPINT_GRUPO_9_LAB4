@@ -16,7 +16,7 @@ public class TipoMovimientoNegImpl implements TipoMovimientoNeg {
 	private TipoMovimientoDaoInterface tMovDao = new TipoMovimientoDAO();
 
 	@Override
-	public ArrayList<TipoMovimiento> getTipoMovimiento(int idTipo, int idCuenta) throws DBException, GenericException {
+	public TipoMovimiento getTipoMovimiento(int idTipo, int idCuenta) throws DBException, GenericException {
 		return tMovDao.getTipoMovimiento(idTipo, idCuenta);
 	}
 
