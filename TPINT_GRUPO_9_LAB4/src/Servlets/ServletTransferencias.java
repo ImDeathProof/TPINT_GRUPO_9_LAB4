@@ -44,7 +44,7 @@ public class ServletTransferencias extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    int idUser = Integer.parseInt(request.getParameter("userID"));
-	    long CBU = Long.parseLong(request.getParameter("CBU"));
+	    String CBU = request.getParameter("CBU");
 	    String monto = request.getParameter("monto");
 	     
 	    BigDecimal saldoDecimal = new BigDecimal(monto);

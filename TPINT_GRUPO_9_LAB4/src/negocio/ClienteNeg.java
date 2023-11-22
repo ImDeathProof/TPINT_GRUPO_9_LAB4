@@ -4,9 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import entidad.DBException;
 import entidad.ValidateException;
+//import negocioImpl.Localidad;
 import entidad.GenericException;
-
 import entidad.Cliente;
+import entidad.Provincia;
+import entidad.Localidad;
 
 public interface ClienteNeg {
 	
@@ -21,5 +23,7 @@ public interface ClienteNeg {
 	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize)throws DBException, GenericException;
 	public int getCantPaginas()throws DBException, GenericException;
 	public Cliente BuscarClientePorID(int idCliente)throws DBException, GenericException;
+	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException;
+	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException;
+	}
 
-}

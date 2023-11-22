@@ -56,9 +56,9 @@
 					</div>
 					<div class="col-6 border p-2">
 						<label for="localidad" id="lbl_localidad">Localidad:</label>
-						<input type="text" name="txtLocalidad" class="form-control" value="<%=cliente.get_Direccion().get_Localidad()%>" required>
+						<input type="text" name="txtLocalidad" class="form-control" value="<%=cliente.get_Direccion().get_Localidad().getDescripcion()%>" required>
 						<label for="provincia" id="lbl_provincia">Provincia:</label>
-						<input type="text" id="Provincia" name=txtProvincia class="form-control" value="<%=cliente.get_Direccion().get_Provincia()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">								
+						<input type="text" id="Provincia" name=txtProvincia class="form-control" value="<%=cliente.get_Direccion().get_Provincia().getDescripcion()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">								
 						<label for="Nacimiento" id="lbl_FNacimiento">Fecha de Nacimiento:</label>
 						<input type="date" id="fechaNacimiento" name="txtFNacimiento" class="form-control" value="<%=cliente.get_FechaNacimiento()%>" required>
 						<label for="email" id="lbl_email">E-mail:</label>
