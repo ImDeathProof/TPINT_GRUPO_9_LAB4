@@ -43,22 +43,22 @@
 				    <div class="carousel-item active" data-bs-interval="10000">
 				      <img src="https://concepto.de/wp-content/uploads/2020/09/dinero-e1599518998156.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>BIENVENIDO</h5>
+				        <h5 class="text-light">LOS MEJORES PRESTAMOS</h5>
 				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item" data-bs-interval="2000">
 				      <img src="https://www.primeraedicion.com.ar/wp-content/uploads/2023/04/dolar-1-750x375.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>BIENVENIDO</h5>
-				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
+				        <h5 class="text-light">¿NECESITAS UNA CUENTA?</h5>
+				        <p><a href="InfoCuentas.jsp" class="link-light">Solicita tu cuenta haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item">
 				      <img src="https://www.teknei.com/wp-content/uploads/2021/09/los-procesos-mas-automatizados-de-los-bancos.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5>BIENVENIDO</h5>
-				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
+				        <h5 class="text-light">LAS TRANSFERENCIAS MÁS RAPIDAS</h5>
+				        <p><a href="Transferencias.jsp" class="link-light">Transferi haciendo clic ACA!</a></p>
 				      </div>
 				    </div>
 				  </div>
@@ -76,7 +76,7 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">PRESTAMOS</h5>
-			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			        <p class="card-text">Pedi tu prestamo con 0% interes y devolvelo como quieras!</p>
 			        <a href="SolicitarPrestamo.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
@@ -85,7 +85,8 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">CUENTAS</h5>
-			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			        <p class="card-text">Podes pedir o gestionar tus cuenta.</p>
+			        <br>
 			        <a href="MisCuentas.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
@@ -94,7 +95,8 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">TARJETAS</h5>
-			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			        <p class="card-text">Solicitá tu tarjeta visa o master card.</p>
+			        <br>
 			        <a href="#" class="btn btn-primary">Proximamente...</a>
 			      </div>
 			    </div>
@@ -103,7 +105,8 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">INVERSIONES</h5>
-			        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+			        <p class="card-text">Compra y vende acciones al mejor precio de mercado</p>
+			        <br>
 			        <a href="#" class="btn btn-primary">Proximamente...</a>
 			      </div>
 			    </div>
@@ -112,7 +115,7 @@
 				<div class="row m-2">
 					<div class="col-4">
 						<div class="call-to-action">
-							<a class="" href="SolicitarPrestamo.jsp">
+							<a class="" href="PagoDePrestamos.jsp">
 								<img src="https://drive.google.com/uc?export=download&id=12dD2oAC6cu4JNcCZxduABd5MZjCOW4_2" class="" alt="">
 							</a>
 						</div>
@@ -126,7 +129,7 @@
 					</div>
 					<div class="col-4">
 						<div class="call-to-action">
-							<a class="" href="SolicitarPrestamo.jsp">
+							<a class="" href="#">
 								<img src="https://drive.google.com/uc?export=download&id=1yu1HIqsFMqTgMg0nRhFbD0WuOHsjFGYy" class="" alt="">
 							</a>
 						</div>

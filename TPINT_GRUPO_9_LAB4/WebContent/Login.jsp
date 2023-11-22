@@ -35,6 +35,8 @@
             <br>
             <button type="submit" class="btn btn-success" name="btnAceptar">Iniciar Sesión</button>
         </form>
+        <br>
+        <p>Si no tenes cuenta, podes solicitarla en tu sucursal mas cercana!</p>
 		</div>
     </div>
     <% } %>	

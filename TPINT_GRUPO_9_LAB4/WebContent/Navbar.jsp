@@ -19,17 +19,11 @@
 			        <li class="nav-item">
 			          <a class="nav-link active" aria-current="page" href="Inicio.jsp">Inicio</a>
 			        </li>
-			        <li class="nav-item dropdown">
-			          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			            Cuentas
-			          </a>
-			          <ul class="dropdown-menu">
-			            <li><a class="dropdown-item" href="#">Caja de Ahorro</a></li>
-			            <li><a class="dropdown-item" href="#">Cuenta Corriente</a></li>
-			          </ul>
-			        </li>     
 			        <li class="nav-item">
-			          <a class="nav-link active" aria-current="page" href="Informes.jsp">Prestamos</a>
+			          <a class="nav-link active" aria-current="page" href="InfoCuentas.jsp">Cuentas</a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link active" aria-current="page" href="InfoPrestamos.jsp">Prestamos</a>
 			        </li>
 			        <li class="nav-item">
 			          <a class="nav-link active" aria-current="page" href="Nosotros.jsp">Nosotros</a>
