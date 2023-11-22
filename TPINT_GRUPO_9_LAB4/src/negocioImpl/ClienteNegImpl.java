@@ -10,6 +10,8 @@ import entidad.Cliente;
 import entidad.DBException;
 import entidad.ValidateException;
 import entidad.GenericException;
+import entidad.Localidad;
+import entidad.Provincia;
 
 public class ClienteNegImpl implements ClienteNeg {
 	
@@ -71,6 +73,14 @@ public class ClienteNegImpl implements ClienteNeg {
 		return clDao.usuarioExistente(username, idUsuario);
 	}
 	
+	@Override
+	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException{
+		return clDao.obtenerLocalidades();
+	}
 	
+	@Override
+	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException{
+		return clDao.obtenerProvincias();
+	}
 
 }

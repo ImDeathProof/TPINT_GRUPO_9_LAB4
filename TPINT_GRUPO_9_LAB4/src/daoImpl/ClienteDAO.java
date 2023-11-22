@@ -512,6 +512,61 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    return null;
 		}
+		
+
+		public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException {
+		    ArrayList<Provincia> listaProvincias = new ArrayList<>();
+
+		    String query = "SELECT * FROM Provincia";
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query);
+		         ResultSet rs = preparedStatement.executeQuery()) {
+
+		        while (rs.next()) {
+		            Provincia provincia = new Provincia();
+		            provincia.setIdProvincia(rs.getInt("IDProvincia"));
+		            provincia.setDescripcion(rs.getString("Descripcion"));
+		            listaProvincias.add(provincia);
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Provincias");
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
+
+		    return listaProvincias;
+		}
+
+		public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException {
+		    ArrayList<Localidad> listaLocalidades = new ArrayList<>();
+
+		    String query = "SELECT * FROM Localidad";
+
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query);
+		         ResultSet rs = preparedStatement.executeQuery()) {
+
+		        while (rs.next()) {
+		            Localidad localidad = new Localidad();
+		            localidad.setIdLocalidad(rs.getInt("IDLocalidad"));
+		            localidad.setDescripcion(rs.getString("Descripcion"));
+		            listaLocalidades.add(localidad);
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Localidades");
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
+
+		    return listaLocalidades;
+		}
 
 	 
 }

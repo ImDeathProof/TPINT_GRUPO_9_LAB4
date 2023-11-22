@@ -3,7 +3,10 @@ package Servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,11 +54,33 @@ public class ServletRegistro extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	    String usuario = request.getParameter("username");
+				
+		String usuario = request.getParameter("username");
 	    
 	    String contrasena = request.getParameter("password");
 	    String contra2 = request.getParameter("pass2");
+	    
+	    ArrayList<Localidad> localidades;
+        ArrayList<Provincia> provincias;
+	    
+        try {
+            localidades = (ArrayList<Localidad>)clNeg.obtenerLocalidades();
+            provincias = (ArrayList<Provincia>)clNeg.obtenerProvincias();
+            
+            request.setAttribute("localidades", localidades);
+            request.setAttribute("provincias", provincias);
+            RequestDispatcher rd = request.getRequestDispatcher("/Registro.jsp");
+    		rd.forward(request, response);
+        } catch (DBException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
+            response.sendRedirect("Login.jsp");
+        } catch (GenericException e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde" + e.getMessage());
+            response.sendRedirect("Login.jsp");
+        }    
+
 	    
 	    if(contrasena.equals(contra2))
 	    {    
@@ -113,11 +138,13 @@ public class ServletRegistro extends HttpServlet {
 		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
 		        response.sendRedirect("Login.jsp");
 		    }
-		    if(cargo) {
-		    	response.sendRedirect("PerfilUsuario.jsp");
-		    }else {
-		    	response.sendRedirect("Inicio.jsp");		    	
-		    }
+	        if (cargo) {
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("PerfilUsuario.jsp");
+	            dispatcher.forward(request, response);
+	        } else {
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("Inicio.jsp");
+	            dispatcher.forward(request, response);
+	        }
 			    
 	    }
 	    else {      

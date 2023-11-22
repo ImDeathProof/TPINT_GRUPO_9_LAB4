@@ -1,14 +1,29 @@
+<%@page import="entidad.Localidad"%>
+<%@page import="entidad.Provincia"%>
 <%@page import="entidad.Cliente"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+    
     <jsp:include page="Header.jsp" />
+<%
+    ArrayList<Localidad> localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+    ArrayList<Provincia> provincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Registro</title>
 </head>
 <body>
+
+
+
 	<% if (session.getAttribute("usuarioAutenticado") != null) { 
 		Cliente cl = (Cliente)session.getAttribute("usuarioAutenticado");
 		if(cl.is_Admin()){%>
@@ -57,17 +72,27 @@
 		                <input type="text" id="Direccion" name="Direccion" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		            <div class="form-group">
-		                <label for="Direccion">Numero:</label>
+		                <label for="Direccion">Número:</label>
 		                <input type="text" id="numeroDic" name="numeroDic" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
-		             <div class="form-group">
-		                <label for="Localidad">Localidad:</label>
-		                <input type="text" id="Localidad" name="Localidad" class="form-control" required>
-		            </div>
+		            
+					<div class="form-group">
+					    <label for="localidad">Localidad:</label>
+						    <select name="Localidad" id="localidad">
+									<c:forEach var="localidad" items="${localidades}">
+									    <option value="${localidad.descripcion}">${localidad.descripcion}</option>
+									</c:forEach>
+						    </select>
+					</div>
 		            <div class="form-group">
-		                <label for="Provincia">Provincia:</label>
-		                <input type="text" id="Provincia" name="Provincia" class="form-control" required>
+			                <label for="provincia">Provincia:</label>
+							    <select name="Provincia" id="provincia">
+							        <c:forEach var="provincia" items="${provincias}">
+							            <option value="${provincia.descripcion}">${provincia.descripcion}</option>
+							        </c:forEach>
+							    </select>
 		            </div>
+                        
 		        </div>
 	            <div class="col-5">
 	           	     <div class="form-group">
