@@ -31,7 +31,12 @@
 							<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver Cuotas">
 					</form>
 					<%
-				     		 ArrayList<Cuota> listaCuotas = null;
+					if(session.getAttribute("error") != null) {%>
+							<div class="alert alert-danger">
+					             <%= (String)session.getAttribute("error")%> 
+					        </div>
+					<%}
+				     		ArrayList<Cuota> listaCuotas = null;
 				     		 ArrayList<Cuenta> listaCuentas = null;
 				      		if(request.getAttribute("listaCuotas")!= null){
 				      			listaCuotas = (ArrayList<Cuota>) request.getAttribute("listaCuotas");
@@ -61,6 +66,7 @@
 								                <td><%= cta.getCuotas_Totales() %></td>
 								                <td>
 								                   <form action="ServletPagarCuota" method="post">
+								                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
 								                        <select name="SelectCuentas" class="form-control p-2">
 										                   <option value="Seleccionar">Seleccionar cuenta</option>
 										                    <%if(listaCuentas != null && !listaCuentas.isEmpty()){
@@ -69,11 +75,11 @@
 										                    <%}} %>
 							    	            		</select>
 								                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
-								                        <% if (cta.getEstado().equalsIgnoreCase("No Pagado")) { %>
 								                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
 	
-								                        <% } %>
-								                        
+								                        <% }else{ %>
+								                        	Cuota pagada
+								                        	<%}%>
 								                   </form>
 								                </td>
 								            </tr>
@@ -82,11 +88,7 @@
 							    </tbody>
 							</table>
 							
-						<% }if(session.getAttribute("error") != null) {%>
-							<div class="alert alert-danger">
-					             <%= (String)session.getAttribute("error")%> 
-					        </div>
-						<%}%>
+						<% }%>
 				</div>
 				<div class="col-1"></div>
 		</div>
