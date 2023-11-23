@@ -44,11 +44,32 @@ public class ServletRegistro extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
-		
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(request.getParameter("Param")!=null) {
+			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+				try{
+			ArrayList<Localidad> localidades = (ArrayList<Localidad>)clNeg.obtenerLocalidades();
+			 ArrayList<Provincia> provincias = (ArrayList<Provincia>)clNeg.obtenerProvincias();            
+		   request.setAttribute("localidades", localidades);
+		   request.setAttribute("provincias", provincias);
+		   RequestDispatcher dispatcher = request.getRequestDispatcher("Registro.jsp");
+			dispatcher.forward(request, response);	
+			
+		}catch (DBException e) {
+		    e.printStackTrace();
+		    request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
+		    
+		    response.sendRedirect("Login.jsp");
+		}catch (GenericException e) {
+		    e.printStackTrace();
+		    request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		    response.sendRedirect("Login.jsp");
+		}
 	}
+	}
+		
+		
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,28 +79,7 @@ public class ServletRegistro extends HttpServlet {
 		String usuario = request.getParameter("username");
 	    
 	    String contrasena = request.getParameter("password");
-	    String contra2 = request.getParameter("pass2");
-	    
-	    ArrayList<Localidad> localidades;
-        ArrayList<Provincia> provincias;
-	    
-        try {
-            localidades = (ArrayList<Localidad>)clNeg.obtenerLocalidades();
-            provincias = (ArrayList<Provincia>)clNeg.obtenerProvincias();
-            
-            request.setAttribute("localidades", localidades);
-            request.setAttribute("provincias", provincias);
-            RequestDispatcher rd = request.getRequestDispatcher("/Registro.jsp");
-    		rd.forward(request, response);
-        } catch (DBException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
-            response.sendRedirect("Login.jsp");
-        } catch (GenericException e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde" + e.getMessage());
-            response.sendRedirect("Login.jsp");
-        }    
+	    String contra2 = request.getParameter("pass2");	      
 
 	    
 	    if(contrasena.equals(contra2))
