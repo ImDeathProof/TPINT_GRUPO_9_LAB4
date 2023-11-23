@@ -215,7 +215,7 @@ public class CuentaDAO implements CuentaDaoInterface {
    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
    }
     }
-
+    @Override
     public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException{
         String query = "SELECT COUNT(*) FROM Cuenta WHERE CBU = ?";
 
@@ -530,25 +530,27 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 }
 	 	 
 	 	
-	 public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException{	   
+	//public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException{	   
+	public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, int IDCuenta) throws DBException, GenericException{	   
 
-	 		try {int filasEmisora = -1;
-	 		int filasDestinataria = -1;
-	 		
-	 		if (getDineroxCuenta(getCBU(userID,tipoCuenta)).compareTo(monto) >= 0)
-	 		{	 			
-	 			filasEmisora = CambiarSaldo(monto.negate(), getCBU(userID,tipoCuenta));
-	 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
-	 	        
-	 	       cuNeg.insertMovimiento(getCuentaFromUserID(userID, tipoCuenta), monto.negate(), tMovNeg.getTipoxDescripcion("Deposito"));
-	 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, tMovNeg.getTipoxDescripcion("Deposito"));
-	 		}
-	 		
-	 	    if (filasEmisora > 0 && filasDestinataria > 0) {
-	 	        return filasEmisora + filasDestinataria;
-	 	    } else {
-	 	        return -1;
-	 	    }
+	 		try {
+	 			int filasEmisora = -1;
+		 		int filasDestinataria = -1;
+		 		Cuenta cn = obtenerCuentaPorID(IDCuenta);
+		 		if (getDineroxCuenta(cn.getCBU()).compareTo(monto) >= 0)
+		 		{	 			
+		 			filasEmisora = CambiarSaldo(monto.negate(), cn.getCBU());
+		 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
+		 	        
+		 	       cuNeg.insertMovimiento(cn.getIdCuenta(), monto.negate(), tMovNeg.getTipoxDescripcion("Deposito"));
+		 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, tMovNeg.getTipoxDescripcion("Deposito"));
+		 		}
+		 		
+		 	    if (filasEmisora > 0 && filasDestinataria > 0) {
+		 	        return filasEmisora + filasDestinataria;
+		 	    } else {
+		 	        return -1;
+		 	    }
 	 		}catch (DBException e) {
  		        e.printStackTrace();
  		       throw new DBException("Hubo un problema de conexión con la DB de Cuentas");

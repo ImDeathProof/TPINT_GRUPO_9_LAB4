@@ -23,8 +23,10 @@ public interface CuentaDaoInterface {
     public BigDecimal obtenerSaldo(int IDCuenta) throws DBException, GenericException;
     public ArrayList<Cuenta> obtenerCuentasPaginadas(int pageNumber, int pageSize) throws DBException, GenericException;
     public int getCantPaginas() throws DBException, GenericException;
-    public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException;
+    //public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta) throws DBException, GenericException;
+    public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, int IDCuenta) throws DBException, GenericException;
 	public int Debitar(int IDCuenta, BigDecimal saldo) throws DBException, GenericException;
 	public String generarCBU() throws ValidateException, GenericException;
 	BigDecimal getDineroxCuenta(String cBU) throws DBException, GenericException;
+	public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException;
 }

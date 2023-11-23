@@ -68,8 +68,9 @@ public class CuentaNegImpl implements CuentaNeg {
 	}
 
 	@Override
-	public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta)  throws DBException, GenericException{
-		return clDao.transferirDinero(monto, userID, CBUCuentaDestinataria, tipoCuenta);
+	//public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, String tipoCuenta)  throws DBException, GenericException{
+	public int transferirDinero(BigDecimal monto, int userID, String CBUCuentaDestinataria, int IDCuenta)  throws DBException, GenericException{
+		return clDao.transferirDinero(monto, userID, CBUCuentaDestinataria, IDCuenta);
 	}
 
 	@Override
@@ -105,6 +106,12 @@ public class CuentaNegImpl implements CuentaNeg {
 	public String generarCBU() throws ValidateException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.existeCBU(numeroCBU);
 	}
 	
 	
