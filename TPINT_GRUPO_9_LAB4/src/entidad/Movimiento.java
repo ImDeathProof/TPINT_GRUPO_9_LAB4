@@ -79,7 +79,4 @@ public class Movimiento {
 		return "Movimiento [Id_Movimiento=" + Id_Movimiento + ", tipoMov=" + tipoMov + ", Monto=" + Monto + ", Fecha="
 				+ Fecha + ", detalles=" + detalles + ", idCliente=" + idCliente + ", idCuenta=" + idCuenta + "]";
 	}
-	
-	
-	
 }

@@ -67,6 +67,7 @@
 				            	<%}else{%>
 				            		<input type="submit" class="btn btn-primary mt-2" name="btnTransferir" value="Transferir">
 				            	<%} %>
+				      </form>
 				            <% if (session.getAttribute("errorTransfer") != null) { %>
 				            <hr>
 					        <div class="alert alert-danger">
@@ -77,8 +78,17 @@
 						        <div class="alert alert-success">
 						             <%= (String)session.getAttribute("successTransfer")%> 
 						        </div>
+								<%
+								    String base64Image = (String) request.getSession().getAttribute("base64Image");
+								    if (base64Image != null && !base64Image.isEmpty()) {
+								%>
+								        <!-- Muestra el comprobante -->
+								        <img src="data:image/png;base64, <%=base64Image%>" alt="Comprobante de pago">
+								<%
+								    }
+								%>
+						        
 						     <%} %>
-				      </form>
 				</div>
 				<div class="col-1"></div>
 	</div>
@@ -86,6 +96,12 @@
 	
 	
 	<% } %>
+
+	<script>
+	function abrirNuevaPestana(url) {
+	    window.open(url, '_blank');
+	}
+	</script>
 
 </body>
 </html>

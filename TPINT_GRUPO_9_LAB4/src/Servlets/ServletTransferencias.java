@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -12,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.CuentaDAO;
+import entidad.Comprobante;
 import entidad.Cliente;
 import entidad.Cuenta;
 import entidad.DBException;
+import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
+import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 import entidad.GenericException;
@@ -30,6 +34,7 @@ public class ServletTransferencias extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	CuentaNeg cuNeg = new CuentaNegImpl();
 	PrestamoNeg negPr = new PrestamoNegocioImpl();  
+	ClienteNeg clNeg = new ClienteNegImpl();
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -85,6 +90,15 @@ public class ServletTransferencias extends HttpServlet {
 			request.getSession().removeAttribute("successTransfer");
 		}
 		int idUser = Integer.parseInt(request.getParameter("userID"));
+		Cliente cliente;
+		try {
+			cliente = clNeg.BuscarClientePorID(idUser);
+		} catch (DBException | GenericException e2) {
+			e2.printStackTrace();
+			request.getSession().setAttribute("errorTransfer", "Hubo un error al buscar el cliente");
+	        response.sendRedirect(request.getContextPath() + "/ServletTransferencias?Param=1");
+	        return;
+		} 
 	    String CBU = request.getParameter("CBU");
 	    
 		try {
@@ -143,9 +157,17 @@ public class ServletTransferencias extends HttpServlet {
 		        response.sendRedirect(request.getContextPath() + "/ServletTransferencias?Param=1");
 		        return;
 		    } else {
-		        // Si la transferencia es exitosa
-		        request.getSession().setAttribute("successTransfer", "Transferencia realizada exitósamente");
-		        response.sendRedirect(request.getContextPath() + "/ServletTransferencias?Param=1");
+		    	// Si la transferencia es exitosa
+		        //	Generar comprobante (TEST)
+		        Comprobante comprobante = new Comprobante(cliente, cuenta, saldoDecimal, CBU);
+		        // Generar el comprobante
+		        String base64Image = comprobante.generarComprobante();
+		        // Guardar el comprobante en la sesión
+		        request.getSession().setAttribute("base64Image", base64Image);
+
+		        // Esto pertenece a la transferencia y se ve en el jsp
+		    	request.getSession().setAttribute("successTransfer", "Transferencia realizada exitósamente");
+		    	response.sendRedirect(request.getContextPath() + "/ServletTransferencias?Param=1");
 		        return;
 		    }
 	
@@ -160,7 +182,8 @@ public class ServletTransferencias extends HttpServlet {
 	        response.sendRedirect(request.getContextPath() + "/ServletTransferencias?Param=1");
 	        return;
 		}
-
+	    
+	    
 
 	}
 }
