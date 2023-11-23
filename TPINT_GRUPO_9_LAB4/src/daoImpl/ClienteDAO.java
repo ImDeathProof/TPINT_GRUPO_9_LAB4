@@ -487,5 +487,6 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    return listaLocalidades;
 		}
 
+
 	 
 }
