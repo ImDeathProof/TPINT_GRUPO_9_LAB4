@@ -2,7 +2,9 @@ package Servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,8 @@ import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
 import entidad.DBException;
 import entidad.GenericException;
+import entidad.Localidad;
+import entidad.Provincia;
 
 /**
  * Servlet implementation class ServletLogin
@@ -31,27 +35,29 @@ public class ServletLogin extends HttpServlet {
     public ServletLogin() {
         super();
         // TODO Auto-generated constructor stub
+        
+        
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-	}
+	
+		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		
-		    Cliente usuarioActivo = new Cliente();
+		Cliente usuarioActivo = new Cliente();
 	
 		    usuarioActivo.set_Usuario(request.getParameter("user"));
 		    usuarioActivo.set_Contrasena(request.getParameter("password"));
 	
-		    try {
+		    try {	            
 		        usuarioActivo = clNeg.BuscarUsuario(usuarioActivo);
 
 		        if (usuarioActivo == null) {

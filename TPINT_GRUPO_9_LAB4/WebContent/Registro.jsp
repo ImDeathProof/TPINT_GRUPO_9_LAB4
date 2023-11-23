@@ -10,8 +10,14 @@
     
     <jsp:include page="Header.jsp" />
 <%
-    ArrayList<Localidad> localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
-    ArrayList<Provincia> provincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+	ArrayList<Localidad> localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+	ArrayList<Provincia> provincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+
+%>
+
+<%
+    System.out.println("Localidades: " + localidades);
+    System.out.println("Provincias: " + provincias);
 %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -75,23 +81,27 @@
 		                <label for="Direccion">Número:</label>
 		                <input type="text" id="numeroDic" name="numeroDic" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
-		            
+					<br>
+					<div class="form-group">
+					    <label for="provincia">Provincia:</label>
+					    <select name="Provincia" id="provincia">
+					        <option value="">Seleccione una opción</option> 
+					        <c:forEach var="provincia" items="${provincias}">
+					            <option value="${provincia.descripcion}">${provincia.descripcion}</option>
+					        </c:forEach>
+					    </select>
+					</div>
+		            <br>
 					<div class="form-group">
 					    <label for="localidad">Localidad:</label>
-						    <select name="Localidad" id="localidad">
-									<c:forEach var="localidad" items="${localidades}">
-									    <option value="${localidad.descripcion}">${localidad.descripcion}</option>
-									</c:forEach>
-						    </select>
+					    <select name="Localidad" id="localidad">
+					        <option value="">Seleccione una opción</option> 
+					        <c:forEach var="localidad" items="${localidades}">
+					            <option value="${localidad.descripcion}">${localidad.descripcion}</option>
+					        </c:forEach>
+					    </select>
 					</div>
-		            <div class="form-group">
-			                <label for="provincia">Provincia:</label>
-							    <select name="Provincia" id="provincia">
-							        <c:forEach var="provincia" items="${provincias}">
-							            <option value="${provincia.descripcion}">${provincia.descripcion}</option>
-							        </c:forEach>
-							    </select>
-		            </div>
+					
                         
 		        </div>
 	            <div class="col-5">
