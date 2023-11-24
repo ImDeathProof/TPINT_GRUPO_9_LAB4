@@ -29,4 +29,5 @@ public interface CuentaDaoInterface {
 	public String generarCBU() throws ValidateException, GenericException;
 	BigDecimal getDineroxCuenta(String cBU) throws DBException, GenericException;
 	public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException;
+	public int getCuentaFromCBU(String CBU) throws DBException, GenericException;
 }

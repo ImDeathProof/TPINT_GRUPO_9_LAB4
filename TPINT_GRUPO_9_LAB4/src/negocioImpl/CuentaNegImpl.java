@@ -113,6 +113,14 @@ public class CuentaNegImpl implements CuentaNeg {
 		// TODO Auto-generated method stub
 		return clDao.existeCBU(numeroCBU);
 	}
+
+	@Override
+	public int getCuentaFromCBU(String CBU) throws DBException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.getCuentaFromCBU(CBU);
+	}
+	
+	
 	
 	
 

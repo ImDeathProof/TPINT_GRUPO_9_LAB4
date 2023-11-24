@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Cliente;
+import entidad.Comprobante;
 import entidad.Cuenta;
 import entidad.Cuota;
 import entidad.DBException;
@@ -60,6 +62,14 @@ public class ServletPagarCuota extends HttpServlet {
 				        Cuenta cn = negCn.obtenerCuentaPorID(IDCuenta);
 				        if(cn.getSaldo().compareTo(ct.getMontoAPagar()) >= 0) {
 				        	negCt.Pagar(ct, ct.getIDPrestamo(), ct.getIDUsuario(), IDCuenta);
+//				        	Generar comprobante (TEST)
+				        	Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+					        Comprobante comprobante = new Comprobante(cl, cn, ct.getMontoAPagar(), ct);
+					        // Generar el comprobante
+					        String base64Image = comprobante.generarComprobanteCuota();
+					        // Guardar el comprobante en la sesión
+					        request.getSession().setAttribute("base64Image", base64Image);
+					        request.getSession().setAttribute("PagoExitoso", "Cuota pagada con exito!");
 				        }else {
 				        	request.getSession().setAttribute("error", "El saldo de la cuenta seleccionada es insuficiente.");
 				        	return;

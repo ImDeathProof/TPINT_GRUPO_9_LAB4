@@ -9,6 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Trasferencias</title>
+<script src="jspdf.min.js"></script>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
@@ -25,6 +26,7 @@
 				<div class="col-1"></div>
 				<div class="col-10">
 					<h1>Trasferir</h1>
+					
 					 <% if (session.getAttribute("error") != null) { %>
 				        <div class="alert alert-danger">
 				             <%= (String)session.getAttribute("error")%> 
@@ -78,30 +80,49 @@
 						        <div class="alert alert-success">
 						             <%= (String)session.getAttribute("successTransfer")%> 
 						        </div>
-								<%
-								    String base64Image = (String) request.getSession().getAttribute("base64Image");
-								    if (base64Image != null && !base64Image.isEmpty()) {
-								%>
+						        <div class="container">
+								    <% String base64Image = (String) request.getSession().getAttribute("base64Image");
+								       if (base64Image != null && !base64Image.isEmpty()) { %>
 								        <!-- Muestra el comprobante -->
-								        <img src="data:image/png;base64, <%=base64Image%>" alt="Comprobante de pago">
-								<%
-								    }
-								%>
-						        
-						     <%} %>
+
+								        <img class="rounded mx-auto d-block border" id="comprobanteTransferencia" src="data:image/png;base64, <%=base64Image%>" alt="Comprobante de pago">
+								        <button class="btn btn-primary mt-2" id="descargarBtn">Descargar</button>
+								        <script>
+									        document.getElementById('descargarBtn').addEventListener('click', function () {
+									            if (typeof jsPDF !== 'undefined') {
+									                // Obtener la imagen directamente del elemento <img>
+									                var imgElement = document.getElementById('comprobanteTransferencia');
+									
+									                // Crear un canvas y dibujar la imagen en él
+									                var canvas = document.createElement('canvas');
+									                canvas.width = imgElement.width;
+									                canvas.height = imgElement.height;
+									                var ctx = canvas.getContext('2d');
+									                ctx.drawImage(imgElement, 0, 0, imgElement.width, imgElement.height);
+									
+									                // Obtener la cadena base64 del canvas
+									                var base64Image = canvas.toDataURL('image/png');
+									
+									                descargarPDF(base64Image);
+									            } else {
+									                console.error('La biblioteca jsPDF no está cargada correctamente.');
+									            }
+									        });
+									
+									        function descargarPDF(base64Image) {
+									            var doc = new jsPDF();
+									            doc.addImage(base64Image, 'PNG', 10, 10, 180, 120);
+									            doc.save('comprobante.pdf');
+									        }
+									    </script>
+								    <% } %>
+								</div>
+						     <%}%>
 				</div>
 				<div class="col-1"></div>
 	</div>
-	
-	
-	
-	<% } %>
 
-	<script>
-	function abrirNuevaPestana(url) {
-	    window.open(url, '_blank');
-	}
-	</script>
+	<% } %>
 
 </body>
 </html>

@@ -161,7 +161,7 @@ public class ServletTransferencias extends HttpServlet {
 		        //	Generar comprobante (TEST)
 		        Comprobante comprobante = new Comprobante(cliente, cuenta, saldoDecimal, CBU);
 		        // Generar el comprobante
-		        String base64Image = comprobante.generarComprobante();
+		        String base64Image = comprobante.generarComprobanteTransferencia();
 		        // Guardar el comprobante en la sesión
 		        request.getSession().setAttribute("base64Image", base64Image);
 

@@ -30,4 +30,5 @@ public interface CuentaNeg {
 	public int Debitar(int IDCuenta, BigDecimal saldo) throws DBException, GenericException;
 	public String generarCBU() throws ValidateException, GenericException;
 	public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException;
+	public int getCuentaFromCBU(String CBU) throws DBException, GenericException;
 }

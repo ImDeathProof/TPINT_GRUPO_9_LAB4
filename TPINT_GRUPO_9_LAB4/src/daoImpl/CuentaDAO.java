@@ -317,7 +317,7 @@ public class CuentaDAO implements CuentaDaoInterface {
   	        
   	        return filas;
   	 } 
-    
+    @Override
     public int getCuentaFromCBU(String CBU) throws DBException, GenericException{
         String query = "SELECT IDCuenta AS cuenta FROM Cuenta WHERE CBU = ?;";
 

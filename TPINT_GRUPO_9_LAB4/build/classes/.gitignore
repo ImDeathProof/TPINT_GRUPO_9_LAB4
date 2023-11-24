@@ -2,3 +2,6 @@
 /Servlets/
 /negocioImpl/
 /presentacionControlador/
+/daoImpl/
+/dao/
+/negocio/
