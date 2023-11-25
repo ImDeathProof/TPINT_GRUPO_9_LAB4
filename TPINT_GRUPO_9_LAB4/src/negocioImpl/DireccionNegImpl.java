@@ -1,5 +1,7 @@
 package negocioImpl;
 
+import java.util.ArrayList;
+
 import dao.CuentaDaoInterface;
 import dao.DireccionDaoInterface;
 import daoImpl.CuentaDAO;
@@ -44,6 +46,32 @@ public class DireccionNegImpl implements DireccionNeg {
 	public Provincia obtenerProvinciaPorDesc(String desc) throws DBException, GenericException {
 		return dDao.obtenerProvinciaPorDesc(desc);
 	}
+
+	@Override
+	public ArrayList<Provincia> getAllProvincias() throws DBException, GenericException {
+		return dDao.getAllProvincias();
+	}
+
+	@Override
+	public ArrayList<Localidad> getAllLocalidades(int provId) throws DBException, GenericException {
+		return dDao.getAllLocalidades(provId);
+	}
+
+	@Override
+	public Direccion addDireccion(Direccion direc) throws GenericException, DBException {
+		return dDao.addDireccion(direc);
+	}
+
+	@Override
+	public boolean mismaDireccion(Direccion direc) {
+		return dDao.mismaDireccion(direc);
+	}
+
+	@Override
+	public Direccion obtenerDireccionSinID(Direccion direc) throws DBException, GenericException {
+		return dDao.obtenerDireccionSinID(direc);
+	}
+
 	
 
 }

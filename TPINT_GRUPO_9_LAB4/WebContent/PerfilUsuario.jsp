@@ -3,15 +3,12 @@
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Cliente"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="negocio.DireccionNeg"%>
+<%@page import="negocioImpl.DireccionNegImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <jsp:include page="Header.jsp" />
     
-    <%
-    ArrayList<Localidad> localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
-    ArrayList<Provincia> provincias = (ArrayList<Provincia>) request.getAttribute("provincias");
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +19,10 @@
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
 		response.sendRedirect("Inicio.jsp");
 	} else { 
+		
+		DireccionNeg dNeg = new DireccionNegImpl();
 		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		
 		if(cliente.is_Admin()){%>
 			<jsp:include page="NavbarAdmin.jsp"/>
 		<% }else{ %>
@@ -65,21 +65,29 @@
 						<input type="text" name="txtNum" class="form-control" value="<%=cliente.get_Direccion().getNumero()%>" required>
 					</div>
 					<div class="col-6 border p-2">	
-													 
+										
+				      
+			            <label for="provincia">Provincia:</label>
+							    <select name="Provincia" id="provinciaSelect">
+							    <% Provincia pr = (Provincia)session.getAttribute("provincia"); %>
+							    <option value="<%=pr.getIdProvincia()%>"><%=pr.getDescripcion()%></option>
+							      <% for (Provincia prov : dNeg.getAllProvincias()) { %>									
+									    <option value="<%= prov.getIdProvincia()%>"><%= prov.getDescripcion()%></option>
+									<%} %>
+							    </select><br>
+						<input type="submit" id="btnLocalidades" name="btnLocalidades" value="Obtener Localidades" class="btn btn-warning">	 
+							    				
 					    <label for="localidad">Localidad:</label>
 						    <select name="Localidad" id="localidad">
-						    <option value="<%=cliente.get_Direccion().get_Localidad().getDescripcion()%>"><%=cliente.get_Direccion().get_Localidad().getDescripcion()%></option>
-									<c:forEach var="localidad" items="${localidades}">
-									    <option value="${localidad.descripcion}">${localidad.descripcion}</option>
-									</c:forEach>
-						    </select><br>	
-			                <label for="provincia">Provincia:</label>
-							    <select name="Provincia" id="provincia">
-							    <option value="<%=cliente.get_Direccion().get_Provincia().getDescripcion()%>"><%=cliente.get_Direccion().get_Provincia().getDescripcion()%></option>
-							        <c:forEach var="provincia" items="${provincias}">
-							            <option value="${provincia.descripcion}">${provincia.descripcion}</option>
-							        </c:forEach>
-							    </select><br>					
+						    <% Localidad loc = (Localidad)session.getAttribute("lcCliente"); %>
+							    <option value="<%=loc.getIdLocalidad()%>"><%=loc.getDescripcion()%></option>								
+									 <% if (request.getAttribute("localidades") !=null)
+									 {
+									 for (Localidad lc : (ArrayList<Localidad>)request.getAttribute("localidades")) { %>									
+									    <option value="<%= lc.getIdLocalidad()%>"><%= lc.getDescripcion()%></option>
+									<%}
+									 }%>
+						  </select><br>	
 								
 						<label for="Nacimiento" id="lbl_FNacimiento">Fecha de Nacimiento:</label>
 						<input type="date" id="fechaNacimiento" name="txtFNacimiento" class="form-control" value="<%=cliente.get_FechaNacimiento()%>" required>
@@ -114,4 +122,5 @@
 	
 	
 </body>
+
 </html>

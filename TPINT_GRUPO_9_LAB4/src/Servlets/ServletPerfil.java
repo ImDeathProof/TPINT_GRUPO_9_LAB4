@@ -3,6 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -76,32 +77,38 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_CUIL(Long.parseLong(request.getParameter("txtCuil")));
 					cliente.set_Nacionalidad(request.getParameter("txtNacionalidad"));
 
-					String loc = request.getParameter("Localidad");
-					String pro = request.getParameter("Provincia");
+					
+					//DIRECCION
+					
+					Direccion dic = new Direccion();	
+					
+					String localidadId = request.getParameter("Localidad");
+					int locId = Integer.parseInt(localidadId);
+					
+					String provinciaId = request.getParameter("Provincia");
+					int provId = Integer.parseInt(provinciaId);
 	
-					Direccion dic = new Direccion();					
 					dic.setId(clienteviejo.get_Direccion().getId());
 					
 					try {
-						dic.set_Localidad(dNeg.obtenerLocalidadPorDesc(loc));
-					} catch (DBException e1) {
-						e1.printStackTrace();
-					} catch (GenericException e1) {
-						e1.printStackTrace();
+						dic.set_Provincia(dNeg.obtenerProvinciaPorID(provId));
+						dic.set_Localidad(dNeg.obtenerLocalidadPorID(locId));
+					} catch (DBException | GenericException e2) {
+						e2.printStackTrace();
 					}
-					
-					try {
-						dic.set_Provincia(dNeg.obtenerProvinciaPorDesc(pro));
-					} catch (DBException e1) {
-						e1.printStackTrace();
-					} catch (GenericException e1) {
-						e1.printStackTrace();
-					}
-					
+
 					dic.setCalle(request.getParameter("txtDireccion"));
 					dic.setNumero(Integer.parseInt(request.getParameter("txtNum")));
-
-					cliente.set_Direccion(dic);					
+					
+					try {
+						cliente.set_Direccion(dNeg.addDireccion(dic));
+					} catch (GenericException | DBException e1) {
+						e1.printStackTrace();
+					}
+					
+					request.getSession().setAttribute("lcCliente",dic.get_Localidad());
+					
+					/////////////////////////////////////
 					
 					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
 					cliente.set_Email(request.getParameter("txtEmail"));
@@ -144,6 +151,32 @@ public class ServletPerfil extends HttpServlet {
 				        response.sendRedirect("Inicio.jsp");
 				    }
 				    response.sendRedirect("PerfilUsuario.jsp");
+		}
+		else
+		{
+			  String provinciaId = request.getParameter("Provincia");
+		      int provId = Integer.parseInt(provinciaId);
+
+		        ArrayList<Localidad> localidades = new ArrayList<>();
+				try {
+					localidades = dNeg.getAllLocalidades(provId);
+				} catch (DBException | GenericException e) {
+					e.printStackTrace();
+				}
+				
+				request.getSession().setAttribute("lcCliente",localidades.get(0));	
+				localidades.remove(0);
+				request.setAttribute("localidades", localidades);
+				
+
+				try {
+					request.getSession().setAttribute("provincia", dNeg.obtenerProvinciaPorID(provId));
+				} catch (DBException | GenericException e) {
+					e.printStackTrace();
+				}
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("PerfilUsuario.jsp");
+				dispatcher.forward(request, response);
 		}
 	}
 

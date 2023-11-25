@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
 import negocio.ClienteNeg;
+import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
+import negocioImpl.DireccionNegImpl;
 import entidad.DBException;
 import entidad.GenericException;
 import entidad.Localidad;
@@ -28,6 +30,7 @@ public class ServletLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	ClienteNeg clNeg = new ClienteNegImpl();
+	DireccionNeg dNeg = new DireccionNegImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -68,6 +71,9 @@ public class ServletLogin extends HttpServlet {
 		            response.sendRedirect("Login.jsp");
 		        } else {
 		            request.getSession().setAttribute("usuarioAutenticado", usuarioActivo);
+		            request.getSession().setAttribute("localidades",dNeg.getAllLocalidades(usuarioActivo.get_Direccion().get_Provincia().getIdProvincia()));
+					request.getSession().setAttribute("provincia",usuarioActivo.get_Direccion().get_Provincia());	
+					request.getSession().setAttribute("lcCliente",usuarioActivo.get_Direccion().get_Localidad());	
 
 		            if (request.getSession().getAttribute("error") != null) {
 		                request.getSession().removeAttribute("error");
