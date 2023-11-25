@@ -469,12 +469,18 @@ public class ClienteDAO implements ClienteDaoInterface {
 		         PreparedStatement preparedStatement = cn.prepareStatement(query);
 		         ResultSet rs = preparedStatement.executeQuery()) {
 
-		        while (rs.next()) {
-		            Localidad localidad = new Localidad();
-		            localidad.setIdLocalidad(rs.getInt("IDLocalidad"));
-		            localidad.setDescripcion(rs.getString("Descripcion"));
-		            listaLocalidades.add(localidad);
-		        }
+		    	while (rs.next()) {
+		    	    Localidad localidad = new Localidad();
+		    	    localidad.setIdLocalidad(rs.getInt("IDLocalidad"));
+		    	    localidad.setDescripcion(rs.getString("Descripcion"));
+		    	    
+		    	    Provincia provincia = new Provincia();
+		    	    provincia.setIdProvincia(rs.getInt("IDProvincia"));
+		    	    
+		    	    localidad.setProvincia(provincia);
+		    	    
+		    	    listaLocalidades.add(localidad);
+		    	}
 
 		    } catch (SQLException e) {
 		        e.printStackTrace();

@@ -1,15 +1,18 @@
 create database bancoDB;
 USE bancoDB;
 
-create table Localidad(
-	IDLocalidad INT AUTO_INCREMENT PRIMARY KEY,
-	Descripcion VARCHAR(100) NOT NULL
-);
-
 create table Provincia(
 	IDProvincia INT AUTO_INCREMENT PRIMARY KEY,
 	Descripcion VARCHAR(100) NOT NULL
 );
+
+create table Localidad(
+	IDLocalidad INT AUTO_INCREMENT PRIMARY KEY,
+	Descripcion VARCHAR(100) NOT NULL,
+	IDProvincia INT PRIMARY KEY FOREIGN KEY REFERENCE Provincia(IDProvincia)
+);
+
+
 
 CREATE TABLE Direccion(
 	IDDireccion INT AUTO_INCREMENT PRIMARY KEY,

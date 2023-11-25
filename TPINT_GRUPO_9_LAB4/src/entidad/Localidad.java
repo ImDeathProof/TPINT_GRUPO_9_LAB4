@@ -3,8 +3,10 @@ package entidad;
 public class Localidad {
 	private int IdLocalidad;
 	private String Descripcion;
+	private Provincia provincia;
 	
 	
+
 	public Localidad()
 	{
 		
@@ -29,5 +31,13 @@ public class Localidad {
 		Descripcion = descripcion;
 	}
 	
+	
+	public Provincia getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
+	}
 	
 }
