@@ -78,115 +78,112 @@ public class ServletRegistro extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnRegistrar")!=null) 
-		{		
 			String usuario = request.getParameter("username");
 		    
 		    String contrasena = request.getParameter("password");
-		    String contra2 = request.getParameter("pass2");	      
+		    String contra2 = request.getParameter("pass2");	   
+		    
+		    String nombre = request.getParameter("nombre");
+		     String apellido = request.getParameter("apellido");
+		     long dni = Long.parseLong(request.getParameter("DNI"));
+	    	 long cuil = Long.parseLong(request.getParameter("CUIL"));
 			    
-		    if(contrasena.equals(contra2))
-		    {    
-		    	 if (request.getSession().getAttribute("errorRegistro") != null) {
-		                request.getSession().removeAttribute("errorRegistro");
-		            }
-	
-		    	 String nombre = request.getParameter("nombre");
-			     String apellido = request.getParameter("apellido");
-			     long dni = Long.parseLong(request.getParameter("DNI"));
-		    	 long cuil = Long.parseLong(request.getParameter("CUIL"));
-				    
-				 String sexoValue = request.getParameter("sexo");
+			 String sexoValue = request.getParameter("sexo");
+		
+			 boolean sexo = true;  //Variable para almacenar el valor de sexo
+		
+			 if (sexoValue.equals("Masculino")) {
+			     sexo = true;  //Si se selecciona "Masculino", establece sexo en true
+		     } else if (sexoValue.equals("Femenino")) {
+		         sexo = false;  //Si se selecciona "Femenino", establece sexo en false
+	         } 
+			    
+			    
+		    String nacionalidad = request.getParameter("Nacionalidad");
+		    String email = request.getParameter("email");
+		    long Telefono = Long.parseLong(request.getParameter("Telefono"));
+		    
+		    
+		  //DIRECCION
 			
-				 boolean sexo = true;  //Variable para almacenar el valor de sexo
+			Direccion dic = new Direccion();	
 			
-				 if (sexoValue.equals("Masculino")) {
-				     sexo = true;  //Si se selecciona "Masculino", establece sexo en true
-			     } else if (sexoValue.equals("Femenino")) {
-			         sexo = false;  //Si se selecciona "Femenino", establece sexo en false
-		         } 
-				    
-				    
-			    String nacionalidad = request.getParameter("Nacionalidad");
-			    String email = request.getParameter("email");
-			    long Telefono = Long.parseLong(request.getParameter("Telefono"));
-			    
-			    
-			  //DIRECCION
-				
-				Direccion dic = new Direccion();	
-				
-				String Localidad = request.getParameter("Localidad");
-				int locId = Integer.parseInt(Localidad);
-				
-				String Provincia = request.getParameter("Provincia");
-				int provId = Integer.parseInt(Provincia);
-				
-				try {
-					dic.set_Provincia(dNeg.obtenerProvinciaPorID(provId));
-					dic.set_Localidad(dNeg.obtenerLocalidadPorID(locId));
-				} catch (DBException | GenericException e2) {
-					e2.printStackTrace();
-				}
+			String Localidad = request.getParameter("Localidad");
+			int locId = Integer.parseInt(Localidad);
+			
+			String Provincia = request.getParameter("Provincia");
+			int provId = Integer.parseInt(Provincia);
+			
+			try {
+				dic.set_Provincia(dNeg.obtenerProvinciaPorID(provId));
+				dic.set_Localidad(dNeg.obtenerLocalidadPorID(locId));
+			} catch (DBException | GenericException e2) {
+				e2.printStackTrace();
+			}
 
-				dic.setCalle(request.getParameter("Direccion"));
-				dic.setNumero(Integer.parseInt(request.getParameter("numeroDic")));
+			dic.setCalle(request.getParameter("Direccion"));
+			dic.setNumero(Integer.parseInt(request.getParameter("numeroDic")));
+			
 				
-				try {
-					dic = dNeg.addDireccion(dic);
-				} catch (GenericException | DBException e1) {
-					e1.printStackTrace();
-				}
-				
-				///////////////////////////////////
+			///////////////////////////////////	    
 			    
-				    
-			    LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));
-				    
-				  
-			  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, dic, email, Telefono);	    		      
-				    	
+		    LocalDate fechaNacimiento = LocalDate.parse(request.getParameter("fechaNacimiento"));			    
+			  
+		  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, dic, email, Telefono);	 	    
+		    
+		  	if (request.getSession().getAttribute("errorRegistro") != null) {
+		  		request.getSession().removeAttribute("errorRegistro");
+		  	}
+		    
+		    if(request.getParameter("btnRegistrar")!=null) 
+		    {		
+			    if(!contrasena.equals(contra2))
+			    {
+			    	request.getSession().setAttribute("errorRegistro", "Las contraseñas no coinciden. Vuelve a ingresar los datos.");
+			    	request.getRequestDispatcher("Registro.jsp").forward(request, response);
+			    }
+			    
+			    
 				boolean cargo = false;
 			    try {
-					    	
-			       cliente = clNeg.agregarUsuario(cliente);			
-				   if(cliente != null) {
-			     		request.getSession().setAttribute("usuarioAutenticado", cliente);
-						cargo=true;
-				   }
-					            
+			           dic = dNeg.addDireccion(dic); 
+					   if(dic != null)
+					   {
+						   cliente = clNeg.agregarUsuario(cliente);		
+						   if(cliente != null) {
+								cargo=true;
+						   }
+					   }				   				            
 			    }  catch (DBException e) {
 			        e.printStackTrace();
-			        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());		        
+			        request.getSession().setAttribute("errorRegistro", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());		        
 			        response.sendRedirect("Login.jsp");
 			    }
 			    catch (GenericException e) {
 			        e.printStackTrace();
-			        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+			        request.getSession().setAttribute("errorRegistro", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
 			        response.sendRedirect("Login.jsp");
 			    }
-		        if (cargo) {
-		            RequestDispatcher dispatcher = request.getRequestDispatcher("PerfilUsuario.jsp");
-		            dispatcher.forward(request, response);
-		        } else {
-		            RequestDispatcher dispatcher = request.getRequestDispatcher("Inicio.jsp");
-		            dispatcher.forward(request, response);
-		        }
+			    if (cargo) {
+	                request.getSession().setAttribute("seRegistro", "Usuario cargado con éxito!");
+	                request.getRequestDispatcher("Registro.jsp").forward(request, response);
+	            } else if(!cargo) {
+	            	request.getSession().setAttribute("errorRegistro", "Usuario no cargado. Chequee los datos");
+	                request.getRequestDispatcher("Registro.jsp").forward(request, response);
+	            }
 				    
 		    }
-		    else {      
-		        request.getSession().setAttribute("errorRegistro", "Las contraseñas no coinciden. Vuelve a ingresar los datos.");
-		        response.sendRedirect("Registro.jsp");
-		    }
-		}
-		else
-		{
+		
+			else
+			{
+		      request.getSession().setAttribute("registro",cliente);
+		      
 			  String provinciaId = request.getParameter("Provincia");
-		      int provId = Integer.parseInt(provinciaId);
+		      int provID = Integer.parseInt(provinciaId);
 
 		        ArrayList<Localidad> localidades = new ArrayList<>();
 				try {
-					localidades = dNeg.getAllLocalidades(provId);
+					localidades = dNeg.getAllLocalidades(provID);
 				} catch (DBException | GenericException e) {
 					e.printStackTrace();
 				}
@@ -197,7 +194,7 @@ public class ServletRegistro extends HttpServlet {
 				
 
 				try {
-					request.getSession().setAttribute("provincia", dNeg.obtenerProvinciaPorID(provId));
+					request.getSession().setAttribute("provincia", dNeg.obtenerProvinciaPorID(provID));
 				} catch (DBException | GenericException e) {
 					e.printStackTrace();
 				}

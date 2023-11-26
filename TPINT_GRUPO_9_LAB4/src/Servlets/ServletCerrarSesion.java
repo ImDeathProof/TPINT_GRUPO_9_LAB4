@@ -27,11 +27,8 @@ public class ServletCerrarSesion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		  request.getSession().removeAttribute("usuarioAutenticado");
-		  request.getSession().removeAttribute("errorRegistroCuenta");     
-		  request.getSession().removeAttribute("noErrorRegistroCuenta");  
-		  request.getSession().removeAttribute("error"); 
+		    
+		  request.getSession().invalidate();
 		  
 		  response.sendRedirect("Inicio.jsp");
 	}

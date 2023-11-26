@@ -37,6 +37,9 @@ public class DireccionDAO implements DireccionDaoInterface{
 		 {
 			 return obtenerDireccionSinID(direc);
 		 }
+		 else if (!checkProvinciaLocalidad(direc.get_Provincia().getIdProvincia(), direc.get_Localidad().getIdLocalidad())) {
+		        return null;
+		    }
 		 int filas = 0;
 		    String query = "INSERT INTO Direccion (Calle, Numero, IDLocalidad, IDProvincia) VALUES (?, ?, ?, ?)";
 
@@ -141,6 +144,10 @@ public class DireccionDAO implements DireccionDaoInterface{
 		@Override
 		public int modificarDireccion(Direccion direc) {
 			
+			 if (!checkProvinciaLocalidad(direc.get_Provincia().getIdProvincia(), direc.get_Localidad().getIdLocalidad())) {
+			        return 0;
+			    }
+			
 		    String query = "UPDATE direccion SET Calle = ?, Numero = ?, IDLocalidad = ?, IDProvincia = ? WHERE IDDireccion = ?";
 		    int filas = 0;
 
@@ -159,6 +166,27 @@ public class DireccionDAO implements DireccionDaoInterface{
 
 		    return filas;
 		}
+		
+		private boolean checkProvinciaLocalidad(int idProvincia, int idLocalidad) {
+		    String query = "SELECT IDProvincia FROM Localidad WHERE IDLocalidad = ?";
+		    
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+		        preparedStatement.setInt(1, idLocalidad);
+
+		        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+		            if (resultSet.next()) {
+		                int idProvinciaEnBaseDeDatos = resultSet.getInt("IDProvincia");
+		                return idProvinciaEnBaseDeDatos == idProvincia;
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return false;
+		}
+
 	
 	 public Direccion obtenerDireccionPorID(int idDireccion) throws DBException, GenericException {
 		    String queryDireccion = "SELECT * FROM Direccion WHERE IDDireccion = ?";

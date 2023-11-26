@@ -3,6 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.DireccionNegImpl;
 import entidad.DBException;
+import entidad.Direccion;
 import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
@@ -74,6 +76,8 @@ public class ServletLogin extends HttpServlet {
 		            request.getSession().setAttribute("localidades",dNeg.getAllLocalidades(usuarioActivo.get_Direccion().get_Provincia().getIdProvincia()));
 					request.getSession().setAttribute("provincia",usuarioActivo.get_Direccion().get_Provincia());	
 					request.getSession().setAttribute("lcCliente",usuarioActivo.get_Direccion().get_Localidad());	
+					LocalDate fechaNacimiento = LocalDate.of(1, 1, 1);
+					request.getSession().setAttribute("registro",new Cliente("X","X","X","X",0,0,false,"X",fechaNacimiento,new Direccion(),"X@gmail.com",0));	
 
 		            if (request.getSession().getAttribute("error") != null) {
 		                request.getSession().removeAttribute("error");

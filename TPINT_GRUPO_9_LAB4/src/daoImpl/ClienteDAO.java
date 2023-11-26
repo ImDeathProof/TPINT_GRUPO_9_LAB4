@@ -41,8 +41,13 @@ public class ClienteDAO implements ClienteDaoInterface {
  }
 	
 	 public Cliente agregarUsuario(Cliente cliente) throws DBException, GenericException {
+		 
+		 if (checkDNI(cliente.get_DNI())) {
+	           return null;
+	        }
+		 
 	        String query = "INSERT INTO Usuario (Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin,Bloqueado) " +
-	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
+	                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
 
 	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
@@ -72,6 +77,26 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
 		    }	 
 	        return BuscarUsuario(cliente);
+	    }
+	 
+	 public boolean checkDNI(long dni) throws DBException {
+	        String query = "SELECT COUNT(*) FROM Usuario WHERE DNI = ?";
+
+	        try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	             PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+	            preparedStatement.setLong(1, dni);
+
+	            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	                if (resultSet.next()) {
+	                    int count = resultSet.getInt(1);
+	                    return count > 0;
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+	        }
+	        return false;
 	    }
 	 
 	 public Cliente BuscarUsuario(Cliente cliente) throws DBException, GenericException {

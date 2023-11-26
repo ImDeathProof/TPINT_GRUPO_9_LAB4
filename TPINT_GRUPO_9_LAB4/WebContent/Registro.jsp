@@ -23,6 +23,7 @@
 
 	<% if (session.getAttribute("usuarioAutenticado") != null) { 
 		DireccionNeg dNeg = new DireccionNegImpl();
+		Cliente reg = (Cliente)session.getAttribute("registro");
 		Cliente cl = (Cliente)session.getAttribute("usuarioAutenticado");
 		if(cl.is_Admin()){%>
 		<jsp:include page="NavbarAdmin.jsp" />
@@ -36,19 +37,19 @@
 		        <div class="col-5">
 		            <div class="form-group">
 		                <label for="nombre">Nombre:</label>
-		                <input type="text" id="nombre" name="nombre" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+		                <input type="text" id="nombre" name="nombre" class="form-control" value="<%=reg.get_Nombre() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		             <div class="form-group">
 		                <label for="Apellido">Apellido:</label>
-		                 <input type="text" id="Apellido" name="apellido" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+		                 <input type="text" id="Apellido" name="apellido" class="form-control" value="<%=reg.get_Apellido() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		             <div class="form-group">
 		                <label for="DNI">DNI:</label>
-		               <input type="text" id="DNI" name="DNI" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+		               <input type="text" id="DNI" name="DNI" class="form-control" value="<%=reg.get_DNI()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
 		             <div class="form-group">
 		                <label for="CUIL">CUIL:</label>
-		                <input type="text" id="CUIL" name="CUIL" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+		                <input type="text" id="CUIL" name="CUIL" class="form-control" value="<%=reg.get_CUIL()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
 		            <div class="form-group">
 					    <label>Sexo:</label>
@@ -63,20 +64,22 @@
 					</div>
 		            <div class="form-group">
 		                <label for="Nacionalidad">Nacionalidad:</label>
-		                <input type="text" id="Nacionalidad" name="Nacionalidad" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">            
+		                <input type="text" id="Nacionalidad" name="Nacionalidad" class="form-control" value="<%=reg.get_Nacionalidad()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">            
 		            </div>
 		            <div class="form-group">
 		                <label for="Direccion">Calle:</label>
-		                <input type="text" id="Direccion" name="Direccion" class="form-control" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+		                <input type="text" id="Direccion" name="Direccion" class="form-control" value="<%=reg.get_Direccion().getCalle()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		            <div class="form-group">
 		                <label for="Direccion">Número:</label>
-		                <input type="text" id="numeroDic" name="numeroDic" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+		                <input type="text" id="numeroDic" name="numeroDic" class="form-control" value="<%=reg.get_Direccion().getNumero()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
 					<br>
 					<div class="form-group">
 					  <label for="provincia">Provincia:</label>
 							    <select name="Provincia" id="provinciaSelect">
+							     <% Provincia pr = (Provincia)session.getAttribute("provincia"); %>
+							    <option value="<%=pr.getIdProvincia()%>"><%=pr.getDescripcion()%></option>	
 							      <% for (Provincia prov : dNeg.getAllProvincias()) { %>									
 									    <option value="<%= prov.getIdProvincia()%>"><%= prov.getDescripcion()%></option>
 									<%} %>
@@ -103,27 +106,27 @@
 	            <div class="col-5">
 	           	     <div class="form-group">
 					    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-					    <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control" required>
+					    <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%=reg.get_FechaNacimiento()%>" class="form-control" required>
 					</div>
 		            <div class="form-group">
 		                <label for="email">Email:</label>
-		                <input type="email" id="email" name="email" class="form-control" required>
+		                <input type="email" id="email" name="email" class="form-control" value="<%=reg.get_Email()%>" required>
 		            </div>
 		            <div class="form-group">
 		                <label for="Telefono1">Teléfono:</label>
-		                <input type="text" id="Telefono1" name="Telefono" class="form-control" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+		                <input type="text" id="Telefono1" name="Telefono" class="form-control" value="<%=reg.get_Telefono()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 		            </div>
 		            <div class="form-group">
 		                <label for="Username">Usuario:</label>
-		                <input type="text" id="Username" name="username" class="form-control" required>
+		                <input type="text" id="Username" name="username" class="form-control" value="<%=reg.get_Usuario()%>" required>
 		            </div>
 		            <div class="form-group">
 		                <label for="password">Contraseña:</label>
-		                <input type="password" id="password" name="password" class="form-control" required>
+		                <input type="password" id="password" name="password" class="form-control" value="<%=reg.get_Contrasena()%>" required>
 		            </div>
 		            <div class="form-group">
 		                <label for="password">Repetir contraseña:</label>
-		                <input type="password" id="password" name="pass2" class="form-control" required>
+		                <input type="password" id="password" name="pass2" class="form-control" value="<%=reg.get_Contrasena()%>" required>
 		            </div>
 		        </div>
 			    <div class="col">
@@ -136,7 +139,11 @@
 		         <div class="alert alert-danger">
 		              <%= (String)session.getAttribute("errorRegistro")%> 
 		         </div>
-		     	<% } %>	
+		     	<% } else if(session.getAttribute("seRegistro") != null){%>	
+		     	  <div class="alert alert-success">
+		              <%= (String)session.getAttribute("seRegistro")%> 
+		         </div>
+		     	<% }%>
 	        </form>
 	    </div>
 		<%}

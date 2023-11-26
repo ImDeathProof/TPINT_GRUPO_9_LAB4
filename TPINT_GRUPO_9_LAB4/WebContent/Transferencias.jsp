@@ -48,9 +48,11 @@
 						  				listaCuentas =(ArrayList<Cuenta>) request.getAttribute("listaCuentas"); %>
 												<%
 												if(listaCuentas != null && !listaCuentas.isEmpty()){
-												for(Cuenta ct : listaCuentas){%>
+												for(Cuenta ct : listaCuentas){
+												if(ct.getEstado())
+												{%>
 													<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
-												<%}} %>
+												<%}}} %>
 									<%}%>
 									</select>
 				                </div>

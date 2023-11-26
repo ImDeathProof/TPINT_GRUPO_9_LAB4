@@ -113,6 +113,7 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
 					cliente.set_Email(request.getParameter("txtEmail"));
 					cliente.set_FechaNacimiento(LocalDate.parse(request.getParameter("txtFNacimiento")));
+					cliente.set_Admin(clienteviejo.is_Admin());
 					
 					String selectedSex = request.getParameter("sexo");
 					if ("Masculino".equals(selectedSex)) {
@@ -126,9 +127,15 @@ public class ServletPerfil extends HttpServlet {
 					try {
 				    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
 				    	{
-				    		dNeg.modificarDireccion(cliente.get_Direccion());
-				    		clNeg.modificarUsuario(cliente);			
-				    		request.getSession().setAttribute("usuarioModificado", "El usuario fue modificado correctamente!");
+				    		if(dNeg.modificarDireccion(cliente.get_Direccion()) != 0)
+				    		{
+				    			clNeg.modificarUsuario(cliente);							    			
+				    			request.getSession().setAttribute("usuarioModificado", "El usuario fue modificado correctamente!");
+				    		}
+				    		else
+				    		{
+				    			request.getSession().setAttribute("errorModificarUser", "La Localidad no coincide con la Provincia.");
+				    		}
 				    	}
 				    	else
 				    	{
