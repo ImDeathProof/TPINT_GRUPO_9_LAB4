@@ -70,7 +70,7 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
-			if(request.getParameter("btnUsuarios")!=null) {
+			if(request.getParameter("btnUsuarios")!=null && request.getParameter("Param")==null) {
 		
 			
 			request.setAttribute("cantPags", clNeg.getCantPaginas());
@@ -81,7 +81,36 @@ public class ServletGestionUsuarios extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 			rd.forward(request, response);
-		}
+			}
+			
+			if(request.getParameter("btnBuscarUsuarios") != null) {
+//			if(request.getParameter("Param")!=null) {
+				String textBoxBusquedaUsuario = request.getParameter("textBoxBusquedaUsuarios");
+				String filtroBusquedaUsuario = request.getParameter("filtroBusquedaUsuarios");
+
+				//prueba
+				System.out.println("Contenido de textBoxBusquedaUsuario: " + textBoxBusquedaUsuario);
+				System.out.println("Contenido de filtroBusquedaUsuario: " + filtroBusquedaUsuario);
+
+				
+				request.setAttribute("cantPags", clNeg.getCantPaginas());
+				
+				ArrayList<Cliente> lista = (ArrayList<Cliente>)clNeg.obtenerUsuariosPaginadosFiltrados(1, 5, textBoxBusquedaUsuario, filtroBusquedaUsuario);
+				
+				request.setAttribute("listaUsuarios", lista);
+				
+				//prueba
+				System.out.println("Contenido de la lista:");
+				for (Cliente cliente : lista) {
+				    System.out.println("IDUsuario: " + cliente.get_IDCliente());
+				    System.out.println("Username: " + cliente.get_Usuario());
+				}
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
+				rd.forward(request, response);
+				
+			}
+			
 	}catch (DBException e) {
         e.printStackTrace();
         request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde."+ e.getMessage());	

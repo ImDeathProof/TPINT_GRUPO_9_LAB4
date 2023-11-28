@@ -82,5 +82,10 @@ public class ClienteNegImpl implements ClienteNeg {
 	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException{
 		return clDao.obtenerProvincias();
 	}
+	
+	@Override
+	public ArrayList<Cliente> obtenerUsuariosPaginadosFiltrados(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException{
+		return clDao.obtenerUsuariosPaginadosFiltrados(pageNumber, pageSize, elementoBusqueda, criterioBusqueda);
+	}
 
 }

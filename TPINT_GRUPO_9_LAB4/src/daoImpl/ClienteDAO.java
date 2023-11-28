@@ -27,7 +27,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 	 
 	 DireccionNeg dNeg = new DireccionNegImpl();
@@ -387,7 +387,68 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    return lista;
 		}
 
+	 public ArrayList<Cliente> obtenerUsuariosPaginadosFiltrados(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda ) throws DBException, GenericException{
+		 try {
+		        Class.forName("com.mysql.cj.jdbc.Driver");
+		    } catch (ClassNotFoundException e) {
+		        e.printStackTrace();
+		    }
 
+		    ArrayList<Cliente> lista = new ArrayList<>();
+		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		         PreparedStatement preparedStatement = cn.prepareStatement(
+		        		 
+		        		 "SELECT IDUsuario, Username, Pass, Nombre, Apellido, DNI, CUIL, Sexo, Nacionalidad, FechaNacimiento, IDDireccion, Mail, Telefono, Admin, Bloqueado " + 
+		        		 "FROM Usuario where " + criterioBusqueda + " LIKE ? ORDER BY IDUsuario LIMIT ?  OFFSET ?")){
+
+
+		        int offset = (pageNumber - 1) * pageSize;
+		        
+		        preparedStatement.setString(1, "%" + elementoBusqueda + "%");
+		        preparedStatement.setInt(2, pageSize);
+		        preparedStatement.setInt(3, offset);
+
+		        try (ResultSet rs = preparedStatement.executeQuery()) {
+		            while (rs.next()) {
+		                Cliente clienteRs = new Cliente();
+		                clienteRs.set_IDCliente(rs.getInt("IDUsuario"));
+		                clienteRs.set_Usuario(rs.getString("Username"));
+		                clienteRs.set_Contrasena(rs.getString("Pass"));
+		                clienteRs.set_Nombre(rs.getString("Nombre"));
+		                clienteRs.set_Apellido(rs.getString("Apellido"));
+		                clienteRs.set_DNI(rs.getLong("DNI"));
+		                clienteRs.set_CUIL(rs.getLong("CUIL"));
+		                clienteRs.set_Sexo(rs.getInt("Sexo") == 1); // 1 indica femenino, cualquier otro valor indica masculino
+		                clienteRs.set_Nacionalidad(rs.getString("Nacionalidad"));
+		                clienteRs.set_FechaNacimiento(rs.getDate("FechaNacimiento").toLocalDate());
+
+		                int idDireccion = rs.getInt("IDDireccion");
+		                Direccion direccion = dNeg.obtenerDireccionPorID(idDireccion);
+		                clienteRs.set_Direccion(direccion);
+
+		                clienteRs.set_Email(rs.getString("Mail"));
+		                clienteRs.set_Telefono(rs.getLong("Telefono"));
+		                clienteRs.set_Admin(rs.getInt("Admin") == 1); // 1 indica administrador, cualquier otro valor indica cliente
+		                clienteRs.setBloqueado(rs.getInt("Bloqueado") == 1);
+
+		                lista.add(clienteRs);
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+		    }catch (Exception e){
+		    	 e.printStackTrace();
+		    	 throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		    }
+
+		    return lista;
+		}
+		 
+		 
+	 
+	 
 	 	public int getCantPaginas() throws DBException, GenericException{
 		 
 		    int cant = 0;

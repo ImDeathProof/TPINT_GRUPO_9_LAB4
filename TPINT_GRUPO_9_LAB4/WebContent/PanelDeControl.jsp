@@ -18,15 +18,42 @@
 		Cliente usuario = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 		if(usuario.is_Admin()==true){
 		%>
-			<jsp:include page="NavbarAdmin.jsp"/>
-			<div class="row">
-				<div class="col-1"></div>
-				<div class="col-10">
-					<h1>Panel de Control</h1>
-					<div class="border-top p-2">
+<jsp:include page="NavbarAdmin.jsp" />
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <h1>Panel de Control</h1>
+
+		
+					
+			<div class="border-top p-2">
 						<form method="post" action="ServletGestionUsuarios">
-							<input class="btn btn-success m-2" type="submit" name="btnUsuarios" value="Usuarios">
+							<input class="btn btn-success m-2" type="submit" name="btnUsuarios" value="Usuarios">	
 					 	</form>
+					 	
+				<form method="post" action="ServletGestionUsuarios">
+				    <div class="input-group mb-3">
+				        <input type="text" class="form-control" id="textBoxBusquedaUsuarios" name="textBoxBusquedaUsuarios" placeholder="Buscar Usuario">
+				        <div class="input-group-append m-2">
+				            <select class="custom-select" id="filtroBusquedaUsuarios" name="filtroBusquedaUsuarios">
+				                <option value="" selected>Seleccione un filtro</option>
+				                <option value="IDUsuario">ID</option>
+				                <option value="Username">Usuario</option>
+				                <option value="Nombre">Nombre</option>
+				                <option value="Apellido">Apellido</option>
+				                <option value="DNI">DNI</option>
+				                <option value="Mail">Mail</option>
+				            </select>
+<!-- 				            <a class="btn btn-primary" type="submit" href="ServletGestionUsuarios?Param=1">Buscar</a> -->
+<!-- 								<button class="btn btn-primary" type="submit">Buscar</button> -->
+							<button class="btn btn-primary" type="submit" name="btnBuscarUsuarios">Buscar</button>
+
+				        </div>
+				    </div>
+				</form>
+
+           			 
 						 <%
 				     		ArrayList<Cliente> listaUsuarios = null;
 				      		if(request.getAttribute("listaUsuarios")!=null){
