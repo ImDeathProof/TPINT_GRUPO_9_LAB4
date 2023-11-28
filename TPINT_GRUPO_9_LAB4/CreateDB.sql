@@ -9,7 +9,8 @@ create table Provincia(
 create table Localidad(
 	IDLocalidad INT AUTO_INCREMENT PRIMARY KEY,
 	Descripcion VARCHAR(100) NOT NULL,
-	IDProvincia INT PRIMARY KEY FOREIGN KEY REFERENCE Provincia(IDProvincia)
+	IDProvincia INT NOT NULL,
+    FOREIGN KEY (IDProvincia) references Provincia(IDProvincia)
 );
 
 

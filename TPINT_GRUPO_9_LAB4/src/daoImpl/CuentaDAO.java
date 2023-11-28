@@ -28,7 +28,7 @@ import entidad.GenericException;
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "tobias01032004";
+    private String pass = "root";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
@@ -542,7 +542,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 		 			filasEmisora = CambiarSaldo(monto.negate(), cn.getCBU());
 		 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
 		 	        
-		 	       cuNeg.insertMovimiento(cn.getIdCuenta(), monto.negate(), tMovNeg.getTipoxDescripcion("Deposito"));
+		 	       cuNeg.insertMovimiento(cn.getIdCuenta(), monto.negate(), tMovNeg.getTipoxDescripcion("Extracción"));
 		 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, tMovNeg.getTipoxDescripcion("Deposito"));
 		 		}
 		 		
