@@ -27,7 +27,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 	 
 	 DireccionNeg dNeg = new DireccionNegImpl();
@@ -445,9 +445,6 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    return lista;
 		}
-		 
-		 
-	 
 	 
 	 	public int getCantPaginas() throws DBException, GenericException{
 		 
@@ -471,6 +468,34 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		    return cant;
 		}
+	 	
+	 	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException {
+	 	    int cant = 0;
+
+	 	    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Usuario WHERE " + criterioBusqueda + " LIKE ?;";
+
+	 	    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	 	         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
+
+	 	        preparedStatement.setString(1, "%" + elementoBusqueda + "%");
+
+	 	        try (ResultSet rs = preparedStatement.executeQuery()) {
+	 	            if (rs.next()) {
+	 	                cant = rs.getInt("paginas");
+	 	            }
+	 	        }
+
+	 	    } catch (SQLException e) {
+	 	        e.printStackTrace();
+	 	        throw new DBException("Hubo un problema de conexión con la DB de Clientes");
+	 	    } catch (Exception e) {
+	 	        e.printStackTrace();
+	 	        throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+	 	    }
+
+	 	    return cant;
+	 	}
+
 
 		@Override
 		public Cliente BuscarClientePorID(int idCliente) throws DBException, GenericException{

@@ -21,6 +21,7 @@ public interface ClienteDaoInterface {
 	public int CambiarPass(String password, int id ) throws DBException, GenericException;
 	public ArrayList<Cliente> obtenerUsuariosPaginados(int pageNumber, int pageSize) throws DBException, GenericException;
 	public int getCantPaginas() throws DBException, GenericException;
+	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
 	public Cliente BuscarClientePorID(int idCliente) throws DBException, GenericException;
 	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException;
 	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException;

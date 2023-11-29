@@ -88,4 +88,9 @@ public class ClienteNegImpl implements ClienteNeg {
 		return clDao.obtenerUsuariosPaginadosFiltrados(pageNumber, pageSize, elementoBusqueda, criterioBusqueda);
 	}
 
+	@Override
+	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException {
+		return clDao.getCantPaginasXFiltro(elementoBusqueda, criterioBusqueda);
+	}
+
 }

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
@@ -36,7 +37,8 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 try{String paginaElegida = request.getParameter("pagina");
+		 try{
+			String paginaElegida = request.getParameter("pagina");
 	        int numeroPagina = 1;
 
 	        if (paginaElegida != null && !paginaElegida.isEmpty()) {
@@ -46,23 +48,34 @@ public class ServletGestionUsuarios extends HttpServlet {
 	            	  throw e;
 	            }
 	        }
-
-	        ArrayList<Cliente> listaUsuarios = clNeg.obtenerUsuariosPaginados(numeroPagina, 5);
-	        request.setAttribute("listaUsuarios", listaUsuarios);
+	        ArrayList<Cliente> listaUsuarios = new ArrayList<>();
 	        
-	        request.setAttribute("cantPags", clNeg.getCantPaginas());
+	        HttpSession session = request.getSession();
+	        if (session.getAttribute("txtBusquedaUser") != null) {
+	        	
+	        	listaUsuarios = (ArrayList<Cliente>)clNeg.obtenerUsuariosPaginadosFiltrados(numeroPagina, 5, (String)session.getAttribute("txtBusquedaUser"), (String)session.getAttribute("filtroBusquedaUser"));	        	
+	        	request.setAttribute("cantPags", clNeg.getCantPaginasXFiltro((String)session.getAttribute("txtBusquedaUser"), (String)session.getAttribute("filtroBusquedaUser")));
+	        }
+	        else
+	        {
+	        	listaUsuarios = clNeg.obtenerUsuariosPaginados(numeroPagina, 5);	        	
+	        	request.setAttribute("cantPags", clNeg.getCantPaginas());
+	        }
+	        request.setAttribute("listaUsuarios", listaUsuarios);
 
 	        RequestDispatcher rd = request.getRequestDispatcher("/PanelDeControl.jsp");
 	        rd.forward(request, response);
-	}catch (DBException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
-        response.sendRedirect("Login.jsp");
-	}catch (GenericException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
-        response.sendRedirect("PanelDeControl.jsp");
-    }
+			
+		 	}
+		 catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde.");
+		        response.sendRedirect("Login.jsp");
+			}catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
+		        response.sendRedirect("PanelDeControl.jsp");
+		    }
     }
 
 	/**
@@ -70,9 +83,11 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
+			HttpSession session = request.getSession();
 			if(request.getParameter("btnUsuarios")!=null && request.getParameter("Param")==null) {
-		
 			
+			session.setAttribute("txtBusquedaUser", null);
+			session.setAttribute("filtroBusquedaUser", null);
 			request.setAttribute("cantPags", clNeg.getCantPaginas());
 			
 			ArrayList<Cliente> lista = (ArrayList<Cliente>)clNeg.obtenerUsuariosPaginados(1, 5);
@@ -91,9 +106,10 @@ public class ServletGestionUsuarios extends HttpServlet {
 				//prueba
 				System.out.println("Contenido de textBoxBusquedaUsuario: " + textBoxBusquedaUsuario);
 				System.out.println("Contenido de filtroBusquedaUsuario: " + filtroBusquedaUsuario);
-
-				
-				request.setAttribute("cantPags", clNeg.getCantPaginas());
+								
+				session.setAttribute("txtBusquedaUser", textBoxBusquedaUsuario);
+				session.setAttribute("filtroBusquedaUser", filtroBusquedaUsuario);
+				request.setAttribute("cantPags", clNeg.getCantPaginasXFiltro(textBoxBusquedaUsuario, filtroBusquedaUsuario));
 				
 				ArrayList<Cliente> lista = (ArrayList<Cliente>)clNeg.obtenerUsuariosPaginadosFiltrados(1, 5, textBoxBusquedaUsuario, filtroBusquedaUsuario);
 				

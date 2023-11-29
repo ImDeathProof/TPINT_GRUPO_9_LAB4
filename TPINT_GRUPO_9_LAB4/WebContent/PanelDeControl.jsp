@@ -125,6 +125,29 @@
 						<form method="post" action="ServletGestionCuentas">
 							<input class="btn btn-success m-2" type="submit" name="btnCuentas" value="Cuentas">
 					 	</form>
+					 	
+					 	<form method="post" action="ServletGestionCuentas">
+						    <div class="input-group mb-3">
+						        <div class="input-group-append m-2">
+						            <select class="custom-select" id="filtroBusquedaCuenta" name="filtroBusquedaCuenta">
+						                <option value="" selected>Seleccione un filtro</option>
+						                <option value="IDCuenta">ID de Cuenta</option>
+						                <option value="TipoCuenta">Tipo de cuenta</option>
+						                <option value="Saldo">Saldo</option>
+						                <option value="NumeroCuenta">Numero de cuenta</option>
+						                <option value="CBU">CBU</option>
+						            </select>
+						            <select class="custom-select" id="filtroBusquedaCuenta2" name="filtroBusquedaCuenta2">
+						                <option value=">" selected>Mayor a</option>
+						                <option value="<">Menor a</option>
+						                <option value="=">Igual</option>
+						            </select>
+						        </div>
+						        <input type="text" class="form-control" id="textBoxBusquedaCuentas" name="textBoxBusquedaCuentas" placeholder="Buscar Cuenta">
+						        <button class="btn btn-primary" type="submit" name="btnBuscarCuenta">Buscar</button>
+						    </div>
+						</form>
+						
 				     		<%
 				     		ArrayList<Cuenta> listaCuentas = null;
 				      		if(request.getAttribute("listaTodasCuentas")!=null){

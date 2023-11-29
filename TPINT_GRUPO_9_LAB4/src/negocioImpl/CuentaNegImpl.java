@@ -119,6 +119,18 @@ public class CuentaNegImpl implements CuentaNeg {
 		// TODO Auto-generated method stub
 		return clDao.getCuentaFromCBU(CBU);
 	}
+
+	@Override
+	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda, String criterioBusqueda2)
+			throws DBException, GenericException {
+		return clDao.getCantPaginasXFiltro(elementoBusqueda, criterioBusqueda, criterioBusqueda2);
+	}
+
+	@Override
+	public ArrayList<Cuenta> obtenerCuentasPaginadasFiltradas(int pageNumber, int pageSize, String elementoBusqueda,
+			String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException {
+		return clDao.obtenerCuentasPaginadasFiltradas(pageNumber, pageSize, elementoBusqueda, criterioBusqueda, criterioBusqueda2);
+	}
 	
 	
 	

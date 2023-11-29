@@ -31,4 +31,6 @@ public interface CuentaNeg {
 	public String generarCBU() throws ValidateException, GenericException;
 	public boolean existeCBU(int numeroCBU) throws ValidateException, GenericException;
 	public int getCuentaFromCBU(String CBU) throws DBException, GenericException;
+	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException;
+	public ArrayList<Cuenta> obtenerCuentasPaginadasFiltradas(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException;
 }

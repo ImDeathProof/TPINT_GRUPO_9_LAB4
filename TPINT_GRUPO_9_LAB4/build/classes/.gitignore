@@ -1,5 +1,5 @@
-/daoImpl/
 /Servlets/
+/dao/
+/daoImpl/
 /negocio/
 /negocioImpl/
-/dao/
