@@ -622,7 +622,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 		 			filasEmisora = CambiarSaldo(monto.negate(), cn.getCBU());
 		 	        filasDestinataria = CambiarSaldo(monto, CBUCuentaDestinataria);
 		 	        
-		 	       cuNeg.insertMovimiento(cn.getIdCuenta(), monto.negate(), tMovNeg.getTipoxDescripcion("Deposito"));
+		 	       cuNeg.insertMovimiento(cn.getIdCuenta(), monto.negate(), tMovNeg.getTipoxDescripcion("Extracción"));
 		 	       cuNeg.insertMovimiento(getCuentaFromCBU(CBUCuentaDestinataria),monto, tMovNeg.getTipoxDescripcion("Deposito"));
 		 		}
 		 		

@@ -24,7 +24,17 @@
 						<form method="post" action="ServletListarPrestamos">
 							<input class="btn btn-success m-2" type="submit" name="btnListarPrestamos" value="Prestamos">
 					 	</form>
-						 <%
+						 <%if (session.getAttribute("errorGsPrestamos") != null){%>
+						<div class="alert alert-danger">
+							<%= (String)session.getAttribute("errorGsPrestamos")%>
+						</div>
+						<hr>
+						<%}else if(session.getAttribute("exitoGsPrestamos") != null){ %>
+						 <div class="alert alert-success">
+							<%= (String)session.getAttribute("exitoGsPrestamos")%>
+						</div>
+						<hr>
+						 <%}
 				     		ArrayList<Prestamo> listaPrestamos = null;
 				      		if(request.getAttribute("listaPrestamos")!=null){
 				      			listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");%>
@@ -52,15 +62,67 @@
 							                <td><%= pr.getCantidadCuotas() %></td>
 							                <td><%= pr.getEstado() %></td>
 							                <td>
-							                    <form action="ServletGestionarPrestamos" method="post">
+							                    
 							                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
 							                        <% if (pr.getEstado().equalsIgnoreCase("Pendiente")) { %>
-							                            <input type="submit" name="submitValue" value="Aprobar" class="btn btn-success">
-							                            <input type="submit" name="submitValue" value="Rechazar" class="btn btn-danger">
+							                            <!-- Button trigger modal + Aprobar prestamo-->
+							                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AprobarModal">
+														  Aprobar
+														</button>
+							                            
+							                        	<!-- Modal aprobar prestamo-->
+													    <div class="modal fade" id="AprobarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Aprobar</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea aprobar el prestamo?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletGestionarPrestamos" method="post">
+												                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
+												                        <input type="submit" name="submitValue" value="Aprobar" class="btn btn-success">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
+							                        
+							                        	
+														<!-- Button trigger modal + Rechazar prestamo-->
+							                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#RechazarModal">
+														  Rechazar
+														</button>
+							                            
+							                        	<!-- Modal rechazar prestamo-->
+													    <div class="modal fade" id="RechazarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Rechazar</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea rechazar el prestamo?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletGestionarPrestamos" method="post">
+												                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
+												                        <input type="submit" name="submitValue" value="Rechazar" class="btn btn-danger">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
 							                        <% } else { %>
 							                        	<label>Sin Acciones</label>
 							                        <% } %>
-							                    </form>
+							                    
 							                </td>
 							            </tr>
 							            <% } } %>

@@ -64,9 +64,10 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	                        Cuota ct = negCt.generarCuota(pr, prID, i + 1);
 	                        negCt.Agregar(ct);
 	                    }
+	                    request.getSession().setAttribute("exitoGsPrestamos", "Prestamo aprobado exitosamente");
 	                } catch (GenericException e) {
 	                    e.printStackTrace();
-	                    request.getSession().setAttribute("error", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde");
+	                    request.getSession().setAttribute("errorGsPrestamos", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde");
 	                    response.sendRedirect("PanelDeControl.jsp");
 	                    return; 
 	                }
@@ -76,12 +77,12 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	        }
 	    }catch (DBException e) {
 	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
+	        request.getSession().setAttribute("errorGsPrestamos", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
 	        response.sendRedirect("PanelDeControl.jsp");
 	        return; 
 	    }catch (GenericException e) {
             e.printStackTrace();
-            request.getSession().setAttribute("error", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde"+ e.getMessage());	
+            request.getSession().setAttribute("errorGsPrestamos", "Hubo un error inesperado al aprobar el préstamo. Intente nuevamente más tarde"+ e.getMessage());	
             response.sendRedirect("PanelDeControl.jsp");
             return; 
         }
