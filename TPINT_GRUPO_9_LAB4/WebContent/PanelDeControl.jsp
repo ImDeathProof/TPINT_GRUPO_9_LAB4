@@ -1,6 +1,7 @@
 <%@page import="entidad.Cliente"%>
 <%@page import="entidad.Cuenta"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page import="java.util.UUID" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <jsp:include page="Header.jsp" />
@@ -31,12 +32,17 @@
 						<form method="post" action="ServletGestionUsuarios">
 							<input class="btn btn-success m-2" type="submit" name="btnUsuarios" value="Usuarios">	
 					 	</form>
+					 	<%if(session.getAttribute("accion")!=null){ %>
+					 		<div class="alert alert-success">
+							    <%= (String)session.getAttribute("accion")%> 
+							</div>
+					 	<%} %>
 					 	
 				<form method="post" action="ServletGestionUsuarios">
 				    <div class="input-group mb-3">
 				        <input type="text" class="form-control" id="textBoxBusquedaUsuarios" name="textBoxBusquedaUsuarios" placeholder="Buscar Usuario">
-				        <div class="input-group-append m-2">
-				            <select class="custom-select" id="filtroBusquedaUsuarios" name="filtroBusquedaUsuarios">
+
+				            <select class="form-select" id="filtroBusquedaUsuarios" name="filtroBusquedaUsuarios">
 				                <option value="" selected>Seleccione un filtro</option>
 				                <option value="IDUsuario">ID</option>
 				                <option value="Username">Usuario</option>
@@ -49,7 +55,6 @@
 <!-- 								<button class="btn btn-primary" type="submit">Buscar</button> -->
 							<button class="btn btn-primary" type="submit" name="btnBuscarUsuarios">Buscar</button>
 
-				        </div>
 				    </div>
 				</form>
 
@@ -71,7 +76,9 @@
 							    </thead>
 							    <tbody>
 							        <% if (listaUsuarios != null) {
-							            for (Cliente user : listaUsuarios) { %>
+							            int i = 0;
+							        	for (Cliente user : listaUsuarios) { 
+							        	%>
 							            <tr>
 							                <td><%= user.get_IDCliente() %></td>
 							                <td><%= user.get_Usuario() %></td>
@@ -92,14 +99,66 @@
 							                </td>
 							                <td><%= user.get_DNI() %></td>
 							                <td>
-							                    <form action="ServletBloquearUser" method="post">
-							                        <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
-							                        <% if (user.isBloqueado()) { %>
-							                            <input type="submit" name="submitValue" value="Desbloquear" class="btn btn-success">
-							                        <% } else { %>
-							                            <input type="submit" name="submitValue" value="Bloquear" class="btn btn-success">
-							                        <% } %>
-							                    </form>
+							                        <%if(user.get_IDCliente() != 1) {
+								                        if (user.isBloqueado()) { 
+							                        		String uniqueID = "modal" + UUID.randomUUID().toString().replace("-", "");
+							                       		%>
+							                            <!-- Button trigger modal + Aprobar prestamo-->
+							                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#<%= uniqueID %>">
+														  Desbloquear
+														</button>
+							                            
+							                        	<!-- Modal aprobar prestamo-->
+													    <div class="modal fade" id="<%= uniqueID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Desbloquear usuario</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea desbloquear al usuario seleccionado?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletBloquearUser" method="post">
+												                        <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+												                        <input type="submit" name="submitValue" value="Desbloquear" class="btn btn-success">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
+							                            
+							                        <% } else { 
+							                        	String uniqueID = "modal" + UUID.randomUUID().toString().replace("-", "");%>
+							                            <!-- Button trigger modal + Aprobar prestamo-->
+							                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#<%= uniqueID %>">
+														  Bloquear
+														</button>
+							                            
+							                        	<!-- Modal aprobar prestamo-->
+													    <div class="modal fade" id="<%= uniqueID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Bloquear usuario</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea bloquear al usuario seleccionado?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletBloquearUser" method="post">
+												                        <input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+												                        <input type="submit" name="submitValue" value="Bloquear" class="btn btn-danger">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
+							                        <% }} %>
 							                </td>
 							            </tr>
 							            <% } } %>
@@ -125,11 +184,15 @@
 						<form method="post" action="ServletGestionCuentas">
 							<input class="btn btn-success m-2" type="submit" name="btnCuentas" value="Cuentas">
 					 	</form>
+					 	<%if(session.getAttribute("accionCuenta")!=null){ %>
+					 		<div class="alert alert-success">
+							    <%= (String)session.getAttribute("accionCuenta")%> 
+							</div>
+					 	<%} %>
 					 	
 					 	<form method="post" action="ServletGestionCuentas">
 						    <div class="input-group mb-3">
-						        <div class="input-group-append m-2">
-						            <select class="custom-select" id="filtroBusquedaCuenta" name="filtroBusquedaCuenta">
+						            <select class="form-select " id="filtroBusquedaCuenta" name="filtroBusquedaCuenta">
 						                <option value="" selected>Seleccione un filtro</option>
 						                <option value="IDCuenta">ID de Cuenta</option>
 						                <option value="TipoCuenta">Tipo de cuenta</option>
@@ -137,12 +200,11 @@
 						                <option value="NumeroCuenta">Numero de cuenta</option>
 						                <option value="CBU">CBU</option>
 						            </select>
-						            <select class="custom-select" id="filtroBusquedaCuenta2" name="filtroBusquedaCuenta2">
+						            <select class="form-select" id="filtroBusquedaCuenta2" name="filtroBusquedaCuenta2">
 						                <option value=">" selected>Mayor a</option>
 						                <option value="<">Menor a</option>
 						                <option value="=">Igual</option>
 						            </select>
-						        </div>
 						        <input type="text" class="form-control" id="textBoxBusquedaCuentas" name="textBoxBusquedaCuentas" placeholder="Buscar Cuenta">
 						        <button class="btn btn-primary" type="submit" name="btnBuscarCuenta">Buscar</button>
 						    </div>
@@ -193,14 +255,67 @@
 							                <td><%= cuenta.getFechaCreacion() %></td>
 							                <td><%= cuenta.getNombre() %></td>
 							               <td>
-								                <form action="ServletAprobarCuenta" method="post">
-								                <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
-			 				                        <% if (cuenta.getEstado()) { %>
-			 				                        	<input type="submit" name="submitValueEstado" value="Bloquear" class="btn btn-success">
-							                        <% } else { %>
-							                           <input type="submit" name="submitValueEstado" value="Validar" class="btn btn-success">
+								                
+			 				                        <% if (cuenta.getEstado()) {
+							                        	String uniqueID = "modal" + UUID.randomUUID().toString().replace("-", "");
+							                       		%>
+			 				                        	
+							                            <!-- Button trigger modal + Aprobar prestamo-->
+							                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#<%= uniqueID %>">
+														  Bloquear
+														</button>
+							                            
+							                        	<!-- Modal aprobar prestamo-->
+													    <div class="modal fade" id="<%= uniqueID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Bloquear cuenta</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea bloquear la cuenta seleccionada?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletAprobarCuenta" method="post">
+												                        <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
+												                        <input type="submit" name="submitValueEstado" value="Bloquear" class="btn btn-danger">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
+							                        <% } else { 
+							                        	String uniqueID = "modal" + UUID.randomUUID().toString().replace("-", "");%>
+							                            <!-- Button trigger modal + Aprobar prestamo-->
+							                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#<%= uniqueID %>">
+														  Validar
+														</button>
+							                            
+							                        	<!-- Modal aprobar prestamo-->
+													    <div class="modal fade" id="<%= uniqueID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													        <div class="modal-dialog">
+													        <div class="modal-content">
+													            <div class="modal-header">
+														            <h1 class="modal-title fs-5" id="exampleModalLabel">Validar cuenta</h1>
+														            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														            </div>
+														            <div class="modal-body">
+														            ¿Está seguro que desea validar la cuenta seleccionada?
+														            </div>
+														            <div class="modal-footer">
+														            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+														            <form action="ServletAprobarCuenta" method="post">
+												                        <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta() %>">
+												                        <input type="submit" name="submitValueEstado" value="Validar" class="btn btn-success">
+														            </form>
+													            </div>
+													        </div>
+													        </div>
+													    </div>
 							                        <% } %>
-								                </form>
+								                
 										  </td>	
 										  				               
 							            </tr>

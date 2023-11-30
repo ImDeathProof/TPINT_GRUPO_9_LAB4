@@ -40,39 +40,44 @@ public class ServletAprobarCuenta extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int cuentaID = Integer.parseInt(request.getParameter("cuentaID"));
-		String buttonValueEstado = request.getParameter("submitValueEstado");
-
-
-		try {
-				if (buttonValueEstado.equals("Validar")) {		
-					cuNeg.ValidarCuenta(cuentaID);
-			    } else if (buttonValueEstado.equals("Bloquear")) {
-			    	cuNeg.BloquearCuenta(cuentaID);
-			    }
-				
-				response.sendRedirect("PanelDeControl.jsp");
+		if(request.getParameter("submitValueEstado")!=null) {
 			
-			}
-		
-		catch (ValidateException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error al validar datos en la DB \n");	        
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }
-		
-		catch (DBException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }
-		catch (GenericException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde.\n " + e.getMessage());	          
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }
-		
-		
-	}
+			int cuentaID = Integer.parseInt(request.getParameter("cuentaID"));
+			String buttonValueEstado = request.getParameter("submitValueEstado");
+	
+	
+			try {
+					if (buttonValueEstado.equals("Validar")) {		
+						cuNeg.ValidarCuenta(cuentaID);
+				    	request.getSession().setAttribute("accionCuenta", "La cuenta ID:"+ cuentaID + " fue validada correctamente.");	
+				    } else if (buttonValueEstado.equals("Bloquear")) {
+				    	cuNeg.BloquearCuenta(cuentaID);
+				    	request.getSession().setAttribute("accionCuenta", "La cuenta ID:"+ cuentaID + " fue bloqueada correctamente.");	
+				    }
+					
+					response.sendRedirect("PanelDeControl.jsp");
+				
+				}
+			
+			catch (ValidateException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error al validar datos en la DB \n");	        
+		        return;
+		    }
+			
+			catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+		        return;
+		    }
+			catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde.\n " + e.getMessage());	          
+		        return;
+		    }
+			
+			
+		}
 
+	}
 }

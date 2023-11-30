@@ -42,28 +42,32 @@ public class ServletBloquearUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int userID = Integer.parseInt(request.getParameter("userID"));	
-		String buttonValue = request.getParameter("submitValue");
-
-		try{
-		if (buttonValue.equals("Bloquear")) {		
-			clNeg.BloquearCliente(userID);			
-	    } else if (buttonValue.equals("Desbloquear")) {
-	    	clNeg.DesbloquearCliente(userID);
-	    }
-		
-		response.sendRedirect("PanelDeControl.jsp");
+		if(request.getParameter("submitValue")!=null) {
+			
+			int userID = Integer.parseInt(request.getParameter("userID"));	
+			String buttonValue = request.getParameter("submitValue");
+			
+			try{
+				if (buttonValue.equals("Bloquear")) {		
+					clNeg.BloquearCliente(userID);	
+					request.getSession().setAttribute("accion", "El usuario con ID:" + userID + " fue bloqueado exitosamente.");
+				} else if (buttonValue.equals("Desbloquear")) {
+					clNeg.DesbloquearCliente(userID);
+					request.getSession().setAttribute("accion", "El usuario con ID:" + userID + " fue desbloqueado exitosamente.");
+				}
+				response.sendRedirect("PanelDeControl.jsp");
+			}
+			
+			catch (DBException e) {
+				e.printStackTrace();
+				request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde." + e.getMessage());
+				return;
+			}catch (GenericException e) {
+				e.printStackTrace();
+				request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());    
+				return;
+			}
 		}
-		
-		catch (DBException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde." + e.getMessage());
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }catch (GenericException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());    
-	        response.sendRedirect("PanelDeControl.jsp");
-	    }
 	}
 
 }
