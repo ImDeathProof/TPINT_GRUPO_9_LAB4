@@ -845,4 +845,37 @@ public class CuentaDAO implements CuentaDaoInterface {
 
         return filas;
 	}
+
+	@Override
+	public int getCuentasCreadasSegunPeriodo(int mes, int ano) throws DBException, GenericException {
+		int cantidad = 0;
+		
+		String query = "SELECT COUNT(*) AS 'CANTIDAD' FROM CUENTA WHERE FECHA_CREACION BETWEEN ? AND LAST_DAY(?)";
+
+	 	try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+	 			PreparedStatement ps = cn.prepareStatement(query)) {
+		 		ps.setString(1, String.format("%04d-%02d-01", ano, mes));
+		 		ps.setString(2, String.format("%04d-%02d-01", ano, mes));
+
+	 	        try (ResultSet rs = ps.executeQuery()) {
+		 	        if (rs.next()) {
+		 	        	cantidad = rs.getInt("CANTIDAD");
+		 	        }
+	 	        }
+	 	}catch (SQLException e) {
+	 		e.printStackTrace();
+		    throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+		}catch (Exception e){
+			e.printStackTrace();
+			throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+		}
+
+	 	return cantidad;
+	}
+
+	@Override
+	public int getTotalCuentasPorTipo(String tipo) throws DBException, GenericException {
+		
+		return 0;
+	}
 }

@@ -33,4 +33,5 @@ public interface CuentaNeg {
 	public int getCuentaFromCBU(String CBU) throws DBException, GenericException;
 	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException;
 	public ArrayList<Cuenta> obtenerCuentasPaginadasFiltradas(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException;
+	public int getCuentasCreadasSegunPeriodo(int mes, int ano) throws DBException, GenericException;
 }

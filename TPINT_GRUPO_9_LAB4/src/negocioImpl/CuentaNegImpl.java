@@ -131,6 +131,12 @@ public class CuentaNegImpl implements CuentaNeg {
 			String criterioBusqueda, String criterioBusqueda2) throws DBException, GenericException {
 		return clDao.obtenerCuentasPaginadasFiltradas(pageNumber, pageSize, elementoBusqueda, criterioBusqueda, criterioBusqueda2);
 	}
+
+	@Override
+	public int getCuentasCreadasSegunPeriodo(int mes, int ano) throws DBException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.getCuentasCreadasSegunPeriodo(mes, ano);
+	}
 	
 	
 	

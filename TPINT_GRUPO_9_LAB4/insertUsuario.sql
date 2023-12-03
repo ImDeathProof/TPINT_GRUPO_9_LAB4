@@ -2181,3 +2181,24 @@ INSERT INTO tiposmovimientos (Descripcion)
 VALUES ('Extracción');
 INSERT INTO tiposmovimientos (Descripcion)
 VALUES ('Deposito');
+
+-- Inserts cuentas
+
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 20000.00, '70', '2022-10-29 00:00:00', 1, '2350', 3);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 12000.00, '90', '2022-09-19 00:00:00', 1, '2230', 3);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 2120.00, '69', '2023-05-01 00:00:00', 1, '2355', 4);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 4300.00, '44', '2023-07-26 00:00:00', 1, '1367', 4);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 5090.00, '33', '2023-03-13 00:00:00', 1, '7109', 5);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 1200000.00, '55', '2022-04-22 00:00:00', 1, '9348', 6);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 58790.00, '66', '2022-06-05 00:00:00', 1, '2184', 6);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 21239.00, '77', '2023-07-12 00:00:00', 1, '7983', 7);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 20000.00, '29', '2022-11-15 00:00:00', 1, '9999', 8);
