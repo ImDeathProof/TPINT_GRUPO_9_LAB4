@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +21,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+
 
 import entidad.DBException;
 import entidad.GenericException;
@@ -58,42 +62,43 @@ public class ServletInformes extends HttpServlet {
 
 		}
 		//INFORME DE CUENTAS
-		if(request.getParameter("btnInformeCuentas")!=null) {
-			ArrayList<Integer> cuentasPorMes = new ArrayList<>();
-			String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+		if(request.getParameter("btnGenerarInformeCuentasMensual")!=null) {
+			int ano = Integer.parseInt(request.getParameter("selectAno"));
+			int mes = Integer.parseInt(request.getParameter("selectMes"));
+			Map<String, String> mesesMap = new HashMap<>();
+			mesesMap.put("1", "Enero");
+			mesesMap.put("2", "Febrero");
+			mesesMap.put("3", "Marzo");
+			mesesMap.put("4", "Abril");
+			mesesMap.put("5", "Mayo");
+			mesesMap.put("6", "Junio");
+			mesesMap.put("7", "Julio");
+			mesesMap.put("8", "Agosto");
+			mesesMap.put("9", "Septiembre");
+			mesesMap.put("10", "Octubre");
+			mesesMap.put("11", "Noviembre");
+			mesesMap.put("12", "Diciembre");
+			String mesTxt = mesesMap.get(Integer.toString(mes));
 			
-			DefaultPieDataset dataset = new DefaultPieDataset();
-			
-			for(int i=0;i<12;i++) {
-				try {
-					cuentasPorMes.add(cneg.getCuentasCreadasSegunPeriodo(i+1, 2023));
-				} catch (DBException | GenericException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			int cantidadSeleccionada=0,cantidadAnoAnterior=0;
+			try {
+				cantidadSeleccionada = cneg.getCuentasCreadasSegunPeriodo(mes, ano);
+				cantidadAnoAnterior = cneg.getCuentasCreadasSegunPeriodo(mes, ano-1);
+			} catch (DBException | GenericException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			DefaultPieDataset dataset1 = new DefaultPieDataset();
-
-			for (int i = 0; i < 12; i++) {
-			    dataset1.setValue("Mes " + (i + 1), cuentasPorMes.get(i));
-			}
-
-			JFreeChart chart = ChartFactory.createPieChart("Cuentas por Mes", dataset1, true, true, false);
-			
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			ChartUtilities.writeChartAsPNG(outputStream, chart, 800, 800);
-			byte[] chartBytes = outputStream.toByteArray();
-
-			// Guardar la imagen en el servidor
-			String relativePath = "/images/chart.png";
-			String fullPath = getServletContext().getRealPath(relativePath);
-
-			FileOutputStream fos = new FileOutputStream(fullPath);
-			fos.write(chartBytes);
-			fos.close();
-
-			// Guardar la URL de la imagen en el request
-			request.setAttribute("chartImageURL", relativePath);
+			///Solicitado
+			request.setAttribute("cantidad1", cantidadSeleccionada);
+			request.setAttribute("mes", mesTxt);
+			request.setAttribute("ano", ano);
+			///Mismo mes del año anterior para comparar
+			request.setAttribute("cantidad2", cantidadAnoAnterior);
+			request.setAttribute("mes", mesTxt);
+			request.setAttribute("anoAnterior", ano-1);
+			///----NO AGREGAR NADA MAS ABAJO DE ESTA LINEA----
+			RequestDispatcher rd = request.getRequestDispatcher("Informes.jsp");
+	        rd.forward(request, response);
 		}
 		
 	}
