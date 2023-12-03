@@ -55,7 +55,7 @@ public class Comprobante {
         Cliente clDestino = new Cliente();
         try {
 			destino = ctNeg.obtenerCuentaPorID(ctNeg.getCuentaFromCBU(CBUDestinatario));
-			clDestino = clNeg.BuscarClientePorID(destino.getIdUsuario());
+			clDestino = destino.getUsuario();
 		} catch (DBException | GenericException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

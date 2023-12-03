@@ -51,7 +51,7 @@
 												for(Cuenta ct : listaCuentas){
 												if(ct.getEstado())
 												{%>
-													<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
+													<option value="<%=ct.getIdCuenta()%>">Cuenta numero <%= ct.getNumeroCuenta() %> / (Saldo: $<%=ct.getSaldo()%>) / (Tipo: <%=ct.getTipoCuenta()%> )</option>
 												<%}}} %>
 									<%}%>
 									</select>

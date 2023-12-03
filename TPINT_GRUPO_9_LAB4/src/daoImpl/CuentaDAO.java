@@ -15,9 +15,11 @@ import dao.CuentaDaoInterface;
 import entidad.Cuenta;
 import entidad.DBException;
 import entidad.TipoMovimiento;
+import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
 import negocio.TipoMovimientoNeg;
+import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.MovimientoNegImpl;
 import negocioImpl.TipoMovimientoNegImpl;
@@ -28,11 +30,12 @@ import entidad.GenericException;
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
     TipoMovimientoNeg tMovNeg = new TipoMovimientoNegImpl();
+    ClienteNeg clNeg = new ClienteNegImpl();
 
     public CuentaDAO() {
         try {
@@ -54,7 +57,7 @@ public class CuentaDAO implements CuentaDaoInterface {
             while (cuentasResultSet.next()) {
                 Cuenta cuenta = new Cuenta();
                 cuenta.setIdCuenta(cuentasResultSet.getInt("IDCuenta"));
-                cuenta.setIdUsuario(cuentasResultSet.getInt("IdUsuario"));
+                cuenta.setUsuario(clNeg.BuscarClientePorID(cuentasResultSet.getInt("IdUsuario")));
                 cuenta.setTipoCuenta(cuentasResultSet.getString("TipoCuenta"));
                 cuenta.setNumeroCuenta(cuentasResultSet.getString("NumeroCuenta"));
                 cuenta.setCBU(cuentasResultSet.getString("CBU"));
@@ -109,7 +112,7 @@ public class CuentaDAO implements CuentaDaoInterface {
             while (cuentasResultSet.next()) {
                 Cuenta cuenta = new Cuenta();
                 cuenta.setIdCuenta(cuentasResultSet.getInt("IDCuenta"));
-                cuenta.setIdUsuario(cuentasResultSet.getInt("IDUsuario"));
+                cuenta.setUsuario(clNeg.BuscarClientePorID(cuentasResultSet.getInt("IdUsuario")));
                 cuenta.setTipoCuenta(cuentasResultSet.getString("TipoCuenta"));
                 cuenta.setNumeroCuenta(cuentasResultSet.getString("NumeroCuenta"));
                 cuenta.setCBU(cuentasResultSet.getString("CBU"));
@@ -484,7 +487,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 	 	        while (rs.next()) {
 	 	        	Cuenta cuenta = new Cuenta();
 	                 cuenta.setIdCuenta(rs.getInt("IDCuenta"));
-	                 cuenta.setIdUsuario(rs.getInt("IDUsuario"));
+	                 cuenta.setUsuario(clNeg.BuscarClientePorID(rs.getInt("IdUsuario")));
 	                 cuenta.setTipoCuenta(rs.getString("TipoCuenta"));
 	                 cuenta.setNumeroCuenta(rs.getString("NumeroCuenta"));
 	                 cuenta.setCBU(rs.getString("CBU"));
@@ -533,7 +536,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 		                while (rs.next()) {
 		                    Cuenta cuenta = new Cuenta();
 		                    cuenta.setIdCuenta(rs.getInt("IDCuenta"));
-		                    cuenta.setIdUsuario(rs.getInt("IDUsuario"));
+		                    cuenta.setUsuario(clNeg.BuscarClientePorID(rs.getInt("IdUsuario")));
 		                    cuenta.setTipoCuenta(rs.getString("TipoCuenta"));
 		                    cuenta.setNumeroCuenta(rs.getString("NumeroCuenta"));
 		                    cuenta.setCBU(rs.getString("CBU"));
@@ -706,7 +709,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 
 	            if (resultSet.next()) {
 	            	cuenta.setIdCuenta(resultSet.getInt("IDCuenta"));
-	                cuenta.setIdUsuario(resultSet.getInt("IDUsuario"));
+	            	cuenta.setUsuario(clNeg.BuscarClientePorID(resultSet.getInt("IdUsuario")));
 	                cuenta.setTipoCuenta(resultSet.getString("TipoCuenta"));
 	                cuenta.setNumeroCuenta(resultSet.getString("NumeroCuenta"));
 	                cuenta.setCBU(resultSet.getString("CBU"));
@@ -741,7 +744,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 			        try (ResultSet resultSet = preparedStatement.executeQuery()) {
 			            if (resultSet.next()) {
 			                cuenta.setIdCuenta(resultSet.getInt("IDCuenta"));
-			                cuenta.setIdUsuario(resultSet.getInt("IDUsuario"));
+			                cuenta.setUsuario(clNeg.BuscarClientePorID(resultSet.getInt("IdUsuario")));
 			                cuenta.setTipoCuenta(resultSet.getString("TipoCuenta"));
 			                cuenta.setNumeroCuenta(resultSet.getString("NumeroCuenta"));
 			                cuenta.setCBU(resultSet.getString("CBU"));
@@ -777,7 +780,7 @@ public class CuentaDAO implements CuentaDaoInterface {
 		        try (ResultSet resultSet = preparedStatement.executeQuery()) {
 		            if (resultSet.next()) {
 		                cuenta.setIdCuenta(resultSet.getInt("IDCuenta"));
-		                cuenta.setIdUsuario(resultSet.getInt("IDUsuario"));
+		                cuenta.setUsuario(clNeg.BuscarClientePorID(resultSet.getInt("IdUsuario")));
 		                cuenta.setTipoCuenta(resultSet.getString("TipoCuenta"));
 		                cuenta.setNumeroCuenta(resultSet.getString("NumeroCuenta"));
 		                cuenta.setCBU(resultSet.getString("CBU"));

@@ -49,7 +49,7 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
 	    				request.setAttribute("listaPrestamos", prestamos); 
 	    			}
 	    			else {
-	    				request.setAttribute("errorCarga", true);
+	    				request.getSession().setAttribute("errorCarga", "No tienes prestamos aprobados.");
 	    			}
 	    		}
     		}catch (DBException e) {

@@ -69,9 +69,11 @@
 								<option value="Seleccionar">Seleccionar</option>
 									<%
 									if(listaCuentas != null && !listaCuentas.isEmpty()){
-									for(Cuenta ct : listaCuentas){%>
-										<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
-									<%}} %>
+									for(Cuenta ct : listaCuentas){
+									if(ct.getEstado())
+									{%>
+									  <option value="<%=ct.getIdCuenta()%>">Cuenta numero <%= ct.getNumeroCuenta() %> / (Saldo: $<%=ct.getSaldo()%>) / (Tipo: <%=ct.getTipoCuenta()%> )</option>
+								<%}}} %>
 							</select>
 						<%}else if (session.getAttribute("errorCuenta") != null){%>
 						<div class="alert alert-danger">

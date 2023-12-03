@@ -8,7 +8,7 @@ import entidad.DBException;
 
 public class Cuenta {
     private int IdCuenta;
-    private int IdUsuario;
+    private Cliente Usuario;
     private String TipoCuenta;
     private String NumeroCuenta;
     private String CBU;
@@ -24,12 +24,12 @@ public class Cuenta {
         this.IdCuenta = idCuenta;
     }
 
-    public int getIdUsuario() {
-        return IdUsuario;
+    public Cliente getUsuario() {
+        return Usuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.IdUsuario = idUsuario;
+    public void setUsuario(Cliente idUsuario) {
+        this.Usuario = idUsuario;
     }
 
     public String getTipoCuenta() {
@@ -84,7 +84,7 @@ public class Cuenta {
 	{
 		CuentaDAO cu = new CuentaDAO();
 		
-		String nombre = cu.GetNombreCliente(this.IdUsuario);
+		String nombre = this.Usuario.get_Nombre();
 		
 		return nombre;		
 	}
@@ -93,7 +93,7 @@ public class Cuenta {
 
 	@Override
     public String toString() {
-        return "Cuenta [IdCuenta=" + IdCuenta + ", IdUsuario=" + IdUsuario + ", TipoCuenta=" + TipoCuenta
+        return "Cuenta [IdCuenta=" + IdCuenta + ", IdUsuario=" + Usuario.toString() + ", TipoCuenta=" + TipoCuenta
                 + ", NumeroCuenta=" + NumeroCuenta + ", CBU=" + CBU + ", Saldo=" + Saldo + ", FechaCreacion="
                 + FechaCreacion + "]";
     }

@@ -32,16 +32,20 @@
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
 				      <div class="fw-bold">Solicita tu usuario</div>
-				      	<p>Dirigite a tu sucursal mas cercana y te lo dan al instante</p>
-				
-						<b><p>Si ya sos cliente, hace clic en el boton de abajo.</p></b>
+				      	<p>Dirigite a tu sucursal mas cercana y te lo daran al instante</p>
 				    </div>
 				    
 				  </li>
+				 <li class="list-group-item d-flex justify-content-between align-items-start">
+				    <div class="ms-2 me-auto">
+				        <div class="fw-bold">Alta de usuario</div>
+				        <p>Una vez que tengas el usuario, <a href="Login.jsp">logueate aquí</a>.</p>
+				    </div>
+				</li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold">Completa los datos on-line</div>
-				      <p>Hace clic en el boton de abajo y elegí que tipo de cuenta queres, caja de ahorros o cuenta corriente.</p>
+				      <div class="fw-bold">Entra a la seccion "Cuentas"</div>
+				      <p>Elige el tipo de cuenta que desees (Corriente / Ahorros).</p>
 				    </div>
 				    
 				  </li>
@@ -50,13 +54,10 @@
 				      <div class="fw-bold">Listo</div>
 				      <p>En menos de 24 horas tenes activa tu cuenta para empezar a operar.</p>
 				    </div>
-				    
 				  </li>
 				</ol>
 				
-				<br>
-				<a class="btn btn-info" href="RegistroCuenta.jsp">Solicitá tu cuenta haciendo click acá</a>				
-				
+			
 	        </div>
 	        <div class="col-lg-4">
 	            <div class="row">
