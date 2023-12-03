@@ -29,7 +29,7 @@
 		
 		private String host = "jdbc:mysql://127.0.0.1:3306/";
 	    private String user = "root";
-	    private String pass = "root";
+	    private String pass = "tobias01032004";
 	    private String dbName = "bancodb";
 	    
 	    MovimientoNeg cuNeg = new MovimientoNegImpl();
@@ -67,9 +67,8 @@
 		            int idCuenta = rs.getInt("IDCuenta");
 		            Cuenta ct = ctNeg.obtenerCuentaPorID(idCuenta);
 		            prestamo.setCuenta(ct);
-
-		            ClienteNeg clNeg = new ClienteNegImpl();
-		            Cliente cl = clNeg.BuscarClientePorID(ct.getIdUsuario());
+		            
+		            Cliente cl = ct.getUsuario();
 		            prestamo.setCliente(cl);
 		            prestamo.setFechaPedido(rs.getTimestamp("Fecha_Pedido").toLocalDateTime().toLocalDate());
 
@@ -209,8 +208,7 @@
 	 	        	Cuenta ct = ctNeg.obtenerCuentaPorID(idCuenta);
 	 	        	prestamo.setCuenta(ct);
 	 	        	
-	 	        	ClienteNeg clNeg = new ClienteNegImpl();
-	 	        	Cliente cl = clNeg.BuscarClientePorID(ct.getIdUsuario());
+	 	        	Cliente cl = ct.getUsuario();
 	 	        	prestamo.setCliente(cl);
 	 	        	prestamo.setFechaPedido(rs.getTimestamp("Fecha_Pedido").toLocalDateTime().toLocalDate());
 	 	        	
@@ -330,11 +328,6 @@
 	                
 
 	                lista.add(prestamo);
-	            }
-	            if (lista.isEmpty()) {
-	                Prestamo prestamoVacio = new Prestamo();
-	                prestamoVacio.setEstado("No posee préstamos aprobados, consulte con el banco, o bien, solicite un préstamo en la pestaña correspondiente");
-	                lista.add(prestamoVacio);
 	            }
 	        } catch (SQLException e) {
 		        e.printStackTrace();

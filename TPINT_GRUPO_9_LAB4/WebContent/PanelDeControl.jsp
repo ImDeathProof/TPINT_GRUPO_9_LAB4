@@ -237,7 +237,7 @@
 							                <td><%= cuenta.getCBU() %></td>
 							                <td>
 										<form action="ServletCambiarSaldo" method="post">
-										    <input type="hidden" name="userID" value="<%= cuenta.getIdUsuario() %>">
+										    <input type="hidden" name="userID" value="<%= cuenta.getUsuario().get_IDCliente() %>">
 										    <input type="hidden" name="cuentaID" value="<%= cuenta.getIdCuenta()%>">
 										    <table>
 										        <tr>

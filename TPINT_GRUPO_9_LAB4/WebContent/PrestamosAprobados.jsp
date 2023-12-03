@@ -65,6 +65,11 @@
 							<%} %>
 					</div>
 					<div class="col-1"></div>
+					<% if (session.getAttribute("errorCarga") != null){%>
+					<div class="alert alert-danger">
+					<%= (String)session.getAttribute("errorCarga")%>
+				</div>
+				<%} %>
 			</div>
 				
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->

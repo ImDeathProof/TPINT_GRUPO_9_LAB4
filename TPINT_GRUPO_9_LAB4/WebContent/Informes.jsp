@@ -1,10 +1,6 @@
 <%@page import="entidad.Cliente"%>
 <%@ page import="java.util.Base64" %>
 <%@page import="java.io.*"%>
-<%@page import="org.jfree.chart.*"%>
-<%@page import="org.jfree.chart.plot.*"%>
-<%@page import="org.jfree.data.general.*"%>
-<%@page import="org.jfree.data.category.DefaultCategoryDataset.*"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
