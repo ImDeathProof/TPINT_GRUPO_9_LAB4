@@ -57,11 +57,7 @@ public class ServletInformes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		//INFORME DE CLIENTES
-		if(request.getParameter("btnInformeClientes")!=null) {
-
-		}
-		//INFORME DE CUENTAS
+		//INFORME DE CUENTAS POR MES
 		if(request.getParameter("btnGenerarInformeCuentasMensual")!=null) {
 			int ano = Integer.parseInt(request.getParameter("selectAno"));
 			int mes = Integer.parseInt(request.getParameter("selectMes"));
@@ -96,10 +92,28 @@ public class ServletInformes extends HttpServlet {
 			request.setAttribute("cantidad2", cantidadAnoAnterior);
 			request.setAttribute("mes", mesTxt);
 			request.setAttribute("anoAnterior", ano-1);
-			///----NO AGREGAR NADA MAS ABAJO DE ESTA LINEA----
-			RequestDispatcher rd = request.getRequestDispatcher("Informes.jsp");
-	        rd.forward(request, response);
+			request.removeAttribute("graficoTipos");
+			request.setAttribute("graficoAnual", true);
 		}
+		//INFORME DE TIPOS DE CUENTAS
+		if(request.getParameter("btnGenerarInformeCuentasTipo")!=null) {
+			try {
+				int cuentaCorriente = cneg.getTotalCuentasPorTipo("Corriente");
+				int cajaAhorro = cneg.getTotalCuentasPorTipo("Ahorros");
+				request.setAttribute("ctCorriente", cuentaCorriente);
+				request.setAttribute("ctAhorro", cajaAhorro);
+				request.removeAttribute("graficoAnual");
+				request.setAttribute("graficoTipos", true);
+				
+			} catch (DBException | GenericException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		///----NO AGREGAR NADA MAS ABAJO DE ESTA LINEA----
+		RequestDispatcher rd = request.getRequestDispatcher("Informes.jsp");
+        rd.forward(request, response);
 		
 	}
 

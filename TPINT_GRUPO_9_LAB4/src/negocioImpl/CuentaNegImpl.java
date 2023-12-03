@@ -137,6 +137,12 @@ public class CuentaNegImpl implements CuentaNeg {
 		// TODO Auto-generated method stub
 		return clDao.getCuentasCreadasSegunPeriodo(mes, ano);
 	}
+
+	@Override
+	public int getTotalCuentasPorTipo(String tipo) throws DBException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.getTotalCuentasPorTipo(tipo);
+	}
 	
 	
 	
