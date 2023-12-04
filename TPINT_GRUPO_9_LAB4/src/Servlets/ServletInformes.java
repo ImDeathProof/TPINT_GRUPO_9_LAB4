@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 
 import entidad.DBException;
 import entidad.GenericException;
@@ -73,6 +74,54 @@ public class ServletInformes extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		//INFORME DE CLIENTES POR PROVINCIA
+		if(request.getParameter("btnGenerarInformeUsuariosXProvincias")!=null) {
+			try {
+				int[] usuariosXProvincias = clNeg.getCantidadDeUsuariosXProvincia();
+				Map<String, Integer> provinciasXUsuariosMap = new HashMap<>();
+				provinciasXUsuariosMap.put("Buenos Aires",usuariosXProvincias[0]);
+				provinciasXUsuariosMap.put("Buenos Aires-GBA",usuariosXProvincias[1]);
+				provinciasXUsuariosMap.put("Capital Federal",usuariosXProvincias[2]);
+				provinciasXUsuariosMap.put("Catamarca",usuariosXProvincias[3]);
+				provinciasXUsuariosMap.put("Chaco",usuariosXProvincias[4]);
+				provinciasXUsuariosMap.put("Chubut",usuariosXProvincias[5]);
+				provinciasXUsuariosMap.put("Córdoba",usuariosXProvincias[6]);
+				provinciasXUsuariosMap.put("Corrientes",usuariosXProvincias[7]);
+				provinciasXUsuariosMap.put("Entre Ríos",usuariosXProvincias[8]);
+				provinciasXUsuariosMap.put("Formosa",usuariosXProvincias[9]);
+				provinciasXUsuariosMap.put("Jujuy",usuariosXProvincias[10]);
+				provinciasXUsuariosMap.put("La Pampa",usuariosXProvincias[11]);
+				provinciasXUsuariosMap.put("La Rioja",usuariosXProvincias[12]);
+				provinciasXUsuariosMap.put("Mendoza",usuariosXProvincias[13]);
+				provinciasXUsuariosMap.put("Misiones",usuariosXProvincias[14]);
+				provinciasXUsuariosMap.put("Neuquén",usuariosXProvincias[15]);
+				provinciasXUsuariosMap.put("Río Negro",usuariosXProvincias[16]);
+				provinciasXUsuariosMap.put("Salta",usuariosXProvincias[17]);
+				provinciasXUsuariosMap.put("San Juan",usuariosXProvincias[18]);
+				provinciasXUsuariosMap.put("San Luis",usuariosXProvincias[19]);
+				provinciasXUsuariosMap.put("Santa Cruz",usuariosXProvincias[20]);
+				provinciasXUsuariosMap.put("Santa Fe",usuariosXProvincias[21]);
+				provinciasXUsuariosMap.put("Santiago del Estero",usuariosXProvincias[22]);
+				provinciasXUsuariosMap.put("Tierra del Fuego",usuariosXProvincias[23]);
+				provinciasXUsuariosMap.put("Tucumán",usuariosXProvincias[24]);
+				
+				///Estas dos lineas que siguen convierten el map en un json para leerlo desde el jsp con javascript
+				Gson gson = new Gson();
+				String jsonMap = gson.toJson(provinciasXUsuariosMap);
+				request.setAttribute("jsonMap", jsonMap);
+				
+				request.removeAttribute("graficoAnual");
+				request.removeAttribute("graficoTipos");
+				request.removeAttribute("graficoUserXSexo");
+				request.setAttribute("graficoUserXProvincia", true);
+				
+			} catch (DBException | GenericException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				request.setAttribute("ErrorGrafico", "Parece que algo no salió mal, intenta de nuevo mas tarde.");
+				return;
+			}
+		}
 		//INFORME DE CUENTAS POR MES
 		if(request.getParameter("btnGenerarInformeCuentasMensual")!=null) {
 			int ano = Integer.parseInt(request.getParameter("selectAno"));
@@ -96,20 +145,22 @@ public class ServletInformes extends HttpServlet {
 			try {
 				cantidadSeleccionada = cneg.getCuentasCreadasSegunPeriodo(mes, ano);
 				cantidadAnoAnterior = cneg.getCuentasCreadasSegunPeriodo(mes, ano-1);
+				///Solicitado
+				request.setAttribute("cantidad1", cantidadSeleccionada);
+				request.setAttribute("mes", mesTxt);
+				request.setAttribute("ano", ano);
+				///Mismo mes del año anterior para comparar
+				request.setAttribute("cantidad2", cantidadAnoAnterior);
+				request.setAttribute("mes", mesTxt);
+				request.setAttribute("anoAnterior", ano-1);
+				request.removeAttribute("graficoTipos");
+				request.setAttribute("graficoAnual", true);
 			} catch (DBException | GenericException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("ErrorGrafico", "Parece que algo no salió mal, intenta de nuevo mas tarde.");
+				return;
 			}
-			///Solicitado
-			request.setAttribute("cantidad1", cantidadSeleccionada);
-			request.setAttribute("mes", mesTxt);
-			request.setAttribute("ano", ano);
-			///Mismo mes del año anterior para comparar
-			request.setAttribute("cantidad2", cantidadAnoAnterior);
-			request.setAttribute("mes", mesTxt);
-			request.setAttribute("anoAnterior", ano-1);
-			request.removeAttribute("graficoTipos");
-			request.setAttribute("graficoAnual", true);
 		}
 		//INFORME DE TIPOS DE CUENTAS
 		if(request.getParameter("btnGenerarInformeCuentasTipo")!=null) {
@@ -124,6 +175,8 @@ public class ServletInformes extends HttpServlet {
 			} catch (DBException | GenericException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("ErrorGrafico", "Parece que algo no salió mal, intenta de nuevo mas tarde.");
+				return;
 			}
 		}
 		

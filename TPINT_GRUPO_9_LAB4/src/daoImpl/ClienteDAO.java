@@ -606,7 +606,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		@Override
 		public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException {
-			int[] cantidades = new int[23];
+			int[] cantidades = new int[25];
 			
 			String query = "SELECT P.IDProvincia AS Provincia, COUNT(U.IDUsuario) AS 'CantidadUsuarios'\r\n" + 
 					"FROM Provincia P\r\n" + 
@@ -620,7 +620,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 		 	        try (ResultSet rs = ps.executeQuery()) {
 			 	        while(rs.next()) {
 			 	        	int i = rs.getInt("Provincia");
-			 	        	cantidades[i] = rs.getInt("CantidadUsuarios");
+			 	        	cantidades[i-1] = rs.getInt("CantidadUsuarios");
 			 	        }
 		 	        }
 		 	}catch (SQLException e) {

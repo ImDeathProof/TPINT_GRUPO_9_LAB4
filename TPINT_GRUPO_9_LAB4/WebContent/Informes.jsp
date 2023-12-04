@@ -50,7 +50,7 @@
 											<div id="controlesGraficoUserXSexo">
 												<h6>Usuarios según provincia</h6>
 												<p>Genera un grafico que muestra cuantos clientes tiene cada provincia</p>
-												<form>
+												<form action="ServletInformes" method="post">
 													<div class="p-2">
 														<input class="btn btn-success" value="Generar Informe" name="btnGenerarInformeUsuariosXProvincias" type="submit">
 													</div>
@@ -95,7 +95,53 @@
 													        options: opciones
 													      });
 													  </script>
-											<%}}%>
+											<%}}else if(request.getAttribute("graficoUserXProvincia")!=null){
+													if((boolean)request.getAttribute("graficoUserXProvincia")){
+													%>
+														<div class="row">
+															<canvas id="graficoUserXProvincia" style="width:300px"></canvas>
+														</div>
+														<!-- SCRIPT TORTA USUARIOS X PROVINCIA -->
+														 <script>
+															// Primero obtengo el json 
+															var jsonMap = '<%= request.getAttribute("jsonMap") %>';
+															console.log("jsonMap:", jsonMap);
+															var data = JSON.parse(jsonMap);
+
+														    // Obtener las etiquetas (nombres de las porciones)
+														    var labels = Object.keys(data);
+
+														    // Obtener los valores (datos numéricos)
+														    var values = Object.values(data);
+
+														    // Configurar los datos para el gráfico de torta
+														    var config = {
+														      type: 'pie',
+														      data: {
+														        labels: labels,
+														        datasets: [{
+														          data: values,
+														          backgroundColor: [
+														        	  'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)',
+														        	  'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)',
+														        	  'rgba(255, 0, 0, 0.7)', 'rgba(0, 255, 0, 0.7)', 'rgba(0, 0, 255, 0.7)',
+														        	  'rgba(128, 0, 128, 0.7)', 'rgba(128, 128, 0, 0.7)', 'rgba(0, 128, 128, 0.7)',
+														        	  'rgba(255, 165, 0, 0.7)', 'rgba(0, 255, 255, 0.7)', 'rgba(255, 0, 255, 0.7)',
+														        	  'rgba(128, 128, 128, 0.7)', 'rgba(255, 99, 71, 0.7)', 'rgba(0, 128, 0, 0.7)',
+														        	  'rgba(128, 0, 0, 0.7)', 'rgba(0, 0, 128, 0.7)', 'rgba(255, 255, 0, 0.7)',
+														        	  'rgba(0, 255, 128, 0.7)', 'rgba(128, 0, 255, 0.7)', 'rgba(255, 128, 0, 0.7)'
+														          ],
+														        }],
+														      },
+														    };
+
+														    // Obtener el contexto del lienzo
+														    var ctx = document.getElementById('graficoUserXProvincia').getContext('2d');
+
+														    // Crear el gráfico de torta
+														    var myPieChart = new Chart(ctx, config);
+														  </script>
+													<%}} %>
 										</div>
 									</div>
 								</div>
