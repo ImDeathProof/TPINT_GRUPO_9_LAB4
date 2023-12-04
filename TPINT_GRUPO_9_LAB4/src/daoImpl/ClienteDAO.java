@@ -27,7 +27,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 	 
 	 DireccionNeg dNeg = new DireccionNegImpl();
@@ -57,7 +57,7 @@ public class ClienteDAO implements ClienteDaoInterface {
 	            preparedStatement.setString(4, cliente.get_Apellido());
 	            preparedStatement.setLong(5, cliente.get_DNI());
 	            preparedStatement.setLong(6, cliente.get_CUIL());
-	            preparedStatement.setInt(7, cliente.is_Sexo() ? 1 : 0);
+	            preparedStatement.setInt(7, cliente.is_Sexo() ? 1 : 0); //1 Masculino 0 Femenino
 	            preparedStatement.setString(8, cliente.get_Nacionalidad());
 
 	            java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(cliente.get_FechaNacimiento());
@@ -602,6 +602,61 @@ public class ClienteDAO implements ClienteDaoInterface {
 		    }
 
 		    return listaLocalidades;
+		}
+
+		@Override
+		public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException {
+			int[] cantidades = new int[23];
+			
+			String query = "SELECT P.IDProvincia AS Provincia, COUNT(U.IDUsuario) AS 'CantidadUsuarios'\r\n" + 
+					"FROM Provincia P\r\n" + 
+					"JOIN Direccion D ON P.IDProvincia = D.IDProvincia\r\n" + 
+					"JOIN Usuario U ON D.IDDireccion = U.IDDireccion\r\n" + 
+					"GROUP BY P.IDProvincia;";
+
+		 	try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		 			PreparedStatement ps = cn.prepareStatement(query)) {
+
+		 	        try (ResultSet rs = ps.executeQuery()) {
+			 	        while(rs.next()) {
+			 	        	int i = rs.getInt("Provincia");
+			 	        	cantidades[i] = rs.getInt("CantidadUsuarios");
+			 	        }
+		 	        }
+		 	}catch (SQLException e) {
+		 		e.printStackTrace();
+			    throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+			}catch (Exception e){
+				e.printStackTrace();
+				throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+			}
+
+		 	return cantidades;
+		}
+
+		@Override
+		public int getCantidadDeUsuariosXSexo(String sexo) throws DBException, GenericException {
+			int cantidad = 0;
+			
+			String query = "SELECT COUNT(*) AS 'CANTIDAD' FROM USUARIO WHERE SEXO = ?";
+
+		 	try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
+		 			PreparedStatement ps = cn.prepareStatement(query)) {
+			 		ps.setString(1, sexo);
+		 	        try (ResultSet rs = ps.executeQuery()) {
+			 	        if (rs.next()) {
+			 	        	cantidad = rs.getInt("CANTIDAD");
+			 	        }
+		 	        }
+		 	}catch (SQLException e) {
+		 		e.printStackTrace();
+			    throw new DBException("Hubo un problema de conexión con la DB de Cuentas");
+			}catch (Exception e){
+				e.printStackTrace();
+				throw new GenericException("Hubo un error inesperado. Intente nuevamente más tarde");
+			}
+
+		 	return cantidad;
 		}
 
 

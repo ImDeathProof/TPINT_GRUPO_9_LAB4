@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.DBException;
 import entidad.GenericException;
+import negocio.ClienteNeg;
 import negocio.CuentaNeg;
+import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 
 /**
@@ -30,6 +32,7 @@ import negocioImpl.CuentaNegImpl;
 public class ServletInformes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     CuentaNeg cneg=new CuentaNegImpl();
+    ClienteNeg clNeg=new ClienteNegImpl();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -52,6 +55,24 @@ public class ServletInformes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		//INFORME DE CLIENTES POR SEXO
+		if(request.getParameter("btnGenerarInformeUsuariosXSexo")!=null) {
+			try {
+				int varones = clNeg.getCantidadDeUsuariosXSexo("1");
+				int mujeres = clNeg.getCantidadDeUsuariosXSexo("0");
+				
+				request.setAttribute("varones", varones);
+				request.setAttribute("mujeres", mujeres);
+				
+				request.removeAttribute("graficoAnual");
+				request.removeAttribute("graficoTipos");
+				request.setAttribute("graficoUserXSexo", true);
+				
+			} catch (DBException | GenericException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		//INFORME DE CUENTAS POR MES
 		if(request.getParameter("btnGenerarInformeCuentasMensual")!=null) {
 			int ano = Integer.parseInt(request.getParameter("selectAno"));

@@ -26,5 +26,7 @@ public interface ClienteDaoInterface {
 	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException;
 	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException;
 	public ArrayList<Cliente> obtenerUsuariosPaginadosFiltrados(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
-
+	public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException;
+	public int getCantidadDeUsuariosXSexo(String sexo)throws DBException, GenericException;
+	
 }

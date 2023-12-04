@@ -93,4 +93,16 @@ public class ClienteNegImpl implements ClienteNeg {
 		return clDao.getCantPaginasXFiltro(elementoBusqueda, criterioBusqueda);
 	}
 
+	@Override
+	public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.getCantidadDeUsuariosXProvincia();
+	}
+
+	@Override
+	public int getCantidadDeUsuariosXSexo(String sexo) throws DBException, GenericException {
+		// TODO Auto-generated method stub
+		return clDao.getCantidadDeUsuariosXSexo(sexo);
+	}
+
 }

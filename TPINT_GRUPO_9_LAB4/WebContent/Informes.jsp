@@ -29,17 +29,74 @@
 					  <!-- INFORMES DE CLIENTES -->
 					  <div class="accordion-item">
 						    <h2 class="accordion-header">
-							      <button class="accordion-button collapsed" name="btnInformeClientes" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-							        INFORMES CLIENTES
-							      </button>
-							    </h2>
+								<button class="accordion-button collapsed" name="btnInformeClientes" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+									INFORMES CLIENTES
+								</button>
+							</h2>
 						    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
 						    	<div class="accordion-body">
 									<div class="row border">
-										<div class="col-6 border">
-										PANEL ADMINISTRACION</div>
-										<div class="col-6 border">
-										VISUALIZACION</div>
+										<div class="col-4 p-2 border">
+											<div id="controlesGraficoUserXSexo">
+												<h6>Usuarios según sexo</h6>
+												<p>Genera un grafico que muestra cuantos clientes hombres y mujeres tiene el banco</p>
+												<form action="ServletInformes" method="post">
+													<div class="p-2">
+														<input class="btn btn-success" value="Generar Informe" name="btnGenerarInformeUsuariosXSexo" type="submit">
+													</div>
+												</form>
+											</div>
+											<hr>
+											<div id="controlesGraficoUserXSexo">
+												<h6>Usuarios según provincia</h6>
+												<p>Genera un grafico que muestra cuantos clientes tiene cada provincia</p>
+												<form>
+													<div class="p-2">
+														<input class="btn btn-success" value="Generar Informe" name="btnGenerarInformeUsuariosXProvincias" type="submit">
+													</div>
+												</form>
+											</div>
+										</div>
+										<div class="col-8 p-2 border">
+												<%if(request.getAttribute("graficoUserXSexo")!=null){
+													if((boolean)request.getAttribute("graficoUserXSexo")){
+														Integer varones = (Integer)request.getAttribute("varones");
+														Integer mujeres = (Integer)request.getAttribute("mujeres");
+												%>
+													
+														<div class="row">
+															<canvas id="graficoUsersXSexo" style="width:300px"></canvas>
+														</div>
+														<!-- SCRIPT BARRAS DE USUARIOS X SEXO -->
+														<script>
+														var data = {
+													  			labels: ['Clientes Varones','Clientes Mujeres'],
+													  	        datasets:[{
+													  	            label: 'Resultado',
+													  	            data: [<%=varones%>, <%=mujeres%>],
+													  	            borderColor: 'rgba(75, 192, 192, 1)',
+													  	            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+													  	            borderWidth: 1
+													  	        }]
+													  	};
+													  	var opciones = {
+													  			responsive: true,
+													  	        maintainAspectRatio: false,
+													  	        scales: {
+													  	            y: {
+													  	                beginAtZero: true
+													  	            }
+													  	        }
+													  			    };
+													  	var ctx = document.getElementById('graficoUsersXSexo').getContext('2d');
+													  	var miGrafico = new Chart(ctx, {
+													        type: 'bar',
+													        data: data,
+													        options: opciones
+													      });
+													  </script>
+											<%}}%>
+										</div>
 									</div>
 								</div>
 						    </div>
@@ -108,7 +165,7 @@
 												</form>
 											</div>
 										</div>
-										<div class="col-8 border">
+										<div class="col-8 p-2 border">
 											<%if(request.getAttribute("graficoAnual")!=null){
 												if((boolean)request.getAttribute("graficoAnual")){
 												
@@ -216,17 +273,22 @@
         // Recupera el estado almacenado de la cookie
         var accordionState = localStorage.getItem('accordionState');
 
-        // Si hay un estado almacenado, aplica la clase 'show' al Accordion
-        if (accordionState === 'show') {
-            $('#flush-collapseTwo').addClass('show');
-        }
+        // Itera sobre los elementos con los IDs específicos de los accordions
+        $('#flush-collapseOne, #flush-collapseTwo').each(function() {
+            var accordionId = $(this).attr('id');
 
-        // Captura el evento de ocultar o mostrar el Accordion
-        $('#flush-collapseTwo').on('hidden.bs.collapse shown.bs.collapse', function () {
-            // Almacena el estado en la cookie cuando se oculta o muestra el Accordion
-            localStorage.setItem('accordionState', $(this).hasClass('show') ? 'show' : '');
+            // Si hay un estado almacenado y coincide con el ID del accordion, aplica la clase 'show'
+            if (accordionState === accordionId) {
+                $('#' + accordionId).addClass('show');
+            }
+
+            // Captura el evento de ocultar o mostrar el Accordion
+            $('#' + accordionId).on('hidden.bs.collapse shown.bs.collapse', function () {
+                // Almacena el estado en la cookie cuando se oculta o muestra el Accordion
+                localStorage.setItem('accordionState', $(this).hasClass('show') ? accordionId : '');
+            });
         });
-    	});
+    });
 	</script>
 	
   
