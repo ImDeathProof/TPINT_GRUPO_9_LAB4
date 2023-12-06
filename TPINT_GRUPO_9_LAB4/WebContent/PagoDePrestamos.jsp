@@ -30,7 +30,7 @@
 					<div class="row">
 						<h1>Pago de Préstamos</h1>
 						<form method="post" action="ServletListarCuotas">
-								<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver Cuotas">
+								<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver todas las cuotas">
 						</form>
 					</div>
 					<%

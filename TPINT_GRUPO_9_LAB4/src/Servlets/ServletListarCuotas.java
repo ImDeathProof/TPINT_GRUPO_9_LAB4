@@ -46,6 +46,30 @@ public class ServletListarCuotas extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(request.getParameter("Id")!=null) {
+			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+			int idPrestamo = Integer.parseInt(request.getParameter("Id"));
+			try {
+				ArrayList<Cuota> listaCuotasXPrestamo = ctaNeg.obtenerCuotasPorPrestamo(idPrestamo);
+				request.setAttribute("listaCuotas", listaCuotasXPrestamo);
+				try {
+					ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
+					request.setAttribute("listaCuentas", listaCt);
+				}catch (GenericException e) {
+			        e.printStackTrace();
+			        request.getSession().setAttribute("error", "Hubo un error al listar las cuotas \n"+ e.getMessage());	        
+			        response.sendRedirect("PagoDePrestamos.jsp");
+			    }
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (GenericException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -66,7 +90,7 @@ public class ServletListarCuotas extends HttpServlet {
 					}catch (GenericException e) {
 				        e.printStackTrace();
 				        request.getSession().setAttribute("error", "Hubo un error al listar las cuotas \n"+ e.getMessage());	        
-				        response.sendRedirect("Inicio.jsp");
+				        response.sendRedirect("PagoDePrestamos.jsp");
 				    }
 					RequestDispatcher rd = request.getRequestDispatcher("PagoDePrestamos.jsp");
 					rd.forward(request, response);
@@ -76,15 +100,13 @@ public class ServletListarCuotas extends HttpServlet {
 			    }catch (GenericException e) {
 			        e.printStackTrace();
 			        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
-			        response.sendRedirect("Inicio.jsp");
+			        response.sendRedirect("PagoDePrestamos.jsp");
 			    }finally {
 					
 	    		}
 			
 		}
-		else {
-			response.sendRedirect("Inicio.jsp");
-		}
+		
 	}
 
 }
