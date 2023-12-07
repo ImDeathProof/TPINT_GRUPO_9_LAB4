@@ -23,6 +23,6 @@ public interface MovimientoDaoInterface {
 	 public int getCantMovimientos(LocalDate fechaInicio, LocalDate fechaFin) throws DBException, GenericException;
 	 public BigDecimal getPromedioMonto(LocalDate fechaInicio, LocalDate fechaFin) throws DBException, GenericException;
 	 public int getCantPaginas() throws DBException, GenericException;
-	 public int getCantPaginas(int idCliente) throws DBException, GenericException;
+	 public int getCantPaginas(int idCuenta) throws DBException, GenericException;
 
 }

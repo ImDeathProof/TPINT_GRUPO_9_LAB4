@@ -42,32 +42,32 @@ public class ServletMisMovimientos extends HttpServlet {
 
        try {
         
-        if (paginaElegida != null && !paginaElegida.isEmpty()) {
-            try {
-                numeroPagina = Integer.parseInt(paginaElegida);
-            } catch (NumberFormatException e) {
-            	  throw e;
-            }
-        }
-        HttpSession session = request.getSession();
-        int idCuenta = (int) session.getAttribute("idCliente");         
-        
-        ArrayList<Movimiento> lista = movNeg.obtenerInformePaginado(numeroPagina, 5,idCuenta);
-        request.setAttribute("misMovimientos", lista);     
-        
-        request.setAttribute("cantPagsInforme", movNeg.getCantPaginas(idCuenta));
+	        if (paginaElegida != null && !paginaElegida.isEmpty()) {
+	            try {
+	                numeroPagina = Integer.parseInt(paginaElegida);
+	            } catch (NumberFormatException e) {
+	            	  throw e;
+	            }
+	        }
+	        HttpSession session = request.getSession();
+	        int idCuenta = (int) session.getAttribute("idCuenta");         
+	        
+	        ArrayList<Movimiento> lista = movNeg.obtenerInformePaginado(numeroPagina, 5,idCuenta);
+	        request.setAttribute("misMovimientos", lista);     
+	        
+	        request.setAttribute("cantPagsMisMovimientos", movNeg.getCantPaginas(idCuenta));
 
-        RequestDispatcher rd = request.getRequestDispatcher("MisCuentas.jsp");
-        rd.forward(request, response);      
-	}catch (DBException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
-        response.sendRedirect("Inicio.jsp");
-    }catch (GenericException e) {
-        e.printStackTrace();
-        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
-        response.sendRedirect("PanelDeControl.jsp");
-    }
+		}catch (DBException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
+	        response.sendRedirect("MisCuentas.jsp");
+	    }catch (GenericException e) {
+	        e.printStackTrace();
+	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde");	        
+	        response.sendRedirect("MisCuentas.jsp");
+	    }
+	    RequestDispatcher rd = request.getRequestDispatcher("MisCuentas.jsp");
+	    rd.forward(request, response);      
        
        
        
@@ -97,11 +97,11 @@ public class ServletMisMovimientos extends HttpServlet {
 		}catch (DBException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	        
-	        response.sendRedirect("Inicio.jsp");
+	        response.sendRedirect("MisCuentas.jsp");
 	    }catch (GenericException e) {
 	        e.printStackTrace();
 	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());		        
-	        response.sendRedirect("Inicio.jsp");
+	        response.sendRedirect("MisCuentas.jsp");
 	    }
 	}
 

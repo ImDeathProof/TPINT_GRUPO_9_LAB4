@@ -67,8 +67,8 @@ public class MovimientoNegImpl implements MovimientoNeg {
 	}
 
 	@Override
-	public int getCantPaginas(int idCliente)  throws DBException, GenericException{
-		return movDao.getCantPaginas(idCliente);
+	public int getCantPaginas(int idCuenta)  throws DBException, GenericException{
+		return movDao.getCantPaginas(idCuenta);
 	}
 
 }

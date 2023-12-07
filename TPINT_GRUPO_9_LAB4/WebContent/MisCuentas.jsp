@@ -38,7 +38,11 @@
             String filtroCuentas = request.getParameter("filtroCuentas");
             if (cuentas != null) {
             %>
-                
+            <%if(request.getAttribute("error")!= null){%>
+            	<div class="alert alert-danger">
+            		<%=(String)request.getAttribute("error")%>
+            	</div>
+            <%}%>
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -112,7 +116,7 @@
             <form method="get" action="ServletMisMovimientos">
 			 <%
 				 int cantPags = (int)request.getAttribute("cantPagsMisMovimientos");
-				 if (cantPags != 0) {
+				 if (cantPags > 0) {
 					 for (int i = 1; i <= cantPags; i++) {
 					 %>
 					 <button class="btn btn-primary" type="submit" name="pagina" value="<%= i %>">

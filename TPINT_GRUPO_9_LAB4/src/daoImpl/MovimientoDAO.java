@@ -240,6 +240,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	                           "FROM Movimiento m " +
 	                           "JOIN TiposMovimientos tm ON m.IDTipo = tm.IDTipo " +
 	                           "WHERE IdCuenta = ? " +
+	                           "ORDER BY m.Fecha DESC " +
 	                           "LIMIT " + pageSize +
 	                           " OFFSET " + offset;
 
@@ -387,15 +388,15 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 		    return cant;
 		}
 		
-		public int getCantPaginas(int idCliente) throws DBException, GenericException {
+		public int getCantPaginas(int idCuenta) throws DBException, GenericException {
 		    int cant = 0;
 
-		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IDUsuario = ?;";
+		    String query = "SELECT CEIL(COUNT(*) / 5) AS paginas FROM Movimiento where IDCuenta = ?;";
 
 		    try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 		         PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 		        
-		        preparedStatement.setInt(1, idCliente);
+		        preparedStatement.setInt(1, idCuenta);
 
 		        try (ResultSet rs = preparedStatement.executeQuery()) {
 		            if (rs.next()) {
