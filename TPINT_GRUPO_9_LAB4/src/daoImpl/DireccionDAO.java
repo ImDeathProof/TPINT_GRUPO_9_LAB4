@@ -20,7 +20,7 @@ public class DireccionDAO implements DireccionDaoInterface{
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public DireccionDAO() {

@@ -74,8 +74,6 @@ public class ServletLogin extends HttpServlet {
 		        } else {
 		            request.getSession().setAttribute("usuarioAutenticado", usuarioActivo);
 		            request.getSession().setAttribute("localidades",dNeg.getAllLocalidades(usuarioActivo.get_Direccion().get_Provincia().getIdProvincia()));
-					request.getSession().setAttribute("provincia",usuarioActivo.get_Direccion().get_Provincia());	
-					request.getSession().setAttribute("lcCliente",usuarioActivo.get_Direccion().get_Localidad());	
 					LocalDate fechaNacimiento = LocalDate.of(1, 1, 1);
 					request.getSession().setAttribute("registro",new Cliente("X","X","X","X",0,0,false,"X",fechaNacimiento,new Direccion(),"X@gmail.com",0));	
 
@@ -83,7 +81,7 @@ public class ServletLogin extends HttpServlet {
 		                request.getSession().removeAttribute("error");
 		            }
 
-		            response.sendRedirect("PerfilUsuario.jsp");
+		            response.sendRedirect("ServletIrAPerfil");
 		        }
 		    } catch (DBException e) {
 		        e.printStackTrace();

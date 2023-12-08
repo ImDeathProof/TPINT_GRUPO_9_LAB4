@@ -30,7 +30,7 @@ import entidad.GenericException;
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
@@ -134,14 +134,7 @@ public class CuentaDAO implements CuentaDaoInterface {
     
     public int pedirCuenta (String tipoCuenta, int idCliente) throws DBException, ValidateException, GenericException
     {		
-//    		if ("Ahorros".equals(tipoCuenta) && tieneCuentaAhorros(idCliente))
-//	        {
-//	        	return 0;		
-//	       	}
-//    		else if ("Corriente".equals(tipoCuenta) && tieneCuentaCorriente(idCliente))
-//	        {
-//	        	return 0;
-//	        }
+
     	   String query = "INSERT INTO Cuenta (TipoCuenta, NumeroCuenta, CBU, Saldo, Fecha_Creacion, IDUsuario, Estado)" +
 	                "VALUES (?, ?, ?, 0, ?, ?,0)";
 

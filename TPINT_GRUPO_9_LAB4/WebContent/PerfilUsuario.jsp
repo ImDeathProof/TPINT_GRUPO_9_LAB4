@@ -108,19 +108,36 @@
 			</div>
 	</div>
 	 <% if (session.getAttribute("errorModificarUser") != null) { %>
-	         <div class="alert alert-danger">
+	         <div id="errorAlert" class="alert alert-danger">
 	              <%= (String)session.getAttribute("errorModificarUser")%> 
 	         </div>
 	     	<% } else if (session.getAttribute("usuarioModificado") != null)
 	     		{%>
-	     	 <div class="alert alert-success">
+	     	 <div id="successAlert"  class="alert alert-success">
 	              <%= (String)session.getAttribute("usuarioModificado")%> 
 	         </div>
 	     		<%} %>
 	</form>
 	<% } %>
 	
-	
 </body>
+
+<script>
+    // Ocultar el mensaje de error después de 5000 milisegundos (5 segundos)
+    setTimeout(function() {
+        var errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 5000);
+
+    // Ocultar el mensaje de éxito después de 5000 milisegundos (5 segundos)
+    setTimeout(function() {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 5000);
+</script>
 
 </html>
