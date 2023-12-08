@@ -30,15 +30,12 @@ public class ServletIrAPerfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		request.getSession().removeAttribute("usuarioAModificar");
+				
 		Cliente cliente = (Cliente) request.getSession().getAttribute("usuarioAutenticado"); 	
 		request.getSession().setAttribute("lcCliente",cliente.get_Direccion().get_Localidad());
 		request.getSession().setAttribute("provincia",cliente.get_Direccion().get_Provincia());
-		int a = 0;
-		
-		if(a == 0)
-		{
-			int b = 1;
-		}
+
 		response.sendRedirect("PerfilUsuario.jsp");
 	}
 

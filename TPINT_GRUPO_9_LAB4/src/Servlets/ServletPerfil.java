@@ -60,10 +60,6 @@ public class ServletPerfil extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getParameter("btnModificar")!=null) {
-					request.getSession().removeAttribute("usuarioModificado");
-					request.getSession().removeAttribute("errorModificarUser");
-			
 					Cliente cliente = new Cliente();
 					HttpSession session = request.getSession();
 					Cliente clienteviejo = (Cliente)session.getAttribute("usuarioAutenticado");
@@ -76,8 +72,43 @@ public class ServletPerfil extends HttpServlet {
 					cliente.set_DNI(Long.parseLong(request.getParameter("txtDni")));
 					cliente.set_CUIL(Long.parseLong(request.getParameter("txtCuil")));
 					cliente.set_Nacionalidad(request.getParameter("txtNacionalidad"));
-
+					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
+					cliente.set_Email(request.getParameter("txtEmail"));
+					cliente.set_FechaNacimiento(LocalDate.parse(request.getParameter("txtFNacimiento")));
+					cliente.set_Admin(clienteviejo.is_Admin());
 					
+					String selectedSex = request.getParameter("sexo");
+					if ("Masculino".equals(selectedSex)) {
+					    cliente.set_Sexo(true);  
+					} else if ("Femenino".equals(selectedSex)) {
+					    cliente.set_Sexo(false);  
+					}
+					Direccion direc = new Direccion();				
+					direc.setId(clienteviejo.get_Direccion().getId());
+					
+					String localId = request.getParameter("Localidad");
+					int lcId = Integer.parseInt(localId);
+					
+					String proviId = request.getParameter("Provincia");
+					int prId = Integer.parseInt(proviId);
+
+					try {
+						direc.set_Provincia(dNeg.obtenerProvinciaPorID(prId));
+						direc.set_Localidad(dNeg.obtenerLocalidadPorID(lcId));
+					} catch (DBException | GenericException e2) {
+						e2.printStackTrace();
+					}
+
+					direc.setCalle(request.getParameter("txtDireccion"));
+					direc.setNumero(Integer.parseInt(request.getParameter("txtNum")));
+					
+					cliente.set_Direccion(direc);
+					
+					if(request.getParameter("btnModificar")!=null) {
+						
+					request.getSession().removeAttribute("usuarioModificado");
+					request.getSession().removeAttribute("errorModificarUser");
+					request.getSession().removeAttribute("usuarioAModificar");			
 					//DIRECCION
 					
 					Direccion dic = new Direccion();	
@@ -108,20 +139,9 @@ public class ServletPerfil extends HttpServlet {
 					
 					request.getSession().setAttribute("lcCliente",dic.get_Localidad());
 					
-					/////////////////////////////////////
+					/////////////////////////////////////				
 					
-					cliente.set_Telefono(Long.parseLong(request.getParameter("txtTelefono")));
-					cliente.set_Email(request.getParameter("txtEmail"));
-					cliente.set_FechaNacimiento(LocalDate.parse(request.getParameter("txtFNacimiento")));
-					cliente.set_Admin(clienteviejo.is_Admin());
-					
-					String selectedSex = request.getParameter("sexo");
-					if ("Masculino".equals(selectedSex)) {
-					    cliente.set_Sexo(true);  
-					} else if ("Femenino".equals(selectedSex)) {
-					    cliente.set_Sexo(false);  
-					}
-			
+						
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
 				    					
 					try {
@@ -161,6 +181,7 @@ public class ServletPerfil extends HttpServlet {
 		}
 		else
 		{
+			  request.getSession().setAttribute("usuarioAModificar", cliente);
 			  String provinciaId = request.getParameter("Provincia");
 		      int provId = Integer.parseInt(provinciaId);
 
