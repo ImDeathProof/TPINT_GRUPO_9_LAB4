@@ -38,13 +38,12 @@
            <div>
 		   <ul class="navbar-nav">
 		    <li class="nav-item">
-			    <a class="btn" type="submit" href="PerfilUsuario.jsp">Admin</a>
+			    <a class="btn" type="submit" href="ServletIrAPerfil">Admin</a>
 			</li>
 		    <li class="nav-item">
 		        <a class="btn" type="submit" href="ServletCerrarSesion">Cerrar sesión</a>
 		    </li>
 			</ul>
-
         </div>
     </div>
 </nav>

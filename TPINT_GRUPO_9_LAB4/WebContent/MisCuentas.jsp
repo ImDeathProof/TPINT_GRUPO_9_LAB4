@@ -72,7 +72,7 @@
                         <td>
 	                        <form action="ServletMisMovimientos" method="post">
 				             <input type="hidden" name="idCliente" value="<%= cuenta.getIdCuenta() %>" />
-				             <button type="submit" class="btn btn-primary mt-2" name="btnMisMovimientos">Ver Movimientos de la cuenta</button>
+				             <button type="submit" class="btn btn-primary mt-2" name="btnMisMovimientos" <%= cuenta.getEstado() ? "" : "disabled" %>>Ver Movimientos de la cuenta</button>
 				            </form>
 				        </td>
                     </tr>

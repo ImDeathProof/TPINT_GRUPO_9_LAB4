@@ -73,9 +73,11 @@
 									                        <select name="SelectCuentas" class="form-control p-2">
 											                   <option value="Seleccionar">Seleccionar cuenta</option>
 											                    <%if(listaCuentas != null && !listaCuentas.isEmpty()){
-											                    for(Cuenta ct : listaCuentas){%>
+											                    for(Cuenta ct : listaCuentas){
+											                    if(ct.getEstado())
+											                    {%>
 											                    	<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
-											                    <%}} %>
+											                    <%}}} %>
 								    	            		</select>
 									                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
 									                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
