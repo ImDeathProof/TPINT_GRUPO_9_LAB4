@@ -2206,20 +2206,20 @@ VALUES ('Corriente', 20000.00, '29', '2022-11-15 00:00:00', 1, '9999', 8);
 -- Inserts Prestamos
 
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',9,8);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(1200.00,100.00,12,30,1200.00,0,'2022-06-05 00:00:00','Pendiente',8,7);
+VALUES(1200.00,100.00,12,30,1200.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',5,4);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',2,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',9,8);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',7,6);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-03-28 00:00:00','Pendiente',9,8);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-03-28 00:00:00','Pendiente',7,6);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
 VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-08-10 00:00:00','Pendiente',7,6);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-06-05 00:00:00','Pendiente',5,4);
+VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-06-05 00:00:00','Pendiente',5,5);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0.00,'2023-05-12 00:00:00','Rechazado',4,3);
+VALUES(12000.00,1000.00,12,30,12000.00,0.00,'2023-05-12 00:00:00','Rechazado',5,5);

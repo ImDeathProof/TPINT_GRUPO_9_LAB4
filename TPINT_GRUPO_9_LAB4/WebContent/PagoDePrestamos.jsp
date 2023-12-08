@@ -50,7 +50,7 @@
 							   <table class="table">
 								    <thead>
 								        <tr>
-								             <th scope="col">Fecha de pago</th>	
+								            <th scope="col">Fecha de pago</th>	
 								            <th scope="col">Monto a pagar</th>
 								            <th scope="col">N° de cuota</th>
 								            <th scope="col">Cuotas totales</th>
@@ -63,7 +63,7 @@
 								            
 									            <tr>
 									                
-									                 <td><%= cta.getFechaDePago() %></td>							                
+									                 <td><%= (cta.getFechaDePago() == null)?"-":cta.getFechaDePago()%></td>							                
 									                <td><%= cta.getMontoAPagar() %></td>
 									                <td><%= cta.getNro_Cuota() %></td>
 									                <td><%= cta.getCuotas_Totales() %></td>

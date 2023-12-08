@@ -40,7 +40,7 @@ public class CuotaDAO implements CuotaDaoInterface {
 	@Override
 	public int Pagar(int IDCuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException {
 		int filas = 0;
-		String query = "UPDATE cuotas_x_clientes SET Estado = 'Pagado' WHERE IDUsuario = ? AND IDPrestamo = ? AND IDCuota = ? AND IDCuenta = ?";
+		String query = "UPDATE cuotas_x_clientes SET Estado = 'Pagado', Fecha_Pago = NOW() WHERE IDUsuario = ? AND IDPrestamo = ? AND IDCuota = ? AND IDCuenta = ?";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 			preparedStatement.setInt(1, IDUsuario);
@@ -66,20 +66,20 @@ public class CuotaDAO implements CuotaDaoInterface {
 	@Override
 	public int Agregar(Cuota cuota) throws DBException, GenericException {
 		int filas = 0;
-		String query = "INSERT INTO cuotas_x_clientes (Monto_a_Pagar, Estado, Fecha_Pago, IDPrestamo, IDUsuario, IDCuenta, Nro_Cuota, Cuotas_Totales) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO cuotas_x_clientes (Monto_a_Pagar, Estado, Fecha_Pago, IDPrestamo, IDUsuario, IDCuenta, Nro_Cuota, Cuotas_Totales) VALUES (?, ?, null, ?, ?, ?, ?, ?)";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 	            
 				preparedStatement.setBigDecimal(1, cuota.getMontoAPagar());
 				preparedStatement.setString(2, cuota.getEstado());
-				LocalDate fechaActual = LocalDate.now();
-				java.sql.Date sqlFechaActual = java.sql.Date.valueOf(fechaActual);
-				preparedStatement.setDate(3, sqlFechaActual);
-				preparedStatement.setInt(4, cuota.getIDPrestamo());
-				preparedStatement.setInt(5, cuota.getIDUsuario());
-				preparedStatement.setInt(6, cuota.getIDCuenta());
-				preparedStatement.setInt(7, cuota.getNro_Cuota());
-				preparedStatement.setInt(8, cuota.getCuotas_Totales());
+				//LocalDate fechaActual = LocalDate.now();
+				//java.sql.Date sqlFechaActual = java.sql.Date.valueOf(fechaActual);
+				//preparedStatement.setDate(3, sqlFechaActual);
+				preparedStatement.setInt(3, cuota.getIDPrestamo());
+				preparedStatement.setInt(4, cuota.getIDUsuario());
+				preparedStatement.setInt(5, cuota.getIDCuenta());
+				preparedStatement.setInt(6, cuota.getNro_Cuota());
+				preparedStatement.setInt(7, cuota.getCuotas_Totales());
 				
 	            filas = preparedStatement.executeUpdate();
 	       } catch (SQLException e) {
@@ -107,8 +107,10 @@ public class CuotaDAO implements CuotaDaoInterface {
             	cuota.setIDCuota(cuotaResultSet.getInt("IDCuota"));
             	cuota.setCuotas_Totales(cuotaResultSet.getInt("Cuotas_Totales"));
             	cuota.setEstado(cuotaResultSet.getString("Estado"));
-                cuota.setFechaDePago(cuotaResultSet.getTimestamp("Fecha_Pago").toLocalDateTime().toLocalDate());
-                cuota.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
+                java.sql.Timestamp fechaPagoTimestamp = cuotaResultSet.getTimestamp("Fecha_Pago");
+                LocalDate fechaPago = (fechaPagoTimestamp != null) ? fechaPagoTimestamp.toLocalDateTime().toLocalDate() : null;
+                cuota.setFechaDePago(fechaPago);
+            	cuota.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
                 cuota.setIDPrestamo(cuotaResultSet.getInt("IDPrestamo"));
                 cuota.setIDUsuario(cuotaResultSet.getInt("IDUsuario"));
                 cuota.setIDCuenta(cuotaResultSet.getInt("IDCuenta"));
@@ -144,7 +146,9 @@ public class CuotaDAO implements CuotaDaoInterface {
             	cuota.setIDCuota(cuotaResultSet.getInt("IDCuota"));
             	cuota.setCuotas_Totales(cuotaResultSet.getInt("Cuotas_Totales"));
             	cuota.setEstado(cuotaResultSet.getString("Estado"));
-                cuota.setFechaDePago(cuotaResultSet.getTimestamp("Fecha_Pago").toLocalDateTime().toLocalDate());
+            	java.sql.Timestamp fechaPagoTimestamp = cuotaResultSet.getTimestamp("Fecha_Pago");
+                LocalDate fechaPago = (fechaPagoTimestamp != null) ? fechaPagoTimestamp.toLocalDateTime().toLocalDate() : null;
+                cuota.setFechaDePago(fechaPago);
                 cuota.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
                 cuota.setIDPrestamo(cuotaResultSet.getInt("IDPrestamo"));
                 cuota.setIDUsuario(cuotaResultSet.getInt("IDUsuario"));
@@ -181,8 +185,10 @@ public class CuotaDAO implements CuotaDaoInterface {
 	            ct.setIDCuota(cuotaResultSet.getInt("IDCuota"));
 	            ct.setCuotas_Totales(cuotaResultSet.getInt("Cuotas_Totales"));
 	            ct.setEstado(cuotaResultSet.getString("Estado"));
-	            ct.setFechaDePago(cuotaResultSet.getTimestamp("Fecha_Pago").toLocalDateTime().toLocalDate());
-	            ct.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
+	            java.sql.Timestamp fechaPagoTimestamp = cuotaResultSet.getTimestamp("Fecha_Pago");
+                LocalDate fechaPago = (fechaPagoTimestamp != null) ? fechaPagoTimestamp.toLocalDateTime().toLocalDate() : null;
+                ct.setFechaDePago(fechaPago);
+                ct.setNro_Cuota(cuotaResultSet.getInt("Nro_Cuota"));
 	            ct.setIDPrestamo(cuotaResultSet.getInt("IDPrestamo"));
 	            ct.setIDUsuario(cuotaResultSet.getInt("IDUsuario"));
 	            ct.setIDCuenta(cuotaResultSet.getInt("IDCuenta"));
