@@ -29,7 +29,7 @@ public class MovimientoDAO implements MovimientoDaoInterface {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 
 	 public MovimientoDAO() {

@@ -49,7 +49,7 @@ CREATE TABLE Cuenta (
 IDCuenta INT AUTO_INCREMENT PRIMARY KEY,
 TipoCuenta ENUM('Ahorros', 'Corriente') NOT NULL,
 Saldo DECIMAL(10, 2) NOT NULL,
-NumeroCuenta VARCHAR(20) NOT NULL,
+NumeroCuenta INT NOT NULL,
 Fecha_Creacion DATETIME NOT NULL,
 Estado boolean NOT NULL,
 CBU VARCHAR(20) UNIQUE NOT NULL,
@@ -68,8 +68,8 @@ MontoAprobado DECIMAL(10, 2),
 TasaInteres DECIMAL(5, 2),
 Fecha_Pedido DATETIME NOT NULL,
 EstadoPrestamo ENUM('Pendiente', 'Aprobado', 'Rechazado'),
-IDCuenta VARCHAR(20) NOT NULL,
-
+IDCuenta INT NOT NULL,
+FOREIGN KEY (IDCuenta) REFERENCES Cuenta(IDCuenta),
 IDUsuario INT NOT NULL,
 FOREIGN KEY (IDUsuario) REFERENCES Usuario(IDUsuario)
 );
@@ -78,7 +78,7 @@ CREATE TABLE Cuotas_x_Clientes (
 IDCuota INT AUTO_INCREMENT PRIMARY KEY,
 Monto_a_Pagar DECIMAL(10, 2) NOT NULL,
 Estado ENUM('Pagado', 'No Pagado', 'Vencido'),
-Fecha_Pago DATETIME NOT NULL,
+Fecha_Pago DATETIME,
 Nro_Cuota INT NOT NULL,
 Cuotas_Totales INT NOT NULL,
 
