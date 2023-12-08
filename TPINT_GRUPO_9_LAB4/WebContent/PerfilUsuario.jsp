@@ -21,7 +21,16 @@
 	} else { 
 		
 		DireccionNeg dNeg = new DireccionNegImpl();
-		Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado"); 	
+		Cliente cliente = new Cliente(); 
+		
+		if(session.getAttribute("usuarioAModificar") != null)
+		{
+			cliente = (Cliente) session.getAttribute("usuarioAModificar");
+		}
+		else
+		{
+			cliente =(Cliente) session.getAttribute("usuarioAutenticado");
+		}
 		
 		if(cliente.is_Admin()){%>
 			<jsp:include page="NavbarAdmin.jsp"/>

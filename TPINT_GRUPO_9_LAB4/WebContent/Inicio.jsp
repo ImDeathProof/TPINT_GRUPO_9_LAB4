@@ -77,7 +77,7 @@
 			      <div class="card-body">
 			        <h5 class="card-title">PRESTAMOS</h5>
 			        <p class="card-text">Pedi tu prestamo con 0% interes y devolvelo como quieras!</p>
-			        <a href="SolicitarPrestamo.jsp" class="btn btn-primary">Click Aqui!</a>
+			        <a href="InfoPrestamos.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
 			  </div>
@@ -87,7 +87,7 @@
 			        <h5 class="card-title">CUENTAS</h5>
 			        <p class="card-text">Podes pedir o gestionar tus cuenta.</p>
 			        <br>
-			        <a href="MisCuentas.jsp" class="btn btn-primary">Click Aqui!</a>
+			        <a href="InfoCuentas.jsp" class="btn btn-primary">Click Aqui!</a>
 			      </div>
 			    </div>
 			  </div>
