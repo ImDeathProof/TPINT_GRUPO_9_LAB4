@@ -40,13 +40,12 @@ public class CuotaDAO implements CuotaDaoInterface {
 	@Override
 	public int Pagar(int IDCuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException {
 		int filas = 0;
-		String query = "UPDATE cuotas_x_clientes SET Estado = 'Pagado', Fecha_Pago = NOW() WHERE IDUsuario = ? AND IDPrestamo = ? AND IDCuota = ? AND IDCuenta = ?";
+		String query = "UPDATE cuotas_x_clientes SET Estado = 'Pagado', Fecha_Pago = NOW() WHERE IDUsuario = ? AND IDPrestamo = ? AND IDCuota = ?";
 		try (Connection cn = DriverManager.getConnection(host + dbName, user, pass);
 	            PreparedStatement preparedStatement = cn.prepareStatement(query)) {
 			preparedStatement.setInt(1, IDUsuario);
 			preparedStatement.setInt(2, IDPrestamo);
 			preparedStatement.setInt(3, IDCuota);
-			preparedStatement.setInt(4, IDCuenta);
 			filas = preparedStatement.executeUpdate();
 			if(filas > 0) {
 				Cuota ct = ObtenerCuotaPorID(IDCuota);
