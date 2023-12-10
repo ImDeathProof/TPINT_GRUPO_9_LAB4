@@ -1,5 +1,6 @@
 <%@page import="entidad.Prestamo"%>
 <%@page import="entidad.Cliente"%>
+<%@ page import="java.util.UUID" %>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -64,14 +65,16 @@
 							                <td>
 							                    
 							                        <input type="hidden" name="Id_Prestamo" value="<%= pr.getId_Prestamo() %>">
-							                        <% if (pr.getEstado().equalsIgnoreCase("Pendiente")) { %>
+							                        <% if (pr.getEstado().equalsIgnoreCase("Pendiente")) {
+							                        	String uniqueID = "modal" + UUID.randomUUID().toString().replace("-", "");
+							                        	String uniqueID2 = "modal" + UUID.randomUUID().toString().replace("-", "");%>
 							                            <!-- Button trigger modal + Aprobar prestamo-->
-							                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AprobarModal">
+							                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#<%= uniqueID %>">
 														  Aprobar
 														</button>
 							                            
 							                        	<!-- Modal aprobar prestamo-->
-													    <div class="modal fade" id="AprobarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													    <div class="modal fade" id="<%= uniqueID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 													        <div class="modal-dialog">
 													        <div class="modal-content">
 													            <div class="modal-header">
@@ -94,12 +97,12 @@
 							                        
 							                        	
 														<!-- Button trigger modal + Rechazar prestamo-->
-							                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#RechazarModal">
+							                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#<%= uniqueID2 %>">
 														  Rechazar
 														</button>
 							                            
 							                        	<!-- Modal rechazar prestamo-->
-													    <div class="modal fade" id="RechazarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													    <div class="modal fade" id="<%= uniqueID2 %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 													        <div class="modal-dialog">
 													        <div class="modal-content">
 													            <div class="modal-header">

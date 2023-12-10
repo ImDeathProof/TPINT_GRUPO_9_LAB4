@@ -76,11 +76,11 @@
 											                    for(Cuenta ct : listaCuentas){
 											                    if(ct.getEstado())
 											                    {%>
-											                    	<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta() %></option>
+											                    	<option value="<%=ct.getIdCuenta()%>"><%= ct.getNumeroCuenta()%> | $<%=ct.getSaldo()%></option>
 											                    <%}}} %>
 								    	            		</select>
 									                        <input type="hidden" name="IDCuota" value="<%= cta.getIDCuota() %>">
-									                            <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
+									                        <input type="submit" name="PagarCuota" value="Pagar" class="btn btn-success">
 		
 									                        <% }else{ %>
 									                        	Cuota pagada

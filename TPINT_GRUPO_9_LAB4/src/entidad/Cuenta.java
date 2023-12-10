@@ -82,9 +82,7 @@ public class Cuenta {
 	
 	public String getNombre() throws DBException, GenericException
 	{
-		CuentaDAO cu = new CuentaDAO();
-		
-		String nombre = this.Usuario.get_Nombre();
+		String nombre = this.Usuario.get_Nombre() + " " + this.Usuario.get_Apellido();
 		
 		return nombre;		
 	}
