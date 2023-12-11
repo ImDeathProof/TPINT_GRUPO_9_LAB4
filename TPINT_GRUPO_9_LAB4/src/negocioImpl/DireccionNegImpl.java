@@ -6,11 +6,11 @@ import dao.CuentaDaoInterface;
 import dao.DireccionDaoInterface;
 import daoImpl.CuentaDAO;
 import daoImpl.DireccionDAO;
-import entidad.DBException;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.DireccionNeg;
 
 public class DireccionNegImpl implements DireccionNeg {

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import daoImpl.ClienteDAO;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 /**
  * Servlet implementation class ServletBloquearUser

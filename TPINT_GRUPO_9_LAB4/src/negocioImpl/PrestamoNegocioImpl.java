@@ -10,10 +10,10 @@ import daoImpl.PrestamoDAO;
 import dao.CuotaDaoInterface;
 import dao.PrestamoDaoInterface;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
-import entidad.DBException;
-import entidad.GenericException;
 
 public class PrestamoNegocioImpl implements PrestamoNeg {
 	private PrestamoDaoInterface pdao = new PrestamoDAO();

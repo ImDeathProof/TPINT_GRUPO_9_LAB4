@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import entidad.DBException;
 import entidad.Movimiento;
 import entidad.TipoMovimiento;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface MovimientoNeg {
 

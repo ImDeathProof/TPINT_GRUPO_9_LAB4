@@ -13,15 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import entidad.Cliente;
 import entidad.Cuenta;
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletListarCuotas

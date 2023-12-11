@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.CuentaDAO;
 import entidad.Cliente;
-import entidad.DBException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
-import entidad.ValidateException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 /**
  * Servlet implementation class ServletRegistroCuenta

@@ -13,8 +13,10 @@ import java.util.Random;
 
 import dao.CuentaDaoInterface;
 import entidad.Cuenta;
-import entidad.DBException;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
@@ -23,14 +25,12 @@ import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.MovimientoNegImpl;
 import negocioImpl.TipoMovimientoNegImpl;
-import entidad.ValidateException;
-import entidad.GenericException;
 
 
 public class CuentaDAO implements CuentaDaoInterface {
     private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();

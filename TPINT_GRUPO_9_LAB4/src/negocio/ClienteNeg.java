@@ -2,12 +2,12 @@ package negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import entidad.DBException;
-import entidad.ValidateException;
-//import negocioImpl.Localidad;
-import entidad.GenericException;
+
 import entidad.Cliente;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 import entidad.Localidad;
 
 public interface ClienteNeg {
@@ -24,7 +24,6 @@ public interface ClienteNeg {
 	public int getCantPaginas()throws DBException, GenericException;
 	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
 	public Cliente BuscarClientePorID(int idCliente)throws DBException, GenericException;
-	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException;
 	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException;
 	public ArrayList<Cliente> obtenerUsuariosPaginadosFiltrados(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
 	public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException;

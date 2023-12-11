@@ -22,14 +22,14 @@
 	import negocioImpl.CuentaNegImpl;
 	import negocioImpl.MovimientoNegImpl;
 	import entidad.TipoMovimiento;
-	import entidad.DBException;
-	import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 	public class PrestamoDAO implements PrestamoDaoInterface{
 		
 		private String host = "jdbc:mysql://127.0.0.1:3306/";
 	    private String user = "root";
-	    private String pass = "root";
+	    private String pass = "tobias01032004";
 	    private String dbName = "bancodb";
 	    
 	    MovimientoNeg cuNeg = new MovimientoNegImpl();

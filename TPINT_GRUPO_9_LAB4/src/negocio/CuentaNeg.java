@@ -3,10 +3,10 @@ package negocio;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import entidad.DBException;
-import entidad.ValidateException;
-import entidad.GenericException;
 
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 import entidad.Cuenta;
 
 public interface CuentaNeg {

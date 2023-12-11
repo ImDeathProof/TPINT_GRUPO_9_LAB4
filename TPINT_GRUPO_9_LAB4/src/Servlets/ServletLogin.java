@@ -18,11 +18,11 @@ import negocio.ClienteNeg;
 import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.DireccionNegImpl;
-import entidad.DBException;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 /**
  * Servlet implementation class ServletLogin

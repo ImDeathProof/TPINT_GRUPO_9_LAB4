@@ -5,8 +5,8 @@ import java.util.List;
 
 import entidad.Cliente;
 import entidad.Prestamo;
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface PrestamoNeg {
 	public List<Prestamo> ObtenerTodos()throws DBException, GenericException;

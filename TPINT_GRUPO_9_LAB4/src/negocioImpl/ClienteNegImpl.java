@@ -7,11 +7,11 @@ import dao.ClienteDaoInterface;
 import negocio.ClienteNeg;
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
-import entidad.DBException;
-import entidad.ValidateException;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 public class ClienteNegImpl implements ClienteNeg {
 	
@@ -71,11 +71,6 @@ public class ClienteNegImpl implements ClienteNeg {
 	@Override
 	public boolean usuarioExistente(String username, int idUsuario) throws ValidateException, GenericException {
 		return clDao.usuarioExistente(username, idUsuario);
-	}
-	
-	@Override
-	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException{
-		return clDao.obtenerLocalidades();
 	}
 	
 	@Override

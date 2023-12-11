@@ -14,12 +14,12 @@ import entidad.Cliente;
 import entidad.Comprobante;
 import entidad.Cuenta;
 import entidad.Cuota;
-import entidad.DBException;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.CuotaNegImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPagarCuota

@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import daoImpl.CuentaDAO;
 
 import java.math.BigDecimal;
-import entidad.DBException;
+
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public class Cuenta {
     private int IdCuenta;

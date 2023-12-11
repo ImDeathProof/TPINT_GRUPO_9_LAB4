@@ -1,4 +1,4 @@
-package entidad;
+package excepciones;
 
 public class GenericException extends Exception {
 	public static final long serialVersionUID = 700L;

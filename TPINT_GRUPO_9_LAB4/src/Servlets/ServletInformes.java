@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;

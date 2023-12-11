@@ -9,8 +9,8 @@ import java.util.List;
 import entidad.Movimiento;
 import entidad.Prestamo;
 import entidad.TipoMovimiento;
-import entidad.DBException;
-import entidad.GenericException; 
+import excepciones.DBException;
+import excepciones.GenericException; 
 
 public interface MovimientoDaoInterface {
 	

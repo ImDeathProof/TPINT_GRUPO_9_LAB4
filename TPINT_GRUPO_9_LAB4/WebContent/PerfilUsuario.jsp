@@ -47,47 +47,47 @@
 				<div class="row">
 					<div class="col-6 border p-2">				
 						<label for="nombre" id="lbl_nombre">Nombre:</label>
-						<input type="text" id="nombre" name="txtNombre" class="form-control" value="<%=cliente.get_Nombre()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+						<input type="text" id="nombre" name="txtNombre" class="form-control" value="<%=cliente.get_Nombre()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="apellido" id="lbl_apellido">Apellido:</label>
-						<input type="text" id="apellido" name="txtApellido" class="form-control" value="<%=cliente.get_Apellido()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
+						<input type="text" id="apellido" name="txtApellido" class="form-control" value="<%=cliente.get_Apellido()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="dni" id="lbl_DNI">DNI:</label>
-						<input type="text" id="DNI" name="txtDni" class="form-control" value="<%=cliente.get_DNI()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						<input type="text" id="DNI" name="txtDni" class="form-control" value="<%=cliente.get_DNI()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="cuil" id="lbl_CUIL">CUIL:</label>
-						<input type="text" id="CUIL" name="txtCuil" class="form-control" value="<%=cliente.get_CUIL()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						<input type="text" id="CUIL" name="txtCuil" class="form-control" value="<%=cliente.get_CUIL()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						
 						<div class="form-group">
 						    <label>Sexo:</label>
 						    <div class="form-check">
-						        <input type="radio" id="masculino" name="sexo" class="form-check-input" value="Masculino" <% if (cliente.is_Sexo()) { %>checked<% } %>>
+						        <input type="radio" id="masculino" name="sexo" class="form-check-input" value="Masculino" <% if (cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						        <label for="masculino" class="form-check-label">Masculino</label>
 						    </div>
 						    <div class="form-check">
-						        <input type="radio" id="femenino" name="sexo" class="form-check-input" value="Femenino" <% if (!cliente.is_Sexo()) { %>checked<% } %>>
+						        <input type="radio" id="femenino" name="sexo" class="form-check-input" value="Femenino" <% if (!cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						        <label for="femenino" class="form-check-label">Femenino</label>
 						    </div>
 						</div>
 						<label for="nacionalidad" id="lbl_nacionalidad">Nacionalidad:</label>
-						<input type="text" id="Nacionalidad" name="txtNacionalidad" class="form-control" value="<%=cliente.get_Nacionalidad()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">									
+						<input type="text" id="Nacionalidad" name="txtNacionalidad" class="form-control" value="<%=cliente.get_Nacionalidad()%>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>									
 					 <label for="direccion" id="lbl_direccion">Calle:</label>
-						<input type="text" name="txtDireccion" class="form-control" value="<%=cliente.get_Direccion().getCalle()%>" required>
+						<input type="text" name="txtDireccion" class="form-control" value="<%=cliente.get_Direccion().getCalle()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="numDic" id="lbl_numDic">Numero:</label>
-						<input type="text" name="txtNum" class="form-control" value="<%=cliente.get_Direccion().getNumero()%>" required>
+						<input type="text" name="txtNum" class="form-control" value="<%=cliente.get_Direccion().getNumero()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 					</div>
 					<div class="col-6 border p-2">	
 										
 				      
 			            <label for="provincia">Provincia:</label>
-							    <select name="Provincia" id="provinciaSelect">
+							    <select name="Provincia" id="provinciaSelect" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 							    <% Provincia pr = (Provincia)session.getAttribute("provincia"); %>
 							    <option value="<%=pr.getIdProvincia()%>"><%=pr.getDescripcion()%></option>
 							      <% for (Provincia prov : dNeg.getAllProvincias()) { %>									
 									    <option value="<%= prov.getIdProvincia()%>"><%= prov.getDescripcion()%></option>
 									<%} %>
 							    </select><br>
-						<input type="submit" id="btnLocalidades" name="btnLocalidades" value="Obtener Localidades" class="btn btn-warning">	 
+						<input type="submit" id="btnLocalidades" name="btnLocalidades" value="Obtener Localidades" class="btn btn-warning" <% if (!cliente.is_Admin()) { %>readonly<% } %>>	 
 							    				
 					    <label for="localidad">Localidad:</label>
-						    <select name="Localidad" id="localidad">
+						    <select name="Localidad" id="localidad" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						    <% Localidad loc = (Localidad)session.getAttribute("lcCliente"); %>
 							    <option value="<%=loc.getIdLocalidad()%>"><%=loc.getDescripcion()%></option>								
 									 <% if (request.getAttribute("localidades") !=null)
@@ -99,17 +99,17 @@
 						  </select><br>	
 								
 						<label for="Nacimiento" id="lbl_FNacimiento">Fecha de Nacimiento:</label>
-						<input type="date" id="fechaNacimiento" name="txtFNacimiento" class="form-control" value="<%=cliente.get_FechaNacimiento()%>" required>
+						<input type="date" id="fechaNacimiento" name="txtFNacimiento" class="form-control" value="<%=cliente.get_FechaNacimiento()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="email" id="lbl_email">E-mail:</label>
-						<input type="text" name="txtEmail" class="form-control" value="<%=cliente.get_Email()%>" required>
+						<input type="text" name="txtEmail" class="form-control" value="<%=cliente.get_Email()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="telefono" id="lbl_telefono">Telefono:</label>
-						<input type="text" id="Telefono" name="txtTelefono" class="form-control" value="<%=cliente.get_Telefono()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						<input type="text" id="Telefono" name="txtTelefono" class="form-control" value="<%=cliente.get_Telefono()%>" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="user" id="lbl_usuario">Nombre de usuario:</label>
-						<input type="text" name="txtUsuario" class="form-control" value="<%=cliente.get_Usuario()%>" required>
+						<input type="text" name="txtUsuario" class="form-control" value="<%=cliente.get_Usuario()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<label for="password" id="lbl_contraseña">Contraseña:</label>
-						<input type="password" name="txtContaseña" class="form-control" value="<%=cliente.get_Contrasena()%>" required>
+						<input type="password" name="txtContaseña" class="form-control" value="<%=cliente.get_Contrasena()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<br>
-						<input type="submit" name="btnModificar" value="Modificar datos" class="btn btn-warning">
+						<input type="submit" name="btnModificar" value="Modificar datos" class="btn btn-warning" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 					</div>
 				</div>
 			</div>

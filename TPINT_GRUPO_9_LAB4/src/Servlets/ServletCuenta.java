@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import daoImpl.CuentaDAO;
 import entidad.Cliente;
 import entidad.Cuenta;
-import entidad.DBException;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
-import entidad.GenericException;
 
 @WebServlet("/ServletCuenta")
 public class ServletCuenta extends HttpServlet {

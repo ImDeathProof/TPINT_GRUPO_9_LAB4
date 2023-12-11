@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entidad.DBException;
 import entidad.Movimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.MovimientoNeg;
 import negocioImpl.MovimientoNegImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletMisMovimientos

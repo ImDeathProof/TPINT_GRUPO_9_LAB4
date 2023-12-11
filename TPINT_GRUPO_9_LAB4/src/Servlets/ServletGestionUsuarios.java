@@ -15,8 +15,8 @@ import daoImpl.ClienteDAO;
 import entidad.Cliente;
 import negocio.ClienteNeg;
 import negocioImpl.ClienteNegImpl;
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 /**
  * Servlet implementation class ServletGestionUsuarios
  */

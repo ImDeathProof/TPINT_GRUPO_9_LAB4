@@ -2,11 +2,11 @@ package negocio;
 
 import java.util.ArrayList;
 
-import entidad.DBException;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface DireccionNeg {
 

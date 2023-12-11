@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>FRGP Bank | Nosotros</title>>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 

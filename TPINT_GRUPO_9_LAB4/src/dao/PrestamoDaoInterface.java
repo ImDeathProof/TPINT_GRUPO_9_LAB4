@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import entidad.DBException;
-import entidad.GenericException;
+
 import entidad.Cuenta;
 import entidad.Prestamo;
-import entidad.DBException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface PrestamoDaoInterface {
 	public List<Prestamo> ObtenerTodos() throws DBException, GenericException;

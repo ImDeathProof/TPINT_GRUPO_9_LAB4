@@ -1,3 +1,7 @@
-/daoImpl/
 /Servlets/
+/dao/
+/daoImpl/
 /entidad/
+/excepciones/
+/negocio/
+/negocioImpl/

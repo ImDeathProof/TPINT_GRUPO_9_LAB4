@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.PrestamoNeg;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletListarPrestamos

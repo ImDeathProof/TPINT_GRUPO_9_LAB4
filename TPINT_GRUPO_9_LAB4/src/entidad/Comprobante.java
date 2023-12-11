@@ -6,6 +6,9 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import excepciones.DBException;
+import excepciones.GenericException;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;

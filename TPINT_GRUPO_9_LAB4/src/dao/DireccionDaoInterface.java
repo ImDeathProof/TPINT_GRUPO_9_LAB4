@@ -3,11 +3,11 @@ package dao;
 import java.util.ArrayList;
 
 import entidad.Cuenta;
-import entidad.DBException;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface DireccionDaoInterface {
 	

@@ -15,16 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
-import entidad.DBException;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.ClienteNeg;
 import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.DireccionNegImpl;
-import entidad.DBException;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletRegistro
@@ -47,28 +46,32 @@ public class ServletRegistro extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getSession().removeAttribute("seRegistro");
+		request.getSession().removeAttribute("errorRegistro");
 		if(request.getParameter("Param")!=null) {
-			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
-				try{
-			ArrayList<Localidad> localidades = (ArrayList<Localidad>)clNeg.obtenerLocalidades();
-			 ArrayList<Provincia> provincias = (ArrayList<Provincia>)clNeg.obtenerProvincias();            
-		   request.setAttribute("localidades", localidades);
-		   request.setAttribute("provincias", provincias);
-		   RequestDispatcher dispatcher = request.getRequestDispatcher("Registro.jsp");
-			dispatcher.forward(request, response);	
+			try{
+					LocalDate fechaNacimiento = LocalDate.of(1, 1, 1);
+					request.getSession().setAttribute("registro",new Cliente("X","X","X","X",0,0,false,"X",fechaNacimiento,new Direccion(),"X@gmail.com",0));		
+				    
+					ArrayList<Provincia> provincias = clNeg.obtenerProvincias();   
+					request.setAttribute("provincias", provincias);
+				    ArrayList<Localidad> loc = dNeg.getAllLocalidades(1);
+				    request.setAttribute("localidades", loc);
+
+				    RequestDispatcher dispatcher = request.getRequestDispatcher("Registro.jsp");
+				    dispatcher.forward(request, response);	
 			
-		}catch (DBException e) {
-		    e.printStackTrace();
-		    request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
-		    
-		    response.sendRedirect("Login.jsp");
-		}catch (GenericException e) {
-		    e.printStackTrace();
-		    request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
-		    response.sendRedirect("Login.jsp");
-		}
-	}
+				}catch (DBException e) {
+				    e.printStackTrace();
+				    request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());
+				    
+				    response.sendRedirect("Login.jsp");
+				}catch (GenericException e) {
+				    e.printStackTrace();
+				    request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+				    response.sendRedirect("Login.jsp");
+				}
+			}
 	}
 		
 		
@@ -78,6 +81,11 @@ public class ServletRegistro extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	  	if (request.getSession().getAttribute("errorRegistro") != null) {
+	  		request.getSession().removeAttribute("errorRegistro");
+	  	}
+		
 			String usuario = request.getParameter("username");
 		    
 		    String contrasena = request.getParameter("password");
@@ -90,12 +98,12 @@ public class ServletRegistro extends HttpServlet {
 			    
 			 String sexoValue = request.getParameter("sexo");
 		
-			 boolean sexo = true;  //Variable para almacenar el valor de sexo
+			 boolean sexo = true; 
 		
 			 if (sexoValue.equals("Masculino")) {
-			     sexo = true;  //Si se selecciona "Masculino", establece sexo en true
+			     sexo = true; 
 		     } else if (sexoValue.equals("Femenino")) {
-		         sexo = false;  //Si se selecciona "Femenino", establece sexo en false
+		         sexo = false;
 	         } 
 			    
 			    
@@ -131,47 +139,42 @@ public class ServletRegistro extends HttpServlet {
 			  
 		  	Cliente cliente = new Cliente(usuario, contrasena, nombre, apellido, dni, cuil, sexo, nacionalidad, fechaNacimiento, dic, email, Telefono);	 	    
 		    
-		  	if (request.getSession().getAttribute("errorRegistro") != null) {
-		  		request.getSession().removeAttribute("errorRegistro");
-		  	}
-		    
+
 		    if(request.getParameter("btnRegistrar")!=null) 
-		    {		
-			    if(!contrasena.equals(contra2))
-			    {
-			    	request.getSession().setAttribute("errorRegistro", "Las contraseñas no coinciden. Vuelve a ingresar los datos.");
-			    	request.getRequestDispatcher("Registro.jsp").forward(request, response);
-			    }
-			    
-			    
-				boolean cargo = false;
-			    try {
-			           dic = dNeg.addDireccion(dic); 
-					   if(dic != null)
+		    {	    
+			    try {				
+					   if(!contrasena.equals(contra2))
 					   {
-						   cliente = clNeg.agregarUsuario(cliente);		
-						   if(cliente != null) {
-								cargo=true;
-						   }
-					   }				   				            
-			    }  catch (DBException e) {
-			        e.printStackTrace();
-			        request.getSession().setAttribute("errorRegistro", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());		        
-			        response.sendRedirect("Login.jsp");
+						   request.getSession().setAttribute("registro",cliente);
+						   request.getSession().setAttribute("errorRegistro", "Las contraseñas no coinciden. Vuelve a ingresar los datos.");
+						   RequestDispatcher dispatcher = request.getRequestDispatcher("Registro.jsp");
+						   dispatcher.forward(request, response);
+					   } else
+					   {
+						   dic = dNeg.addDireccion(dic); 
+						   if(dic != null)
+						   {
+							   cliente = clNeg.agregarUsuario(cliente);
+							   if(cliente != null)
+							   {
+								   LocalDate fc = LocalDate.of(1, 1, 1);
+								   request.getSession().setAttribute("registro",new Cliente("X","X","X","X",0,0,false,"X",fc,new Direccion(),"X@gmail.com",0));		
+								   request.getSession().setAttribute("seRegistro", "Usuario cargado con éxito!");							   
+							   }
+							   else 
+							   {
+								   request.getSession().setAttribute("errorRegistro", "Usuario no cargado. Chequee los datos");								   
+							   }	 
+						   }					   
+					   }		   				   				            
 			    }
-			    catch (GenericException e) {
-			        e.printStackTrace();
-			        request.getSession().setAttribute("errorRegistro", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+			    catch (DBException | GenericException e) {
+			    	e.printStackTrace();
+			        request.getSession().setAttribute("errorRegistro", "Hubo un error inesperado. Intente nuevamente más tarde" + e.getMessage());
 			        response.sendRedirect("Login.jsp");
-			    }
-			    if (cargo) {
-	                request.getSession().setAttribute("seRegistro", "Usuario cargado con éxito!");
-	                request.getRequestDispatcher("Registro.jsp").forward(request, response);
-	            } else if(!cargo) {
-	            	request.getSession().setAttribute("errorRegistro", "Usuario no cargado. Chequee los datos");
-	                request.getRequestDispatcher("Registro.jsp").forward(request, response);
-	            }
-				    
+			    } finally {
+			        request.getRequestDispatcher("Registro.jsp").forward(request, response);
+			    }		    
 		    }
 		
 			else

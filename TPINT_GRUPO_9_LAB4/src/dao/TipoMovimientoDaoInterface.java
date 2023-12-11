@@ -2,9 +2,9 @@ package dao;
 
 import java.util.ArrayList;
 
-import entidad.DBException;
-import entidad.GenericException;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface TipoMovimientoDaoInterface {
 

@@ -12,22 +12,21 @@ import java.util.ArrayList;
 import dao.ClienteDaoInterface;
 import entidad.Cliente;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
 import entidad.TipoMovimiento;
-import entidad.DBException;
-import entidad.ValidateException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 import negocio.DireccionNeg;
 import negocioImpl.DireccionNegImpl;
-import entidad.GenericException;
 
 
 public class ClienteDAO implements ClienteDaoInterface {
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 	 
 	 DireccionNeg dNeg = new DireccionNegImpl();
@@ -625,7 +624,5 @@ public class ClienteDAO implements ClienteDaoInterface {
 
 		 	return cantidad;
 		}
-
-
 	 
 }

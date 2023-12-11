@@ -2098,8 +2098,16 @@ INSERT INTO `Localidad` (`IDLocalidad`, `IDProvincia`, `Descripcion`) VALUES
 (2070, 22, 'Oliveros'),
 (2071, 22, 'Palacios'),
 (2072, 22, 'Pavón'),
-(2073, 22, 'Pavón Arriba');
-
+(2073, 22, 'Pavón Arriba'),
+(2074, 23, 'Ardiles'),
+(2075, 23, 'Termas de Río Hondo'),
+(2076, 23, 'La Banda'),
+(2077, 24, 'Ushuaia'),
+(2078, 24, 'Río Grande'),
+(2079, 24, 'Tolhuin'),
+(2080, 25, 'San Miguel de Tucumán'),
+(2081, 25, 'Yerba Buena'),
+(2082, 25, 'Tafí del Valle');
 -- INSERTS DIRECCIONES
 
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)

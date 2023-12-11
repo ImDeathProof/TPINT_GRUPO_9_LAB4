@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import entidad.Cuenta;
-import entidad.DBException;
-import entidad.GenericException;
-import entidad.ValidateException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 public interface CuentaDaoInterface {
 	public ArrayList<Cuenta> obtenerCuentasPorUsuario(int idUsuario) throws DBException, GenericException;

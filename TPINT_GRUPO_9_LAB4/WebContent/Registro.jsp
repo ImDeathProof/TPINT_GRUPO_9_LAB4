@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Registro</title>
+<title>FRGP Bank | Registro de cliente</title>
 </head>
 <body>
 
@@ -136,11 +136,11 @@
 	            <button type="submit" name="btnRegistrar" class="btn btn-success">Registrar</button>
 	            <button type="button" class="btn btn-danger">Cancelar</button>
 	             <% if (session.getAttribute("errorRegistro") != null) { %>
-		         <div class="alert alert-danger">
+		         <div id="errorAlert" class="alert alert-danger">
 		              <%= (String)session.getAttribute("errorRegistro")%> 
 		         </div>
 		     	<% } else if(session.getAttribute("seRegistro") != null){%>	
-		     	  <div class="alert alert-success">
+		     	  <div id="successAlert" class="alert alert-success">
 		              <%= (String)session.getAttribute("seRegistro")%> 
 		         </div>
 		     	<% }%>
@@ -151,4 +151,19 @@
 	response.sendRedirect("Inicio.jsp");
 	} %>	
 </body>
+<script>
+    setTimeout(function() {
+        var errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 5000);
+
+    setTimeout(function() {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 5000);
+</script>
 </html>

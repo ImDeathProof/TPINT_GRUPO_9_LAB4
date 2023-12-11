@@ -3,11 +3,11 @@ package dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import entidad.Cliente;
-import entidad.DBException;
-import entidad.ValidateException;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 public interface ClienteDaoInterface {
 	
@@ -23,7 +23,6 @@ public interface ClienteDaoInterface {
 	public int getCantPaginas() throws DBException, GenericException;
 	public int getCantPaginasXFiltro(String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
 	public Cliente BuscarClientePorID(int idCliente) throws DBException, GenericException;
-	public ArrayList<Localidad> obtenerLocalidades() throws DBException, GenericException;
 	public ArrayList<Provincia> obtenerProvincias() throws DBException, GenericException;
 	public ArrayList<Cliente> obtenerUsuariosPaginadosFiltrados(int pageNumber, int pageSize, String elementoBusqueda, String criterioBusqueda) throws DBException, GenericException;
 	public int[] getCantidadDeUsuariosXProvincia() throws DBException, GenericException;

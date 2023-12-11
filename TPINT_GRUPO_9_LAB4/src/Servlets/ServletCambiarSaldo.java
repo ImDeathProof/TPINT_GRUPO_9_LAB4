@@ -14,8 +14,8 @@ import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 /**
  * Servlet implementation class ServletCambiarPass

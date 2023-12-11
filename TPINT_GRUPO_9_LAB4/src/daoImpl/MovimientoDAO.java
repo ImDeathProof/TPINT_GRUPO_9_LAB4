@@ -18,18 +18,18 @@ import entidad.Cuenta;
 import entidad.Movimiento;
 import entidad.Prestamo;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
-import entidad.DBException;
-import entidad.GenericException;
 
 public class MovimientoDAO implements MovimientoDaoInterface {
 	
 	 private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public MovimientoDAO() {

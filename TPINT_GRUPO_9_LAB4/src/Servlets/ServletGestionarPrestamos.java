@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuotaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.CuotaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletGestionarPrestamos

@@ -15,10 +15,10 @@ import daoImpl.ClienteDAO;
 import daoImpl.CuentaDAO;
 import entidad.Cliente;
 import entidad.Cuenta;
-import entidad.DBException;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletGestionCuentas

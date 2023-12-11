@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import dao.CuotaDaoInterface;
 import daoImpl.CuotaDAO;
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
 import negocio.MovimientoNeg;
-import entidad.DBException;
-import entidad.GenericException;
 import entidad.Movimiento;
 
 public class CuotaNegImpl implements CuotaNeg{

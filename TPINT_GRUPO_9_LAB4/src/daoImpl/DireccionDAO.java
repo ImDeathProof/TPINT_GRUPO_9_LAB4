@@ -10,17 +10,17 @@ import java.util.ArrayList;
 
 import dao.DireccionDaoInterface;
 import entidad.Cliente;
-import entidad.DBException;
 import entidad.Direccion;
-import entidad.GenericException;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public class DireccionDAO implements DireccionDaoInterface{
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "root";
+	 private String pass = "tobias01032004";
 	 private String dbName = "bancodb";
 
 	 public DireccionDAO() {

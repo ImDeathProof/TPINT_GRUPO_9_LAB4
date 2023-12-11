@@ -4,10 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
-import entidad.DBException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
 
 public interface CuotaNeg {
 	public int Pagar(Cuota cuota, int IDPrestamo, int IDUsuario, int IDCuenta) throws DBException, GenericException;

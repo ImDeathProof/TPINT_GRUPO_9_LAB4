@@ -17,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import entidad.Cliente;
 import entidad.Cuenta;
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocio.CuotaNeg;
@@ -27,7 +28,6 @@ import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
 import negocioImpl.CuotaNegImpl;
-import entidad.GenericException;
 
 
 /**

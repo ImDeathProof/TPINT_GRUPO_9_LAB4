@@ -6,9 +6,9 @@ import dao.MovimientoDaoInterface;
 import dao.TipoMovimientoDaoInterface;
 import daoImpl.MovimientoDAO;
 import daoImpl.TipoMovimientoDAO;
-import entidad.DBException;
-import entidad.GenericException;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.TipoMovimientoNeg;
 
 public class TipoMovimientoNegImpl implements TipoMovimientoNeg {

@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entidad.DBException;
 import entidad.Movimiento;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.MovimientoNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.MovimientoNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletMovimientoXPeriodo

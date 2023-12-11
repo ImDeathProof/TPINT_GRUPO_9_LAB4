@@ -15,16 +15,16 @@ import javax.servlet.http.HttpSession;
 
 import daoImpl.ClienteDAO;
 import entidad.Cliente;
-import entidad.DBException;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Provincia;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 import negocio.ClienteNeg;
 import negocio.DireccionNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.DireccionNegImpl;
-import entidad.ValidateException;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPerfil

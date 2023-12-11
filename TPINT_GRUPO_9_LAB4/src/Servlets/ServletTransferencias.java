@@ -16,15 +16,15 @@ import daoImpl.CuentaDAO;
 import entidad.Comprobante;
 import entidad.Cliente;
 import entidad.Cuenta;
-import entidad.DBException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
-import entidad.ValidateException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 /**
  * Servlet implementation class ServletTransferencias

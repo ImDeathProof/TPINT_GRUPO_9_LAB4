@@ -10,11 +10,11 @@ import dao.CuentaDaoInterface;
 import dao.MovimientoDaoInterface;
 import daoImpl.CuentaDAO;
 import daoImpl.MovimientoDAO;
-import entidad.DBException;
 import entidad.Movimiento;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.MovimientoNeg;
-import entidad.GenericException;
 
 public class MovimientoNegImpl implements MovimientoNeg {
 

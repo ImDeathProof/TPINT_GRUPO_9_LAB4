@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import negocio.CuentaNeg;
 import negocioImpl.CuentaNegImpl;
-import entidad.DBException;
-import entidad.ValidateException;
-import entidad.GenericException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 /**
  * Servlet implementation class ServletAprovarCuenta

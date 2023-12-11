@@ -9,9 +9,9 @@ import dao.CuentaDaoInterface;
 import daoImpl.CuentaDAO;
 import entidad.Cuenta;
 import negocio.CuentaNeg;
-import entidad.DBException;
-import entidad.GenericException;
-import entidad.ValidateException;
+import excepciones.DBException;
+import excepciones.GenericException;
+import excepciones.ValidateException;
 
 public class CuentaNegImpl implements CuentaNeg {
 	

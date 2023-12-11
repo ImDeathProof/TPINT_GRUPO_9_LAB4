@@ -3,7 +3,6 @@ package Servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import entidad.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
 import entidad.Cuenta;
-import entidad.DBException;
 import entidad.Prestamo;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.CuentaNeg;
 import negocio.PrestamoNeg;
 import negocioImpl.CuentaNegImpl;
 import negocioImpl.PrestamoNegocioImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletPrestamosPorUsuario

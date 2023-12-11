@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import daoImpl.ClienteDAO;
-import entidad.DBException;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.ClienteNeg;
 import negocio.CuentaNeg;
 import negocioImpl.ClienteNegImpl;
 import negocioImpl.CuentaNegImpl;
-import entidad.GenericException;
 
 /**
  * Servlet implementation class ServletCambiarPass

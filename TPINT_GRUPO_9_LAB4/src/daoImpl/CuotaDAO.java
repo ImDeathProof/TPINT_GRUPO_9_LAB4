@@ -10,19 +10,19 @@ import java.util.ArrayList;
 
 import dao.CuotaDaoInterface;
 import entidad.Cuota;
-import entidad.DBException;
 import entidad.Prestamo;
 import entidad.TipoMovimiento;
+import excepciones.DBException;
+import excepciones.GenericException;
 import negocio.MovimientoNeg;
 import negocio.TipoMovimientoNeg;
 import negocioImpl.MovimientoNegImpl;
 import negocioImpl.TipoMovimientoNegImpl;
-import entidad.GenericException;
 
 public class CuotaDAO implements CuotaDaoInterface {
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
     private String user = "root";
-    private String pass = "root";
+    private String pass = "tobias01032004";
     private String dbName = "bancodb";
     
     MovimientoNeg cuNeg = new MovimientoNegImpl();
