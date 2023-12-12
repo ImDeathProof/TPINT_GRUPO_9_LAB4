@@ -37,7 +37,10 @@ public class ServletGestionUsuarios extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 try{
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("error");
+
+		try{
 			String paginaElegida = request.getParameter("pagina");
 	        int numeroPagina = 1;
 

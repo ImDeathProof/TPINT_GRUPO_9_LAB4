@@ -39,6 +39,15 @@ public class ServletPrestamosPorUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	doGet(request, response);
     	if(request.getParameter("btnListarPrestamos")!=null) {
+    		
+    		//LIMPIAR MENSAJES
+    		if (request.getSession().getAttribute("errorCarga") != null) {
+    			  		request.getSession().removeAttribute("errorCarga");
+    		}
+    		if (request.getSession().getAttribute("error") != null) {
+    			request.getSession().removeAttribute("error");
+    		}
+    		
     		Cliente usuarioActivo = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
     		
     		try {

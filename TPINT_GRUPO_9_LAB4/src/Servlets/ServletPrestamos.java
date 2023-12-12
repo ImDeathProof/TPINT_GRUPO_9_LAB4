@@ -52,6 +52,12 @@ public class ServletPrestamos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("errorCuenta");
+		request.getSession().removeAttribute("PrestamoExitoso");
+		request.getSession().removeAttribute("errorAlSolicitar");
+		request.getSession().removeAttribute("error");
+		
 		if(request.getParameter("Param")!=null) {
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			try {
@@ -86,6 +92,21 @@ public class ServletPrestamos extends HttpServlet {
 		
 		try{
 			if(request.getParameter("btnSolicitar")!=null) {
+				
+				//LIMPIAR MENSAJES
+				if (request.getSession().getAttribute("errorAlSolicitar") != null) {
+					  		request.getSession().removeAttribute("errorAlSolicitar");
+				}
+				if (request.getSession().getAttribute("errorCuenta") != null) {
+					request.getSession().removeAttribute("errorCuenta");
+				}
+				if (request.getSession().getAttribute("PrestamoExitoso") != null) {
+					request.getSession().removeAttribute("PrestamoExitoso");
+				}
+				if (request.getSession().getAttribute("error") != null) {
+					request.getSession().removeAttribute("error");
+				}
+				
 				Prestamo pr = new Prestamo();
 				CuentaNegImpl cn = new CuentaNegImpl();
 				Cuenta cuenta = new Cuenta();

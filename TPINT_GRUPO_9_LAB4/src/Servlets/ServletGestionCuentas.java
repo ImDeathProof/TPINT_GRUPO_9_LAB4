@@ -40,6 +40,8 @@ public class ServletGestionCuentas extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("error");
 
 	    	 try {   
 	    			String paginaElegida = request.getParameter("paginaCuenta");
@@ -88,6 +90,10 @@ public class ServletGestionCuentas extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//LIMPIAR MENSAJES
+		if (request.getSession().getAttribute("error") != null) {
+			  		request.getSession().removeAttribute("error");
+		}
 		try {
 			HttpSession session = request.getSession();
 		if(request.getParameter("btnCuentas")!=null) {

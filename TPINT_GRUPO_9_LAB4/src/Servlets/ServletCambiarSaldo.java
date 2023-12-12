@@ -46,6 +46,10 @@ public class ServletCambiarSaldo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnSetear")!= null) {
+			//LIMPIAR MENSAJES
+			if (request.getSession().getAttribute("error") != null) {
+				  		request.getSession().removeAttribute("error");
+			}
 			String saldo = request.getParameter("txtSaldo");
 			BigDecimal saldoDecimal = new BigDecimal(saldo);
 			int userID = Integer.parseInt(request.getParameter("userID"));

@@ -45,6 +45,10 @@ public class ServletCambiarPass extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try{
+			//LIMPIAR MENSAJES
+			if (request.getSession().getAttribute("error") != null) {
+				  		request.getSession().removeAttribute("error");
+			}
 			String pass = request.getParameter("txtContaseña");
 		
 		int userID = Integer.parseInt(request.getParameter("userID"));

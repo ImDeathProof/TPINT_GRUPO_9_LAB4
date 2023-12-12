@@ -40,6 +40,8 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getSession().removeAttribute("errorGsPrestamos");
+		request.getSession().removeAttribute("exitoGsPrestamos");
 	}
 
 	/**
@@ -49,6 +51,15 @@ public class ServletGestionarPrestamos extends HttpServlet {
 	    // TODO Auto-generated method stub
 	    doGet(request, response);
 	    // APROBAR O RECHAZAR PRESTAMOS
+	  //LIMPIAR MENSAJES
+	    if (request.getSession().getAttribute("exitoGsPrestamos") != null) {
+	    	  		request.getSession().removeAttribute("exitoGsPrestamos");
+	    }
+	    if (request.getSession().getAttribute("errorGsPrestamos") != null) {
+	    	request.getSession().removeAttribute("errorGsPrestamos");
+	    }
+	    
+	    
 	    try {
 	        if (request.getParameter("submitValue") != null) {
 	            int prID = Integer.parseInt(request.getParameter("Id_Prestamo"));

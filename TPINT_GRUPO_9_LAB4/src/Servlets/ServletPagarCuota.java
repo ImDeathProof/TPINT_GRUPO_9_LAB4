@@ -54,6 +54,9 @@ public class ServletPagarCuota extends HttpServlet {
 			if(request.getSession().getAttribute("error") != null) {
 				request.getSession().removeAttribute("error");
 			}
+			if(request.getSession().getAttribute("PagoExitoso")!=null) {
+				request.getSession().removeAttribute("PagoExitoso");
+			}
 			try {
 				Cuota ct = negCt.obtenerCuotaPorID(Integer.parseInt(request.getParameter("IDCuota")));
 				if(request.getParameter("SelectCuentas") != null && !request.getParameter("SelectCuentas").isEmpty() && !"Seleccionar".equals(request.getParameter("SelectCuentas"))) {

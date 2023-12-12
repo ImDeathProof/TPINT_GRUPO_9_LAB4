@@ -54,6 +54,10 @@ public class ServletRegistroCuenta extends HttpServlet {
 			{
 		         request.getSession().removeAttribute("noErrorRegistroCuenta");   
 			}
+			if(request.getSession().getAttribute("error") != null)
+			{
+				request.getSession().removeAttribute("error");   
+			}
 			
 			 String tipoValue = request.getParameter("tipoCuenta");
 			 Cliente usuarioAutenticado = (Cliente) request.getSession().getAttribute("usuarioAutenticado");

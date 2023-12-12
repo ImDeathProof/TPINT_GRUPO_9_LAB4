@@ -43,6 +43,14 @@ public class ServletBloquearUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("submitValue")!=null) {
+			//LIMPIAR MENSAJES
+			if (request.getSession().getAttribute("error") != null) {
+				  		request.getSession().removeAttribute("error");
+			}
+			if (request.getSession().getAttribute("accion") != null) {
+				request.getSession().removeAttribute("accion");
+			}
+			
 			
 			int userID = Integer.parseInt(request.getParameter("userID"));	
 			String buttonValue = request.getParameter("submitValue");

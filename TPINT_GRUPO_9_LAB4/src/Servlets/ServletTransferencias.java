@@ -51,9 +51,20 @@ public class ServletTransferencias extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		if(request.getParameter("Param")!=null) {
+			//LIMPIA LOS MENSAJES
 			if(request.getSession().getAttribute("error") != null) {
 				request.getSession().removeAttribute("error");
 			}
+			if(request.getSession().getAttribute("errorTransfer") != null) {
+				request.getSession().removeAttribute("errorTransfer");
+			}
+			if(request.getSession().getAttribute("errorCuenta") != null) {
+				request.getSession().removeAttribute("errorCuenta");
+			}
+			if(request.getSession().getAttribute("successTransfer") != null) {
+				request.getSession().removeAttribute("successTransfer");
+			}
+			//--------------
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			try {
 				ArrayList<Cuenta> listaCt = cuNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
@@ -80,15 +91,20 @@ public class ServletTransferencias extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//LIMPIA LOS MENSAJES
 		if(request.getSession().getAttribute("error") != null) {
 			request.getSession().removeAttribute("error");
-		}else if(request.getSession().getAttribute("errorTransfer") != null) {
+		}
+		if(request.getSession().getAttribute("errorTransfer") != null) {
 			request.getSession().removeAttribute("errorTransfer");
-		}else if(request.getSession().getAttribute("errorCuenta") != null) {
+		}
+		if(request.getSession().getAttribute("errorCuenta") != null) {
 			request.getSession().removeAttribute("errorCuenta");
-		}else if(request.getSession().getAttribute("successTransfer") != null) {
+		}
+		if(request.getSession().getAttribute("successTransfer") != null) {
 			request.getSession().removeAttribute("successTransfer");
 		}
+		//--------------
 		int idUser = Integer.parseInt(request.getParameter("userID"));
 		Cliente cliente;
 		try {

@@ -22,7 +22,9 @@ public class ServletCuenta extends HttpServlet {
     CuentaNeg cuNeg = new CuentaNegImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
+    	//LIMPIAR MENSAJES
+    	request.getSession().removeAttribute("error");
+
         Cliente usuarioActivo = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 
         

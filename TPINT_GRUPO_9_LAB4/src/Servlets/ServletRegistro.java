@@ -85,6 +85,9 @@ public class ServletRegistro extends HttpServlet {
 	  	if (request.getSession().getAttribute("errorRegistro") != null) {
 	  		request.getSession().removeAttribute("errorRegistro");
 	  	}
+	  	if (request.getSession().getAttribute("seRegistro") != null) {
+	  		request.getSession().removeAttribute("seRegistro");
+	  	}
 		
 			String usuario = request.getParameter("username");
 		    

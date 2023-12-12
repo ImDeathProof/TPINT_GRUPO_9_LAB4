@@ -56,6 +56,12 @@ public class ServletInformes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
+		//LIMPIAR MENSAJES
+		if (request.getSession().getAttribute("ErrorGrafico") != null) {
+			  		request.getSession().removeAttribute("ErrorGrafico");
+		}
+		
 		//INFORME DE CLIENTES POR SEXO
 		if(request.getParameter("btnGenerarInformeUsuariosXSexo")!=null) {
 			try {
@@ -72,6 +78,8 @@ public class ServletInformes extends HttpServlet {
 			} catch (DBException | GenericException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("ErrorGrafico", "Parece que algo no salió mal, intenta de nuevo mas tarde.");
+				return;
 			}
 		}
 		//INFORME DE CLIENTES POR PROVINCIA

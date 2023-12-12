@@ -41,6 +41,13 @@ public class ServletAprobarCuenta extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("submitValueEstado")!=null) {
+			//LIMPIAR MENSAJES
+			if (request.getSession().getAttribute("accionCuenta") != null) {
+				  		request.getSession().removeAttribute("accionCuenta");
+			}
+			if (request.getSession().getAttribute("error") != null) {
+				request.getSession().removeAttribute("error");
+			}
 			
 			int cuentaID = Integer.parseInt(request.getParameter("cuentaID"));
 			String buttonValueEstado = request.getParameter("submitValueEstado");

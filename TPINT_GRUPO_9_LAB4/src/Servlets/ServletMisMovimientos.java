@@ -37,6 +37,9 @@ public class ServletMisMovimientos extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("error");
+		
 		String paginaElegida = request.getParameter("pagina");
         int numeroPagina = 1;
 
@@ -77,6 +80,11 @@ public class ServletMisMovimientos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//LIMPIAR MENSAJES
+		if (request.getSession().getAttribute("error") != null) {
+			  		request.getSession().removeAttribute("error");
+		}
 		
 		try { 
 		

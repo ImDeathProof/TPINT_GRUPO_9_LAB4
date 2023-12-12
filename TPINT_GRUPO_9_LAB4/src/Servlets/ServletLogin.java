@@ -57,6 +57,11 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		
+		//LIMPIAR MENSAJES
+		if (request.getSession().getAttribute("error") != null) {
+			  		request.getSession().removeAttribute("error");
+		}
+		
 		Cliente usuarioActivo = new Cliente();
 	
 		    usuarioActivo.set_Usuario(request.getParameter("user"));

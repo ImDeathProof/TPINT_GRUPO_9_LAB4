@@ -42,6 +42,7 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.getSession().removeAttribute("error");
 		String paginaElegida = request.getParameter("pagina");
         int numeroPagina = 1;
 
@@ -85,7 +86,12 @@ public class ServletMovimientoXPeriodo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		//LIMPIAR MENSAJES
+		if (request.getSession().getAttribute("error") != null) {
+			  		request.getSession().removeAttribute("error");
+		}
+		
 		 LocalDate fechaInicio = LocalDate.parse(request.getParameter("fechaInicio"));
 		 LocalDate fechaFin = LocalDate.parse(request.getParameter("fechaFin"));	 
 		 String orderBy = request.getParameter("ordenarPor");

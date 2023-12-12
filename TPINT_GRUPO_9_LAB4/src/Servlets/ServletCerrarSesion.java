@@ -29,8 +29,26 @@ public class ServletCerrarSesion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		    
-		  request.getSession().invalidate();
-		  response.sendRedirect("Inicio.jsp");
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("error");
+		request.getSession().removeAttribute("errorGsPrestamos");
+		request.getSession().removeAttribute("exitoGsPrestamos");
+		request.getSession().removeAttribute("ErrorGrafico");
+		request.getSession().removeAttribute("PagoExitoso");
+		request.getSession().removeAttribute("errorCuenta");
+		request.getSession().removeAttribute("PrestamoExitoso");
+		request.getSession().removeAttribute("errorAlSolicitar");
+		request.getSession().removeAttribute("errorCarga");
+		request.getSession().removeAttribute("seRegistro");
+		request.getSession().removeAttribute("errorTransfer");
+		request.getSession().removeAttribute("errorCuenta");
+		request.getSession().removeAttribute("successTransfer");
+		request.getSession().removeAttribute("accion");
+		request.getSession().removeAttribute("accionCuenta");
+		
+
+		request.getSession().invalidate();
+		response.sendRedirect("Inicio.jsp");
 	}
 
 	/**

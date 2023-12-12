@@ -46,6 +46,10 @@ public class ServletListarCuotas extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		//LIMPIAR MENSAJES
+		request.getSession().removeAttribute("error");
+		
 		if(request.getParameter("Id")!=null) {
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			int idPrestamo = Integer.parseInt(request.getParameter("Id"));
@@ -78,7 +82,10 @@ public class ServletListarCuotas extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if(request.getParameter("btnListarCuotas") != null) {
-			
+			//LIMPIAR MENSAJES
+			if (request.getSession().getAttribute("error") != null) {
+				  		request.getSession().removeAttribute("error");
+			}
 				Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 				try {
 					ArrayList<Cuota> lista = ctaNeg.obtenerCuotasPorCliente(cl.get_IDCliente());
