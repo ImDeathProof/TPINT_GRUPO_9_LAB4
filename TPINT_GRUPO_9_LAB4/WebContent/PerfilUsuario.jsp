@@ -58,11 +58,11 @@
 						<div class="form-group">
 						    <label>Sexo:</label>
 						    <div class="form-check">
-						        <input type="radio" id="masculino" name="sexo" class="form-check-input" value="Masculino" <% if (cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>readonly<% } %>>
+						        <input type="radio" id="masculino" name="sexo" class="form-check-input" value="Masculino" <% if (cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>disabled<% } %>>
 						        <label for="masculino" class="form-check-label">Masculino</label>
 						    </div>
 						    <div class="form-check">
-						        <input type="radio" id="femenino" name="sexo" class="form-check-input" value="Femenino" <% if (!cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>readonly<% } %>>
+						        <input type="radio" id="femenino" name="sexo" class="form-check-input" value="Femenino" <% if (!cliente.is_Sexo()) { %>checked<% } %> <% if (!cliente.is_Admin()) { %>disabled<% } %>>
 						        <label for="femenino" class="form-check-label">Femenino</label>
 						    </div>
 						</div>
@@ -77,17 +77,19 @@
 										
 				      
 			            <label for="provincia">Provincia:</label>
-							    <select name="Provincia" id="provinciaSelect" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
+							    <select name="Provincia" id="provinciaSelect" <% if (!cliente.is_Admin()) { %>disabled<% } %>>
 							    <% Provincia pr = (Provincia)session.getAttribute("provincia"); %>
 							    <option value="<%=pr.getIdProvincia()%>"><%=pr.getDescripcion()%></option>
 							      <% for (Provincia prov : dNeg.getAllProvincias()) { %>									
 									    <option value="<%= prov.getIdProvincia()%>"><%= prov.getDescripcion()%></option>
 									<%} %>
 							    </select><br>
-						<input type="submit" id="btnLocalidades" name="btnLocalidades" value="Obtener Localidades" class="btn btn-warning" <% if (!cliente.is_Admin()) { %>readonly<% } %>>	 
+						<% if (cliente.is_Admin()) { %>						
+						<input type="submit" id="btnLocalidades" name="btnLocalidades" value="Obtener Localidades" class="btn btn-warning">	 
+						<%}%>
 							    				
 					    <label for="localidad">Localidad:</label>
-						    <select name="Localidad" id="localidad" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
+						    <select name="Localidad" id="localidad" <% if (!cliente.is_Admin()) { %>disabled<% } %>>
 						    <% Localidad loc = (Localidad)session.getAttribute("lcCliente"); %>
 							    <option value="<%=loc.getIdLocalidad()%>"><%=loc.getDescripcion()%></option>								
 									 <% if (request.getAttribute("localidades") !=null)
@@ -109,7 +111,9 @@
 						<label for="password" id="lbl_contraseña">Contraseña:</label>
 						<input type="password" name="txtContaseña" class="form-control" value="<%=cliente.get_Contrasena()%>" required <% if (!cliente.is_Admin()) { %>readonly<% } %>>
 						<br>
-						<input type="submit" name="btnModificar" value="Modificar datos" class="btn btn-warning" <% if (!cliente.is_Admin()) { %>readonly<% } %>>
+						<% if (cliente.is_Admin()) { %>
+						<input type="submit" name="btnModificar" value="Modificar datos" class="btn btn-warning">							
+						<%}%>
 					</div>
 				</div>
 			</div>

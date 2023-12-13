@@ -37,11 +37,11 @@
 		        <div class="col-5">
 		            <div class="form-group">
 		                <label for="nombre">Nombre:</label>
-		                <input type="text" id="nombre" name="nombre" class="form-control" value="<%=reg.get_Nombre() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g/s, '')">
+		                <input type="text" id="nombre" name="nombre" class="form-control" value="<%=reg.get_Nombre() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		             <div class="form-group">
 		                <label for="Apellido">Apellido:</label>
-		                 <input type="text" id="Apellido" name="apellido" class="form-control" value="<%=reg.get_Apellido() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g/s, '')">
+		                 <input type="text" id="Apellido" name="apellido" class="form-control" value="<%=reg.get_Apellido() %>" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
 		            </div>
 		             <div class="form-group">
 		                <label for="DNI">DNI:</label>

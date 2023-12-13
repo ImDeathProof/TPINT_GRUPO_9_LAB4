@@ -72,6 +72,7 @@
 							            <th scope="col">Contraseña</th>
 							            <th scope="col">DNI</th>
 							            <th scope="col">Bloquear</th>
+							            <th scope="col">Editar</th>
 							        </tr>
 							    </thead>
 							    <tbody>
@@ -159,6 +160,12 @@
 													        </div>
 													    </div>
 							                        <% }} %>
+							                </td>
+							                <td>
+								                <form action="ServletEditarCliente" method="get">
+													<input type="hidden" name="userID" value="<%= user.get_IDCliente() %>">
+							                		<input type="submit" name="submitValue" value="Editar" class="btn btn-success">
+												</form>
 							                </td>
 							            </tr>
 							            <% } } %>
