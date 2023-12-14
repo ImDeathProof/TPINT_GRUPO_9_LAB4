@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Nosotros</title>>
+<title>FRGP Bank | Nosotros</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
@@ -21,7 +21,7 @@
 			<jsp:include page="NavbarClientes.jsp" />
 		<% }} %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-	<div class="container mt-4">
+	<div class="container mt-4 min-vh-100">
 	    <div class="row">
 	        <div class="col-lg-8">
 	            <h2>Bienvenido/a!</h2>
@@ -64,6 +64,7 @@
 	    </div>
 	</div>
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<jsp:include page="Footer.jsp"/>
 
 </body>
 </html>

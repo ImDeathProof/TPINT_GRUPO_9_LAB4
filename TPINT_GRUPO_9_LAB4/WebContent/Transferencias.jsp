@@ -22,7 +22,7 @@
 			<jsp:include page="NavbarClientes.jsp" />
 		<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-	<div class="row">
+	<div class="row min-vh-100">
 				<div class="col-1"></div>
 				<div class="col-10">
 					<h1>Trasferir</h1>
@@ -123,6 +123,7 @@
 				</div>
 				<div class="col-1"></div>
 	</div>
+	<jsp:include page="Footer.jsp"/>
 
 	<% } %>
 

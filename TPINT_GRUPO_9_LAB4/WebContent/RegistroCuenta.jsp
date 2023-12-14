@@ -20,7 +20,7 @@
 			<jsp:include page="NavbarClientes.jsp" />
 		<% } %>
 
-	<div class="container">
+	<div class="container min-vh-100">
         <h2>Solicitá tu cuenta</h2>
         <form action="ServletRegistroCuenta" method="post">
             <div class="row align-items-start">
@@ -57,6 +57,7 @@
 			<% } %>
         </form>
     </div>
+    <jsp:include page="Footer.jsp"/>
 <% } %>
 </body>
 </html>

@@ -21,7 +21,7 @@
 		if(cliente.is_Admin()){%>
 			<jsp:include page="NavbarAdmin.jsp"/>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-		<div class="row">
+		<div class="row min-vh-100">
 			<div class="col-1 ">
 			</div>
 			<div class="col-10 ">
@@ -313,6 +313,7 @@
 			</div>
 		</div>
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<jsp:include page="Footer.jsp"/>
 	<!-- SCRIPTS GENERALES-->
   	<script>
     $(document).ready(function() {

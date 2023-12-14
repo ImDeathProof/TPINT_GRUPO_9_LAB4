@@ -39,7 +39,7 @@
 		<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
 	<form action="ServletPerfil" method="post">
-	<div class="row">
+	<div class="row min-vh-100">
 		<div class="col-1">
 		</div>
 			<div class="col-10">
@@ -131,6 +131,7 @@
 	         </div>
 	     		<%} %>
 	</form>
+	<jsp:include page="Footer.jsp"/>
 	<% } %>
 	
 </body>

@@ -20,7 +20,7 @@
 
 		<% }%>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-	<div class="row">
+	<div class="row min-vh-100">
 		<div class="col-1"></div>
 		<div class="col-10">
 			<h1>Préstamos</h1>
@@ -99,6 +99,7 @@
 	</div>
 	
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<jsp:include page="Footer.jsp"/>
 	<% }else{ 
 		response.sendRedirect("Inicio.jsp");}  %>
 </body>

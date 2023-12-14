@@ -34,7 +34,7 @@
 		<% }
 		} %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<div class="row mt-2">
+	<div class="row mt-2 min-vh-100">
 		<div class="col-1">
 		</div>
 		<div class="col-10">
@@ -140,5 +140,6 @@
 			<div class="col-1">
 			</div>
 		</div>
+		<jsp:include page="Footer.jsp"/>
 </body>
 </html>

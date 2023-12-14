@@ -13,7 +13,7 @@
 	} else { %>
 	<jsp:include page="Navbar.jsp" />
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->
-	<div class="row mt-3">
+	<div class="row mt-3 min-vh-100">
 		<div class="col-1"></div>
 		<div class="col-10">
 		<div class="col-1"></div>
@@ -39,6 +39,7 @@
         <p>Si no tenes cuenta, podes solicitarla en tu sucursal mas cercana!</p>
 		</div>
     </div>
+    <jsp:include page="Footer.jsp"/>
     <% } %>	
 </body>
 </html>

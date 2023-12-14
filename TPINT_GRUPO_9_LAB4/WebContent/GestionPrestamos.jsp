@@ -11,13 +11,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>FRGP Bank | Gaestión Prestamos</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 	<%if(request.getSession().getAttribute("usuarioAutenticado")!=null){
 		Cliente usuario = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 		if(usuario.is_Admin()==true){
 		%>
 			<jsp:include page="NavbarAdmin.jsp"/>
-			<div class="row">
+			<div class="row min-vh-100">
 				<div class="col-1"></div>
 				<div class="col-10">
 					<h1>Gestión de Préstamos</h1>
@@ -149,6 +149,7 @@
 					</div>
 				</div>
 			</div>
+			<jsp:include page="Footer.jsp"/>
 		<%
 		
 		}else{

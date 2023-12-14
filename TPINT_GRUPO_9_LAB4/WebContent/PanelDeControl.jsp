@@ -21,7 +21,7 @@
 		%>
 <jsp:include page="NavbarAdmin.jsp" />
 
-<div class="row">
+<div class="row min-vh-100">
     <div class="col-1"></div>
     <div class="col-10">
         <h1>Panel de Control</h1>
@@ -348,6 +348,7 @@
 				</div>
 				<div class="col-1"></div>
 			</div>
+			<jsp:include page="Footer.jsp"/>
 			<%
 		
 		}else{

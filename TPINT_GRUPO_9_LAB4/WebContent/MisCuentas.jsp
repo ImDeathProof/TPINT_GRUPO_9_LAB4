@@ -18,7 +18,7 @@
     } else {
         Cliente cliente = (Cliente) session.getAttribute("usuarioAutenticado");
     %>
-        <div class="container">
+        <div class="container min-vh-100">
             <h2>Mis Cuentas</h2>
             <form action="ServletCuenta" method="get">
                 <label for="filtroCuentas">Seleccione el tipo de cuenta:</label>
@@ -132,6 +132,7 @@
             %>
             
         </div>
+        <jsp:include page="Footer.jsp"/>
     <%
     }
     %>

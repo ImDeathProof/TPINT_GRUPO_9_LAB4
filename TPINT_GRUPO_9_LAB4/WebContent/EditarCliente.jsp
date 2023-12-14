@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>BFRGP | Editar Cliente</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <% if (session.getAttribute("usuarioAutenticado") == null) { 
 		response.sendRedirect("Inicio.jsp");
 	} else { 
@@ -113,6 +113,7 @@
 	     		<%} %>
 		</div>
 	</form>
+	<jsp:include page="Footer.jsp"/>
 	<% } %>
 </body>
 <script>

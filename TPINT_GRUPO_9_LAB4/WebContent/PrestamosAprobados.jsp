@@ -23,7 +23,7 @@
 				<jsp:include page="NavbarClientes.jsp" />
 			<% } %>
 		<!-- DEMAS CONTENIDO DE LA PAGINA-->
-			<div class="row">
+			<div class="row min-vh-100">
 					<div class="col-1"></div>
 					<div class="col-10">
 						<h1>Préstamos Aprobados</h1>
@@ -66,16 +66,17 @@
 								
 							
 							<%} %>
+						<% if (session.getAttribute("errorCarga") != null){%>
+						<div class="alert alert-danger">
+						<%= (String)session.getAttribute("errorCarga")%>
 					</div>
 					<div class="col-1"></div>
-					<% if (session.getAttribute("errorCarga") != null){%>
-					<div class="alert alert-danger">
-					<%= (String)session.getAttribute("errorCarga")%>
 				</div>
 				<%} %>
 			</div>
 				
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<jsp:include page="Footer.jsp"/>
 	<% } %>
 </body>
 </html>

@@ -28,7 +28,7 @@
 		if(cl.is_Admin()){%>
 		<jsp:include page="NavbarAdmin.jsp" />
 		<!-- DEMAS CONTENIDO DE LA PAGINA -->
-		<div class="container">
+		<div class="container min-vh-100">
 	        <h2>Alta de Usuario</h2>
 	        <form action="ServletRegistro" method="post">
 	            <div class="row align-items-start">
@@ -146,6 +146,7 @@
 		     	<% }%>
 	        </form>
 	    </div>
+	    <jsp:include page="Footer.jsp"/>
 		<%}
 	} else { 
 	response.sendRedirect("Inicio.jsp");

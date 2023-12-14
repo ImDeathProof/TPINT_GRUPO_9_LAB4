@@ -24,7 +24,7 @@
 			<jsp:include page="NavbarClientes.jsp" />
 		<% } %>
 	<!-- DEMAS CONTENIDO DE LA PAGINA-->
-		<div class="row">
+		<div class="row min-vh-100">
 				<div class="col-1"></div>
 				<div class="col-10">
 					<div class="row">
@@ -140,8 +140,8 @@
 				</div>
 				<div class="col-1"></div>
 		</div>
-				
 	<!-- FINAL DEL CONTENIDO DE LA PAGINA-->
+	<jsp:include page="Footer.jsp"/>
 	<% } %>
 
 </body>
