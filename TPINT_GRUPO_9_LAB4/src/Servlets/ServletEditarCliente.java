@@ -143,7 +143,8 @@ public class ServletEditarCliente extends HttpServlet {
 				e1.printStackTrace();
 			}
 			
-			request.getSession().setAttribute("localidadCliente",dic.get_Localidad());*/
+			 */
+			request.getSession().setAttribute("localidadCliente",direc.get_Localidad());
 			
 			/////////////////////////////////////				
 			

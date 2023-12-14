@@ -137,11 +137,11 @@ public class ServletPerfil extends HttpServlet {
 						e1.printStackTrace();
 					}
 					
-					request.getSession().setAttribute("lcCliente",dic.get_Localidad());
 					*/
 					/////////////////////////////////////				
 					
 						
+					request.getSession().setAttribute("lcCliente",direc.get_Localidad());
 					request.getSession().setAttribute("usuarioAutenticado", cliente);
 				    					
 					try {
