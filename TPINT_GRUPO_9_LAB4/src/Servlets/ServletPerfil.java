@@ -110,7 +110,7 @@ public class ServletPerfil extends HttpServlet {
 					request.getSession().removeAttribute("errorModificarUser");
 					request.getSession().removeAttribute("usuarioAModificar");			
 					//DIRECCION
-					
+					/*
 					Direccion dic = new Direccion();	
 					
 					String localidadId = request.getParameter("Localidad");
@@ -138,7 +138,7 @@ public class ServletPerfil extends HttpServlet {
 					}
 					
 					request.getSession().setAttribute("lcCliente",dic.get_Localidad());
-					
+					*/
 					/////////////////////////////////////				
 					
 						
