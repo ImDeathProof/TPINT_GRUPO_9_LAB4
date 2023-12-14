@@ -49,6 +49,7 @@ public class ServletListarCuotas extends HttpServlet {
 		
 		//LIMPIAR MENSAJES
 		request.getSession().removeAttribute("error");
+		request.getSession().removeAttribute("PagoExitoso");
 		
 		if(request.getParameter("Id")!=null) {
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");

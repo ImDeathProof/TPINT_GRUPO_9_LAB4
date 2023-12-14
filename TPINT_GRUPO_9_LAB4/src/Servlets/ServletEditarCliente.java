@@ -88,7 +88,7 @@ public class ServletEditarCliente extends HttpServlet {
 		} else if ("Femenino".equals(selectedSex)) {
 		    cliente.set_Sexo(false);  
 		}
-		
+		//direccion---
 		Direccion direc = new Direccion();				
 		direc.setId(clienteviejo.get_Direccion().getId());
 		
@@ -109,110 +109,110 @@ public class ServletEditarCliente extends HttpServlet {
 		direc.setNumero(Integer.parseInt(request.getParameter("txtNum")));
 		
 		cliente.set_Direccion(direc);
-		
+		//direccion---
 		if(request.getParameter("btnModificar")!=null) {
 			
-		request.getSession().removeAttribute("clienteModificado");
-		request.getSession().removeAttribute("errorModificarCliente");
-		request.getSession().removeAttribute("clienteAModificar");			
-		//DIRECCION
-		
-		Direccion dic = new Direccion();	
-		
-		String localidadId = request.getParameter("Localidad");
-		int locId = Integer.parseInt(localidadId);
-		
-		String provinciaId = request.getParameter("Provincia");
-		int provId = Integer.parseInt(provinciaId);
-
-		dic.setId(clienteviejo.get_Direccion().getId());
-		
-		try {
-			dic.set_Provincia(dNeg.obtenerProvinciaPorID(provId));
-			dic.set_Localidad(dNeg.obtenerLocalidadPorID(locId));
-		} catch (DBException | GenericException e2) {
-			e2.printStackTrace();
-		}
-
-		dic.setCalle(request.getParameter("txtDireccion"));
-		dic.setNumero(Integer.parseInt(request.getParameter("txtNum")));
-		
-		try {
-			cliente.set_Direccion(dNeg.addDireccion(dic));
-		} catch (GenericException | DBException e1) {
-			e1.printStackTrace();
-		}
-		
-		request.getSession().setAttribute("localidadCliente",dic.get_Localidad());
-		
-		/////////////////////////////////////				
-		
+			request.getSession().removeAttribute("clienteModificado");
+			request.getSession().removeAttribute("errorModificarCliente");
+			request.getSession().removeAttribute("clienteAModificar");			
+			//DIRECCION
 			
-		
-	    					
-		try {
-	    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
-	    	{
-	    		if(dNeg.modificarDireccion(cliente.get_Direccion()) != 0)
-	    		{
-	    			clNeg.modificarUsuario(cliente);							    			
-	    			request.getSession().setAttribute("clienteModificado", "El usuario fue modificado correctamente!");
-	    			request.getSession().setAttribute("clienteAModificar", cliente);
-	    		}
-	    		else
-	    		{
-	    			request.getSession().setAttribute("errorModificarCliente", "La Localidad no coincide con la Provincia.");
-	    		}
-	    	}
-	    	else
-	    	{
-	    		request.getSession().setAttribute("errorModificarCliente", "El usuario ya existe.");
-	    	}
-	            
-		} catch (DBException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
-	        response.sendRedirect("Login.jsp");
-	    }
-		catch (ValidateException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Error al validar datos de la DB");
-	        response.sendRedirect("Inicio.jsp");
-	    }
-		catch (GenericException e) {
-	        e.printStackTrace();
-	        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
-	        response.sendRedirect("Inicio.jsp");
-	    }
-	    response.sendRedirect("EditarCliente.jsp");
-}
-	else if(request.getParameter("btnLocalidades")!=null)
-	{
-		  request.getSession().setAttribute("clienteAModificar", cliente);
-		  String provinciaId = request.getParameter("Provincia");
-		  int provId = Integer.parseInt(provinciaId);
-		
-		    ArrayList<Localidad> localidades = new ArrayList<>();
+			/*Direccion dic = new Direccion();	
+			
+			String localidadId = request.getParameter("Localidad");
+			int locId = Integer.parseInt(localidadId);
+			
+			String provinciaId = request.getParameter("Provincia");
+			int provId = Integer.parseInt(provinciaId);
+	
+			dic.setId(clienteviejo.get_Direccion().getId());
+			
 			try {
-				localidades = dNeg.getAllLocalidades(provId);
-			} catch (DBException | GenericException e) {
-				e.printStackTrace();
+				dic.set_Provincia(dNeg.obtenerProvinciaPorID(provId));
+				dic.set_Localidad(dNeg.obtenerLocalidadPorID(locId));
+			} catch (DBException | GenericException e2) {
+				e2.printStackTrace();
+			}
+	
+			dic.setCalle(request.getParameter("txtDireccion"));
+			dic.setNumero(Integer.parseInt(request.getParameter("txtNum")));
+			
+			try {
+				cliente.set_Direccion(dNeg.addDireccion(dic));
+			} catch (GenericException | DBException e1) {
+				e1.printStackTrace();
 			}
 			
-			request.getSession().setAttribute("localidadCliente",localidades.get(0));	
-			localidades.remove(0);
-			request.setAttribute("localidadesCliente", localidades);
+			request.getSession().setAttribute("localidadCliente",dic.get_Localidad());*/
 			
-		
+			/////////////////////////////////////				
+			
+				
+			
+		    					
 			try {
-				request.getSession().setAttribute("provinciaCliente", dNeg.obtenerProvinciaPorID(provId));
-			} catch (DBException | GenericException e) {
-				e.printStackTrace();
-			}
+		    	if(!clNeg.usuarioExistente(cliente.get_Usuario(), clienteviejo.get_IDCliente()))
+		    	{
+		    		if(dNeg.modificarDireccion(cliente.get_Direccion()) != 0)
+		    		{
+		    			clNeg.modificarUsuario(cliente);							    			
+		    			request.getSession().setAttribute("clienteModificado", "El usuario fue modificado correctamente!");
+		    			request.getSession().setAttribute("clienteAModificar", cliente);
+		    		}
+		    		else
+		    		{
+		    			request.getSession().setAttribute("errorModificarCliente", "La Localidad no coincide con la Provincia.");
+		    		}
+		    	}
+		    	else
+		    	{
+		    		request.getSession().setAttribute("errorModificarCliente", "El usuario ya existe.");
+		    	}
+		            
+			} catch (DBException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error de base de datos. Por favor, inténtalo de nuevo más tarde. \n" + e.getMessage());	 
+		        return;
+		    }
+			catch (ValidateException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Error al validar datos de la DB");
+		        return;
+		    }
+			catch (GenericException e) {
+		        e.printStackTrace();
+		        request.getSession().setAttribute("error", "Hubo un error inesperado. Intente nuevamente más tarde"+ e.getMessage());	        
+		        return;
+		    }
+		}
+		if(request.getParameter("btnLocalidades")!=null)
+		{
+			  request.getSession().setAttribute("clienteAModificar", cliente);
+			  String provinciaId = request.getParameter("Provincia");
+			  int provId = Integer.parseInt(provinciaId);
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("EditarCliente.jsp");
-			dispatcher.forward(request, response);
-	}
+			    ArrayList<Localidad> localidades = new ArrayList<>();
+				try {
+					localidades = dNeg.getAllLocalidades(provId);
+				} catch (DBException | GenericException e) {
+					e.printStackTrace();
+				}
+				
+				request.getSession().setAttribute("localidadCliente",localidades.get(0));	
+				localidades.remove(0);
+				request.setAttribute("localidadesCliente", localidades);
+				
+			
+				try {
+					request.getSession().setAttribute("provinciaCliente", dNeg.obtenerProvinciaPorID(provId));
+				} 
+				catch (DBException | GenericException e) {
+					e.printStackTrace();
+					return;
+				}
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("EditarCliente.jsp");
+		dispatcher.forward(request, response);
 		
 	}
 

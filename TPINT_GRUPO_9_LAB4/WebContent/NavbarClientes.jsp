@@ -30,7 +30,6 @@
 			          <ul class="dropdown-menu">
 			            <li><a class="dropdown-item" href="ServletPrestamos?Param=1">Solicitar Préstamo</a></li>
 			            <li><a class="dropdown-item" href="PrestamosAprobados.jsp">Préstamos Aprobados</a></li>
-			            <li><a class="dropdown-item" href="PagoDePrestamos.jsp">Pagar Préstamos</a></li>
 			          </ul>
 			        </li> 
 	            </ul>

@@ -28,7 +28,7 @@
 		<div class="col-1">
 		</div>
 			<div class="col-10">
-			<h1>Perfil del usuario</h1>
+			<h1>Editar usuario</h1>
 				<div class="row">
 					<div class="col-6 border p-2">				
 						<label for="nombre" id="lbl_nombre">Nombre:</label>
@@ -100,7 +100,7 @@
 			</div>
 			<div class="col-1">
 			</div>
-	</div>
+	
 	 <% if (session.getAttribute("errorModificarUser") != null) { %>
 	         <div id="errorAlert" class="alert alert-danger">
 	              <%= (String)session.getAttribute("errorModificarUser")%> 
@@ -111,9 +111,9 @@
 	              <%= (String)session.getAttribute("usuarioModificado")%> 
 	         </div>
 	     		<%} %>
+		</div>
 	</form>
 	<% } %>
-
 </body>
 <script>
     // Ocultar el mensaje de error después de 5000 milisegundos (5 segundos)

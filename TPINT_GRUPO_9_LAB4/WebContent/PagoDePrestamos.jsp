@@ -29,9 +29,12 @@
 				<div class="col-10">
 					<div class="row">
 						<h1>Pago de Préstamos</h1>
+						<h6>Volver a <a href="PrestamosAprobados.jsp">Prestamos aprobados</a></h6>
+						 <!-- 
 						<form method="post" action="ServletListarCuotas">
-								<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver todas las cuotas">
+							<input class="btn btn-success m-2" type="submit" name="btnListarCuotas" value="Ver todas las cuotas">
 						</form>
+						  -->
 					</div>
 					<%
 					if(session.getAttribute("error") != null) {%>
@@ -97,7 +100,7 @@
 						<div class="row">
 							<%if(session.getAttribute("PagoExitoso")!= null){ %>
 								<div class="alert alert-success">
-						             <%= (String)session.getAttribute("PagoExitoso")%> 
+						             <%= (String)session.getAttribute("PagoExitoso")%>
 						        </div>
 								<%String base64Image = (String) request.getSession().getAttribute("base64Image");
 								if (base64Image != null && !base64Image.isEmpty()) { %>

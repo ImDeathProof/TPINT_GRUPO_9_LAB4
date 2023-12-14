@@ -20,7 +20,7 @@ public class DireccionDAO implements DireccionDaoInterface{
 	
 	private String host = "jdbc:mysql://127.0.0.1:3306/";
 	 private String user = "root";
-	 private String pass = "tobias01032004";
+	 private String pass = "root";
 	 private String dbName = "bancodb";
 
 	 public DireccionDAO() {
@@ -98,8 +98,12 @@ public class DireccionDAO implements DireccionDaoInterface{
 		 } catch (Exception e) {
 			 e.printStackTrace();
 		 }
+		 if(filas > 0) {
+			 return true;
+		 }else {
+			 return false;
+		 }
 		 
-		 return filas > 0;
 	 }
 	 
 	 public Direccion obtenerDireccionSinID(Direccion direc) throws DBException, GenericException
