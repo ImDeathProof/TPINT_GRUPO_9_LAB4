@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Trasferencias</title>
+<title>FRGP BANK - Trasferencias</title>
 <script src="jspdf.min.js"></script>
 </head>
 <body>

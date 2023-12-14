@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Gaestión Prestamos</title>
+<title>FRGP BANK - Gestión Préstamos</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 	<%if(request.getSession().getAttribute("usuarioAutenticado")!=null){
@@ -23,7 +23,7 @@
 					<h1>Gestión de Préstamos</h1>
 					<div class="border-top p-2">
 						<form method="post" action="ServletListarPrestamos">
-							<input class="btn btn-success m-2" type="submit" name="btnListarPrestamos" value="Prestamos">
+							<input class="btn btn-success m-2" type="submit" name="btnListarPrestamos" value="Préstamos">
 					 	</form>
 						 <%if (session.getAttribute("errorGsPrestamos") != null){%>
 						<div class="alert alert-danger">

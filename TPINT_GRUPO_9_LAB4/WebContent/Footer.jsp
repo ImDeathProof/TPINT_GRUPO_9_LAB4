@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<!-- <title>Insert title here</title> -->
 </head>
 <body>
 	<footer class="footer mt-2 py-3 bg-light">
@@ -13,7 +13,7 @@
 	    	<div class="col-3">
 		    	<h6><a href="Inicio.jsp">Inicio</a></h6>
 		    	<h6><a href="InfoCuentas.jsp">Cuentas</a></h6>
-		    	<h6><a href="InfoPrestamos.jsp">Prestamos</a></h6>
+		    	<h6><a href="InfoPrestamos.jsp">Préstamos</a></h6>
 		    	<h6><a href="Nosotros.jsp">Sobre nosotros</a></h6>
 	    	</div>
 	    	<div class="col-4">
@@ -23,9 +23,9 @@
 	    	</div>
 	    	<div class="col-3">
 	    		<h6>Integrantes:</h6>
-	    		<h6>Blanco Nazareno</h6>
-	    		<h6>Garcia Elias</h6>
-	    		<h6>Ponce de Leon Tobias</h6>
+	    		<h6>Blanco, Nazareno</h6>
+	    		<h6>García, Elías</h6>
+	    		<h6>Ponce de León, Tobías</h6>
 	    	</div>
 	    	<div class="col-1"></div>
 	    </div>

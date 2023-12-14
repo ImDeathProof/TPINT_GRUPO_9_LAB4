@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Panel de Control</title>
+<title>FRGP BANK - Panel de Control</title>
 </head>
 <body>
 	<!-- DEMAS CONTENIDO DE LA PAGINA -->

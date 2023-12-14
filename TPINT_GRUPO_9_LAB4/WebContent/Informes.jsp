@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>BFRGP| Informes</title>
+<title>FRGP BANK - Informes</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -39,7 +39,7 @@
 										<div class="col-4 p-2 border">
 											<div id="controlesGraficoUserXSexo">
 												<h6>Usuarios según sexo</h6>
-												<p>Genera un grafico que muestra cuantos clientes hombres y mujeres tiene el banco</p>
+												<p>Genera un gráfico que muestra cuántos clientes hombres y mujeres tiene el banco</p>
 												<form action="ServletInformes" method="post">
 													<div class="p-2">
 														<input class="btn btn-success" value="Generar Informe" name="btnGenerarInformeUsuariosXSexo" type="submit">
@@ -49,7 +49,7 @@
 											<hr>
 											<div id="controlesGraficoUserXSexo">
 												<h6>Usuarios según provincia</h6>
-												<p>Genera un grafico que muestra cuantos clientes tiene cada provincia</p>
+												<p>Genera un gráfico que muestra cuántos clientes tiene cada provincia</p>
 												<form action="ServletInformes" method="post">
 													<div class="p-2">
 														<input class="btn btn-success" value="Generar Informe" name="btnGenerarInformeUsuariosXProvincias" type="submit">
@@ -198,7 +198,7 @@
 											<hr>
 											<div id="controlesGraficoTipoCuentas"class="">
 												<h6>Comparar tipos de cuentas</h6>
-												<p>Muestra las cantidades segun el tipo desde la primera hasta la ultima</p>
+												<p>Muestra las cantidades según el tipo desde la primera hasta la última</p>
 												<form action="ServletInformes" method="post">
 													<div>
 														<div>

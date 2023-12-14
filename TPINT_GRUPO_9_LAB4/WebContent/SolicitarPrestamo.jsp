@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Solicitar prestamo</title>
+<title>FRGP BANK - Solicitar préstamo</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") != null) { 

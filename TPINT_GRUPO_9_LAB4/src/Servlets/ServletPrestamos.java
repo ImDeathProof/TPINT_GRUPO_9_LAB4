@@ -60,6 +60,7 @@ public class ServletPrestamos extends HttpServlet {
 		
 		if(request.getParameter("Param")!=null) {
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
+			if(cl != null) {				
 			try {
 				ArrayList<Cuenta> listaCt = ctNeg.obtenerCuentasPorUsuario(cl.get_IDCliente());
 				if(!listaCt.isEmpty() && listaCt != null) {
@@ -78,8 +79,12 @@ public class ServletPrestamos extends HttpServlet {
 		    	 request.getSession().setAttribute("errorCuenta", "Hubo un error de base de datos al listar las cuentas \n" + e.getMessage());
 		    	 response.sendRedirect(request.getContextPath() + "/SolicitarPrestamo.jsp");
 			}
-		}
-		
+		}		
+			else {
+				request.getSession().setAttribute("errorPrestamo", "Para solicitar un préstamo, primero debe loguearse");
+			    response.sendRedirect(request.getContextPath() + "/Login.jsp");
+			}
+			}
 	}
 
 	/**

@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>BFRGP | Mi perfil</title>
+<title>FRGP BANK - Mi perfil</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 

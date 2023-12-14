@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>BFRGP | Editar Cliente</title>
+<title>FRGP BANK - Editar Cliente</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <% if (session.getAttribute("usuarioAutenticado") == null) { 

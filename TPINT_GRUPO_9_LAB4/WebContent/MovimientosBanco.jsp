@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Informe Movimientos</title>
+<title>FRGP BANK - Informe Movimientos</title>
 </head>
 <body>
 

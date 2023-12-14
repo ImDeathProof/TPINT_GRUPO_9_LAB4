@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>FRGP BANK - Info cuentas</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
@@ -31,8 +31,8 @@
 				<ol class="list-group list-group-numbered">
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold">Solicita tu usuario</div>
-				      	<p>Dirigite a tu sucursal mas cercana y te lo daran al instante</p>
+				      <div class="fw-bold">Solicitá tu usuario</div>
+				      	<p>Dirigite a tu sucursal más cercana y te lo darán al instante</p>
 				    </div>
 				    
 				  </li>
@@ -44,15 +44,15 @@
 				</li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold">Entra a la seccion "Cuentas"</div>
-				      <p>Elige el tipo de cuenta que desees (Corriente / Ahorros).</p>
+				      <div class="fw-bold">Entrá a la seccion "Cuentas"</div>
+				      <p>Elegí el tipo de cuenta que deseés (Corriente / Ahorros).</p>
 				    </div>
 				    
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
 				      <div class="fw-bold">Listo</div>
-				      <p>En menos de 24 horas tenes activa tu cuenta para empezar a operar.</p>
+				      <p>En menos de 24 horas tenés activa tu cuenta para empezar a operar.</p>
 				    </div>
 				  </li>
 				</ol>

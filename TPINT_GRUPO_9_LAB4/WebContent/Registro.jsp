@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Registro de cliente</title>
+<title>FRGP BANK - Registro de cliente</title>
 </head>
 <body>
 

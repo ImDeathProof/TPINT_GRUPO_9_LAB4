@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Pagar Prestamos</title>
+<title>FRGP BANK | Pagar préstamos</title>
 <script src="jspdf.min.js"></script>
 </head>
 <body>

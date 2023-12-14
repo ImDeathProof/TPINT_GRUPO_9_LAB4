@@ -18,11 +18,14 @@
 		<div class="col-10">
 		<div class="col-1"></div>
         <h2>Iniciar Sesión</h2>
+        
+        
          <% if (session.getAttribute("error") != null) { %>
-        <div class="alert alert-danger">
+        <div id="errorAlert" class="alert alert-danger">
              <%= (String)session.getAttribute("error")%> 
         </div>
-    	<% } %>		    
+    	<% } %>		  
+    	
         <form action="ServletLogin" method="post">
             <div class="form-group">
                 <label for="usuario">Usuario:</label>
@@ -36,10 +39,27 @@
             <button type="submit" class="btn btn-success" name="btnAceptar">Iniciar Sesión</button>
         </form>
         <br>
-        <p>Si no tenes cuenta, podes solicitarla en tu sucursal mas cercana!</p>
+        <p>Si no tenés cuenta, podés solicitarla en tu sucursal más cercana!</p>
 		</div>
     </div>
     <jsp:include page="Footer.jsp"/>
     <% } %>	
 </body>
+
+<script>
+    setTimeout(function() {
+        var errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            errorAlert.style.display = 'none';
+        }
+    }, 2500);
+    
+    setTimeout(function() {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 2500);
+</script>
+
 </html>

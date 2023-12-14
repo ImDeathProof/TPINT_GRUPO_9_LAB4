@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Banco FRGP</title>
+<link rel="shortcut icon" href="Imagenes/favicon.png" type="image/x-icon">
+<title>FRGP BANK</title>
 	<style>
         .carousel-item img {
             max-width: 100%;
@@ -43,22 +44,22 @@
 				    <div class="carousel-item active" data-bs-interval="10000">
 				      <img src="https://concepto.de/wp-content/uploads/2020/09/dinero-e1599518998156.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5 class="text-light">LOS MEJORES PRESTAMOS</h5>
-				        <p><a href="SolicitarPrestamo.jsp" class="link-light">Solicita tu prestamo haciendo clic ACA!</a></p>
+				        <h5 class="text-light">LOS MEJORES PRÉSTAMOS</h5>
+				        <p><a href="InfoPrestamos.jsp" class="link-light">Solicitá tu préstamo haciendo clic ACÁ!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item" data-bs-interval="2000">
 				      <img src="https://www.primeraedicion.com.ar/wp-content/uploads/2023/04/dolar-1-750x375.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5 class="text-light">¿NECESITAS UNA CUENTA?</h5>
-				        <p><a href="InfoCuentas.jsp" class="link-light">Solicita tu cuenta haciendo clic ACA!</a></p>
+				        <h5 class="text-light">¿NECESITÁS UNA CUENTA?</h5>
+				        <p><a href="InfoCuentas.jsp" class="link-light">Solicitá tu cuenta haciendo clic ACÁ!</a></p>
 				      </div>
 				    </div>
 				    <div class="carousel-item">
 				      <img src="https://www.teknei.com/wp-content/uploads/2021/09/los-procesos-mas-automatizados-de-los-bancos.jpg" class="d-block w-100" alt="...">
 				      <div class="carousel-caption d-none d-md-block">
-				        <h5 class="text-light">LAS TRANSFERENCIAS MÁS RAPIDAS</h5>
-				        <p><a href="Transferencias.jsp" class="link-light">Transferi haciendo clic ACA!</a></p>
+				        <h5 class="text-light">LAS TRANSFERENCIAS MÁS RÁPIDAS</h5>
+				        <p><a href="Transferencias.jsp" class="link-light">Transferí haciendo clic ACÁ!</a></p>
 				      </div>
 				    </div>
 				  </div>
@@ -75,9 +76,9 @@
 			  <div class="col-sm-3 mb-3 mb-sm-0">
 			    <div class="card">
 			      <div class="card-body">
-			        <h5 class="card-title">PRESTAMOS</h5>
-			        <p class="card-text">Pedi tu prestamo con 0% interes y devolvelo como quieras!</p>
-			        <a href="InfoPrestamos.jsp" class="btn btn-primary">Click Aqui!</a>
+			        <h5 class="card-title">PRÉSTAMOS</h5>
+			        <p class="card-text">Pedí tu préstamo con 0% interés y devolvelo como quieras!</p>
+			        <a href="InfoPrestamos.jsp" class="btn btn-primary">Click ACÁ!</a>
 			      </div>
 			    </div>
 			  </div>
@@ -85,9 +86,9 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">CUENTAS</h5>
-			        <p class="card-text">Podes pedir o gestionar tus cuenta.</p>
+			        <p class="card-text">Podés pedir o gestionar tus cuenta.</p>
 			        <br>
-			        <a href="InfoCuentas.jsp" class="btn btn-primary">Click Aqui!</a>
+			        <a href="InfoCuentas.jsp" class="btn btn-primary">Click ACÁ!</a>
 			      </div>
 			    </div>
 			  </div>
@@ -95,9 +96,9 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">TARJETAS</h5>
-			        <p class="card-text">Solicitá tu tarjeta visa o master card.</p>
+			        <p class="card-text">Solicitá tu tarjeta VISA o MasterCard.</p>
 			        <br>
-			        <a href="#" class="btn btn-primary">Proximamente...</a>
+			        <a href="#" class="btn btn-primary">Próximamente...</a>
 			      </div>
 			    </div>
 			  </div>
@@ -105,9 +106,9 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title">INVERSIONES</h5>
-			        <p class="card-text">Compra y vende acciones al mejor precio de mercado</p>
+			        <p class="card-text">Comprá y vendé acciones al mejor precio de mercado</p>
 			        <br>
-			        <a href="#" class="btn btn-primary">Proximamente...</a>
+			        <a href="#" class="btn btn-primary">Próximamente...</a>
 			      </div>
 			    </div>
 			  </div>

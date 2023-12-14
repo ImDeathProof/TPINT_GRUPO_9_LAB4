@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<!-- <title>Insert title here</title> -->
 
 </head>
 <body>
@@ -23,7 +23,7 @@
 			          <a class="nav-link active" aria-current="page" href="InfoCuentas.jsp">Cuentas</a>
 			        </li>
 			        <li class="nav-item">
-			          <a class="nav-link active" aria-current="page" href="InfoPrestamos.jsp">Prestamos</a>
+			          <a class="nav-link active" aria-current="page" href="InfoPrestamos.jsp">Préstamos</a>
 			        </li>
 			        <li class="nav-item">
 			          <a class="nav-link active" aria-current="page" href="Nosotros.jsp">Nosotros</a>

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Préstamos Aprobados</title>
+<title>FRGP BANK - Préstamos aprobados</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 

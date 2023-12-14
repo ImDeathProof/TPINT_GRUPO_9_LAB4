@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>FRGP BANK - Info préstamos</title>
 </head>
 <body>
 	<% if (session.getAttribute("usuarioAutenticado") == null) { 
@@ -28,11 +28,11 @@
 				<hr>
 				<p>En <strong>FRGP BANK</strong> podrás encontrar las mejores oportunidades con la mejor financiación.</p>
 				
-				<p>Tene eso que tanto queres! Solicita tu prestamo on-line y recibi el monto en menos de 24 horas, y pagalo en hasta 36 cuotas a tasa 0%! </p>
+				<p>Tené eso que tanto querés! Solicita tu préstamo on-line y recibí el monto en menos de 24 horas, y pagalo en hasta 36 cuotas a tasa 0%! </p>
 				
-				<h5>Si, leiste bien! Con 0 intereses.</h5>
+				<h5>Sí, leíste bien! Con 0 intereses.</h5>
 				<br>
-				<a class="btn btn-info" href="SolicitarPrestamo.jsp">Solicitá tu prestamo haciendo click acá</a>				
+				<a class="btn btn-info" href="ServletPrestamos?Param=1">Solicitá tu prestamo haciendo click acá</a>				
 				
 	        </div>
 	        <div class="col-lg-4">

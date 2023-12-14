@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>FRGP Bank | Mis Cuentas</title>
+<title>FRGP BANK - Mis cuentas</title>
 </head>
 <body>
 
