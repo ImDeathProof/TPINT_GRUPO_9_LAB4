@@ -1,3 +1,4 @@
+USE bancoDB;
 INSERT INTO `Provincia` (`IDProvincia`, `Descripcion`) VALUES
 (1, 'Buenos Aires'),
 (2, 'Buenos Aires-GBA'),
@@ -2108,41 +2109,44 @@ INSERT INTO `Localidad` (`IDLocalidad`, `IDProvincia`, `Descripcion`) VALUES
 (2080, 25, 'San Miguel de Tucumán'),
 (2081, 25, 'Yerba Buena'),
 (2082, 25, 'Tafí del Valle');
--- INSERTS DIRECCIONES
 
+-- INSERTS DIRECCIONES
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Avenida San Martín', '724', 1, 1);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Calle Belgrano', '893', 2, 5);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Paseo Sarmiento', '156', 3, 10);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Avenida Moreno', '432', 4, 15);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Boulevard Güemes', '607', 5, 20);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Pasaje Rosas', '318', 6, 23);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Avenida Alberdi', '975', 7, 8);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Calle Dorrego', '520', 8, 3);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Paseo San Juan', '649', 9, 18);
-
 INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
 VALUES ('Avenida Pueyrredón', '834', 10, 12);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia)
+VALUES ('Calle de la Rosa', '123', 5, 8);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia) 
+VALUES ('Avenida del Bosque', '567', 18, 4);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia) 
+VALUES ('Callejón de los Sueños', '42', 7, 14);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia) 
+VALUES ('Paseo de la Luna', '789', 22, 6);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia) 
+VALUES ('Callejuela del Sol', '654', 14, 10);
+INSERT INTO Direccion (Calle, NUMERO, IDLocalidad, IDProvincia) 
+VALUES ('Calle falsa', '123', 14, 10);
 
 -- INSERTS USUARIOS
 INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
-VALUES ('admin', 'admin', '12344442', '20123444429', 'Admin', 'Admin', 0, 'Argentino', '1977-06-12', 'admin@example.com', '123456789', TRUE, FALSE, 4);
+VALUES ('admin', 'admin', '12344442', '20123444429', 'Admin', 'Admin', 0, 'Argentino', '1977-06-12', 'admin@example.com', '123456789', TRUE, FALSE, 16);
 
 INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
 VALUES ('user1', 'password1', '12345678', '20345678901', 'Juan', 'Perez', 0, 'Argentino', '1990-05-15', 'juan@example.com', '123456789', FALSE, FALSE, 1);
@@ -2175,7 +2179,19 @@ INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacional
 VALUES ('user10', 'password10', '12301234', '110345678901', 'Cecilia', 'Rios', 1, 'Argentino', '1997-12-07', 'cecilia@example.com', '888999000', FALSE, FALSE, 10);
 
 INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
-VALUES ('user11', 'password11', '23401234', '120345678901', 'Hector', 'Luna', 0, 'Argentino', '1996-01-20', 'hector@example.com', '111000999', FALSE, FALSE, 1);
+VALUES ('user11', 'password11', '23401234', '120345678901', 'Hector', 'Luna', 0, 'Argentino', '1993-01-20', 'hector@example.com', '111000999', FALSE, FALSE, 11);
+
+INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
+VALUES ('user12', 'password12', '23401236', '20234012363', 'Marcelo', 'Gonzalez', 0, 'Argentino', '1992-03-20', 'marce@example.com', '111000999', FALSE, FALSE, 12);
+
+INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
+VALUES ('user13', 'password13', '23401235', '21234012359', 'Pedro', 'Lopez', 0, 'Argentino', '1989-11-20', 'pedrito@example.com', '111000999', FALSE, FALSE, 13);
+
+INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
+VALUES ('user14', 'password14', '23401233', '20234012335', 'Jose', 'Garcia', 0, 'Argentino', '2000-12-20', 'joseGarcia@example.com', '111000999', FALSE, FALSE, 14);
+
+INSERT INTO Usuario (Username, Pass, DNI, CUIL, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, Mail, Telefono, ADMIN, Bloqueado, IDDireccion)
+VALUES ('user15', 'password15', '23401238', '20234012389', 'Juan', 'Montes', 0, 'Argentino', '1973-04-20', 'MontesJ@example.com', '111000999', FALSE, FALSE, 15);
 
 -- Inserts movimientos
 
@@ -2209,25 +2225,47 @@ VALUES ('Corriente', 58790.00, '66', '2022-06-05 00:00:00', 1, '2184', 6);
 INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
 VALUES ('Ahorros', 21239.00, '77', '2023-07-12 00:00:00', 1, '7983', 7);
 INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
-VALUES ('Corriente', 20000.00, '29', '2022-11-15 00:00:00', 1, '9999', 8);
+VALUES ('Corriente', 20000.00, '88', '2022-11-15 00:00:00', 0, '9999', 8);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 4300.00, '99', '2023-07-26 00:00:00', 0, '1234', 8);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 5090.00, '24', '2023-03-13 00:00:00', 0, '5878', 4);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 1200000.00, '25', '2022-04-22 00:00:00', 0, '2345', 6);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario) 
+VALUES ('Corriente', 58790.00, '26', '2022-06-05 00:00:00', 0, '3456', 3);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Ahorros', 21239.00, '27', '2023-07-12 00:00:00', 0, '4567', 2);
+INSERT INTO cuenta (TipoCuenta, Saldo, NumeroCuenta, Fecha_Creacion, Estado, CBU, IDUsuario)
+VALUES ('Corriente', 20000.00, '28', '2022-11-15 00:00:00', 0, '5678', 2);
 
 -- Inserts Prestamos
 
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(1200.00,100.00,12,30,1200.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
+VALUES(1200.00,100.00,12,30,0.00,0,'2022-06-05 00:00:00','Pendiente',1,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',2,3);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2022-06-05 00:00:00','Pendiente',2,3);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2022-06-05 00:00:00','Pendiente',3,4);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-03-28 00:00:00','Pendiente',7,6);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2023-03-28 00:00:00','Pendiente',7,6);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-08-10 00:00:00','Pendiente',7,6);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2023-08-10 00:00:00','Pendiente',7,6);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0,'2023-06-05 00:00:00','Pendiente',5,5);
+VALUES(12000.00,1000.00,12,30,0.00,0,'2023-06-05 00:00:00','Pendiente',5,5);
 INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
-VALUES(12000.00,1000.00,12,30,12000.00,0.00,'2023-05-12 00:00:00','Rechazado',5,5);
+VALUES(12000.00,1000.00,12,30,0.00,0.00,'2023-05-12 00:00:00','Rechazado',5,5);
+INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
+VALUES(7000.00,1000.00,12,30,0.00,0,'2022-06-05 00:00:00','Rechazado',3,4);
+INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
+VALUES(200000.00,1000.00,12,30,0.00,0,'2023-03-28 00:00:00','Pendiente',7,6);
+INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
+VALUES(23000.00,1000.00,12,30,0.00,0,'2023-08-10 00:00:00','Rechazado',2,3);
+INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
+VALUES(45399.00,1000.00,12,30,0.00,0,'2023-06-05 00:00:00','Pendiente',5,5);
+INSERT INTO prestamos (MontoTotal, Importe_x_Cuota, Cant_Cuotas, Plazo_Pago, MontoAprobado, TasaInteres, Fecha_Pedido, EstadoPrestamo,IDCuenta,IDUsuario)
+VALUES(125000.00,1000.00,12,30,0.00,0.00,'2023-05-12 00:00:00','Rechazado',5,5);

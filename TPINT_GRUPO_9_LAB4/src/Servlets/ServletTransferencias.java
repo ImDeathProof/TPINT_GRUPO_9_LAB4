@@ -52,7 +52,7 @@ public class ServletTransferencias extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		if(request.getParameter("Param")!=null) {
 			//LIMPIA LOS MENSAJES
-			if(request.getSession().getAttribute("error") != null) {
+			/*if(request.getSession().getAttribute("error") != null) {
 				request.getSession().removeAttribute("error");
 			}
 			if(request.getSession().getAttribute("errorTransfer") != null) {
@@ -63,7 +63,7 @@ public class ServletTransferencias extends HttpServlet {
 			}
 			if(request.getSession().getAttribute("successTransfer") != null) {
 				request.getSession().removeAttribute("successTransfer");
-			}
+			}*/
 			//--------------
 			Cliente cl = (Cliente) request.getSession().getAttribute("usuarioAutenticado");
 			try {
