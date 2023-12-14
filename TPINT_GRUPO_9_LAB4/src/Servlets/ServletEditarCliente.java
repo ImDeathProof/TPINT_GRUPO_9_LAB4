@@ -116,7 +116,7 @@ public class ServletEditarCliente extends HttpServlet {
 			request.getSession().removeAttribute("errorModificarCliente");
 			request.getSession().removeAttribute("clienteAModificar");			
 			//DIRECCION
-			
+			///ESTO ESTABA GENERANDO PROBLEMAS AL INTENTAR MODIFICAR
 			/*Direccion dic = new Direccion();	
 			
 			String localidadId = request.getParameter("Localidad");
